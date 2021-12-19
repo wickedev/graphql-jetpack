@@ -32,7 +32,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         const val DEFAULT_EDGES_SIZE = 10
     }
 
-    override fun findAllBackward(
+    override fun findAllBackwardConnectById(
         last: Int?,
         before: ID?,
         env: DataFetchingEnvironment
@@ -50,7 +50,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
     }
 
 
-    override fun findAllForward(
+    override fun findAllForwardConnectById(
         first: Int?,
         after: ID?,
         env: DataFetchingEnvironment

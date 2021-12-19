@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 @NoRepositoryBean
 interface GraphQLDataLoaderConnectionsRepository<T: Node> : Repository<T, ID> {
 
-    fun findAllBackward(last: Int?, before: ID?, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
+    fun findAllBackwardConnectById(last: Int?, before: ID?, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
 
-    fun findAllForward(first: Int?, after: ID?, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
+    fun findAllForwardConnectById(first: Int?, after: ID?, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
 }
