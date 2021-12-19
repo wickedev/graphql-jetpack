@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.spring.data.r2dbc.repository
+package io.github.wickedev.graphql.spring.data.r2dbc.repository.base
 
 
 import org.springframework.data.r2dbc.convert.R2dbcConverter
@@ -8,9 +8,11 @@ import org.springframework.data.relational.core.query.Criteria
 import org.springframework.data.relational.core.query.Query
 import org.springframework.data.relational.repository.query.RelationalEntityInformation
 import org.springframework.data.relational.repository.query.RelationalExampleMapper
+import org.springframework.data.repository.core.RepositoryInformation
 import org.springframework.data.util.Lazy
 
 abstract class PropertyBaseRepository<T, ID>(
+    final override val information: RepositoryInformation,
     final override val entity: RelationalEntityInformation<T, ID>,
     final override val entityOperations: R2dbcEntityOperations,
     converter: R2dbcConverter

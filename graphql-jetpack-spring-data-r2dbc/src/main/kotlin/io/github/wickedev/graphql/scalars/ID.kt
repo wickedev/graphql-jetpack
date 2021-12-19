@@ -1,10 +1,7 @@
 package io.github.wickedev.graphql.scalars
 
 import java.nio.charset.StandardCharsets
-import java.util.*
 import kotlin.reflect.KClass
-
-private val encoder = Base64.getUrlEncoder().withoutPadding()
 
 data class ID(val type: String, val value: String) {
 

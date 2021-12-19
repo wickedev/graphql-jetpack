@@ -17,10 +17,15 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.5")
 
     /* spring */
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("io.r2dbc:r2dbc-postgresql:0.8.10.RELEASE")
+
+    /* graphql */
+    implementation("com.graphql-java:graphql-java:17.3")
+    implementation("com.graphql-java:java-dataloader:3.1.1")
 
     /* testing */
     testImplementation("io.kotest:kotest-runner-junit5:5.0.2")

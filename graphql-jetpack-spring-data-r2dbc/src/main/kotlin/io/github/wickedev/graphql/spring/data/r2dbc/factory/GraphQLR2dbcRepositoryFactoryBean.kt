@@ -4,7 +4,6 @@ package io.github.wickedev.graphql.spring.data.r2dbc.factory
 
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
 import org.springframework.beans.factory.BeanFactory
-import org.springframework.beans.factory.BeanFactoryAware
 import org.springframework.beans.factory.getBean
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations
 import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy
@@ -15,16 +14,14 @@ import org.springframework.r2dbc.core.DatabaseClient
 
 class GraphQLR2dbcRepositoryFactoryBean<T : Repository<S, ID>, S, ID : java.io.Serializable>(
     repositoryInterface: Class<out T?>,
-) : R2dbcRepositoryFactoryBean<T, S, ID>(repositoryInterface), BeanFactoryAware {
+) : R2dbcRepositoryFactoryBean<T, S, ID>(repositoryInterface) {
 
-    private lateinit var beanFactory: BeanFactory
+    private lateinit var additionalIsNewStrategy: AdditionalIsNewStrategy
 
     override fun setBeanFactory(beanFactory: BeanFactory) {
-        this.beanFactory = beanFactory
+        this.additionalIsNewStrategy = beanFactory.getBean()
         super.setBeanFactory(beanFactory)
     }
-
-    private val additionalIsNewStrategy: AdditionalIsNewStrategy by lazy { beanFactory.getBean() }
 
     override fun getFactoryInstance(
         client: DatabaseClient,

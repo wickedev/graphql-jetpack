@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.`interface`
+package io.github.wickedev.graphql.interfaces
 
 import java.time.temporal.TemporalAccessor
 
