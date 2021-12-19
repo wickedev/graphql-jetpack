@@ -9,13 +9,16 @@ data class ID(val type: String, val value: String) {
         val Empty = ID("", "")
     }
 
+    private val encodedId: String = if (type.isNotEmpty())
+        "$type:$value".encodeBase64() else value.encodeBase64()
+
     constructor(value: String) : this("", value)
 
-    fun serialize(): String = encoder.encodeToString((type + ":" + this.value).toByteArray(StandardCharsets.UTF_8))
+    fun serialize(): String = encodedId
 
     fun toGlobalId(type: String): ID = ID(type, value)
 
     fun toGlobalId(type: KClass<*>): ID = ID(type.simpleName ?: "", value)
 
-    override fun toString(): String = if (type.isEmpty()) value else "$type:$value"
+    override fun toString(): String = if (type.isEmpty()) value else "ID($type:$value:$encodedId)"
 }

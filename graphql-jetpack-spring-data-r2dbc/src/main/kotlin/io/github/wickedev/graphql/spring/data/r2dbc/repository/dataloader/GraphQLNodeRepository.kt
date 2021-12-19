@@ -8,7 +8,7 @@ import org.springframework.data.repository.Repository
 import java.util.concurrent.CompletableFuture
 
 @NoRepositoryBean
-interface GraphQLDataLoaderNodeRepository<T : Node> : Repository<T, ID> {
+interface GraphQLNodeRepository : Repository<Node, ID> {
 
-    fun findNodeById(id: ID, env: DataFetchingEnvironment): CompletableFuture<Node>
+    fun findNodeById(id: ID, env: DataFetchingEnvironment): CompletableFuture<Node?>
 }

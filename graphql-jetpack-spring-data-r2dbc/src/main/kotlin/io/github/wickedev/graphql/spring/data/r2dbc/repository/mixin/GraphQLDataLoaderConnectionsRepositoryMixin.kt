@@ -1,6 +1,7 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.repository.mixin
 
 import graphql.schema.DataFetchingEnvironment
+import io.github.wickedev.extentions.dataLoader
 import io.github.wickedev.extentions.flux.await
 import io.github.wickedev.extentions.inverted
 import io.github.wickedev.extentions.mono.await
@@ -9,12 +10,8 @@ import io.github.wickedev.graphql.scalars.ID
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.base.PropertyRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderConnectionsRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.value.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.future.future
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
-import org.dataloader.DataLoaderFactory
 import org.springframework.data.domain.Sort
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryMixin
 import org.springframework.data.relational.core.query.Criteria
@@ -37,33 +34,22 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         before: ID?,
         env: DataFetchingEnvironment
     ): CompletableFuture<Connection<T>> {
-        val key = "${information.repositoryInterface.canonicalName}.findAllBackward"
-
-        return env.dataLoaderRegistry.computeIfAbsent<Backward, Connection<T>>(key) {
-            DataLoaderFactory.newDataLoader<Backward, Connection<T>> { keys ->
-                CoroutineScope(Dispatchers.Unconfined).future {
-                    keys.map { backwardPagination(it.last, it.before).await() }
-                }
-
-            }
+        val key =
+            "${information.repositoryInterface.canonicalName}.findAllBackwardConnectById(Int,ID,DataFetchingEnvironment)"
+        return env.dataLoader<Backward, Connection<T>>(key) { keys ->
+            keys.map { backwardPagination(it.last, it.before).await() }
         }.load(Backward(last, before))
     }
-
 
     override fun findAllForwardConnectById(
         first: Int?,
         after: ID?,
         env: DataFetchingEnvironment
     ): CompletableFuture<Connection<T>> {
-        val key = "${information.repositoryInterface.canonicalName}.findAllForward"
-        return env.dataLoaderRegistry.computeIfAbsent<Forward, Connection<T>>(key) {
-            DataLoaderFactory.newDataLoader<Forward, Connection<T>> { keys ->
-
-                CoroutineScope(Dispatchers.Unconfined).future {
-                    keys.map { forwardPagination(it.first, it.after).await() }
-                }
-
-            }
+        val key =
+            "${information.repositoryInterface.canonicalName}.findAllForwardConnectById(Int,ID,DataFetchingEnvironment)"
+        return env.dataLoader<Forward, Connection<T>>(key) { keys ->
+            keys.map { forwardPagination(it.first, it.after).await() }
         }.load(Forward(first, after))
     }
 

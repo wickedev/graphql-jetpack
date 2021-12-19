@@ -3,10 +3,11 @@ package io.github.wickedev.graphql.spring.data.r2dbc
 import graphql.schema.DataFetchingEnvironmentImpl.newDataFetchingEnvironment
 import io.github.wickedev.extentions.flux.await
 import io.github.wickedev.graphql.scalars.ID
+import io.github.wickedev.graphql.spring.data.r2dbc.sut.TestingApp
+import io.github.wickedev.graphql.spring.data.r2dbc.utils.dispatchAll
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.future.await
-import kotlinx.coroutines.launch
 import org.dataloader.DataLoaderRegistry
 import org.springframework.data.domain.Sort
 import org.springframework.test.context.ContextConfiguration
@@ -26,7 +27,6 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
                 .dataLoaderRegistry(DataLoaderRegistry())
                 .build()
 
-            val key = "${UserRepository::class.java.canonicalName}.findAllBackward"
             val expect = userRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).await()
             expect.size shouldBe 100
 
@@ -35,11 +35,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
 
             (0..9).forEach { page ->
                 val future = userRepository.findAllBackwardConnectById(last, before, env)
-
-                launch {
-                    env.getDataLoader<Any, Any>(key).dispatch()
-                }
-
+                env.dispatchAll()
                 val connection = future.await()
 
                 before = ID(connection.pageInfo.startCursor)
@@ -60,7 +56,6 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
                 .dataLoaderRegistry(DataLoaderRegistry())
                 .build()
 
-            val key = "${UserRepository::class.java.canonicalName}.findAllForward"
             val expect = userRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).await()
             expect.size shouldBe 100
 
@@ -70,9 +65,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
             (0..9).forEach { page ->
                 val future = userRepository.findAllForwardConnectById(first, after, env)
 
-                launch {
-                    env.getDataLoader<Any, Any>(key).dispatch()
-                }
+                env.dispatchAll()
 
                 val connection = future.await()
 

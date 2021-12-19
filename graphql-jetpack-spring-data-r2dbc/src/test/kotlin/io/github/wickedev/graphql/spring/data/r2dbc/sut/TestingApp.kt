@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.spring.data.r2dbc
+package io.github.wickedev.graphql.spring.data.r2dbc.sut
 
 import io.github.wickedev.graphql.spring.data.r2dbc.factory.GraphQLR2dbcRepositoryFactoryBean
 import io.r2dbc.spi.ConnectionFactories

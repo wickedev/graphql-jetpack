@@ -1,6 +1,7 @@
 package io.github.wickedev.graphql.spring.data.r2dbc
 
 import io.github.wickedev.extentions.mono.await
+import io.github.wickedev.graphql.spring.data.r2dbc.sut.TestingApp
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldNotBe
 import org.springframework.test.context.ContextConfiguration

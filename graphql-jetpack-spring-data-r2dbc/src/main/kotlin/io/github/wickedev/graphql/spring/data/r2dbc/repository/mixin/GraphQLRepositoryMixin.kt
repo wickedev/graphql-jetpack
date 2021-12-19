@@ -7,7 +7,6 @@ import org.springframework.data.repository.NoRepositoryBean
 
 @NoRepositoryBean
 interface GraphQLRepositoryMixin<T: Node> :
-    GraphQLDataLoaderRepositoryMixin<T, ID>,
-    GraphQLDataLoaderNodeRepositoryMixin<T>,
+    GraphQLDataLoaderRepositoryMixin<T>,
     GraphQLDataLoaderConnectionsRepositoryMixin<T>,
     R2dbcRepositoryMixin<T, ID>

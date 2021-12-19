@@ -3,17 +3,15 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.factory
 
 import io.github.wickedev.extentions.isAssignableFrom
-import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLDataLoaderRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.interfaces.GraphQLRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
 import org.springframework.data.mapping.context.MappingContext
 import org.springframework.data.r2dbc.convert.R2dbcConverter
-import org.springframework.data.r2dbc.core.R2dbcEntityOperations
-import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
-import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy
+import org.springframework.data.r2dbc.core.*
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactory
+import org.springframework.data.relational.core.dialect.RenderContextFactory
 import org.springframework.data.relational.core.mapping.RelationalPersistentEntity
 import org.springframework.data.relational.core.mapping.RelationalPersistentProperty
 import org.springframework.data.relational.repository.query.RelationalEntityInformation
@@ -31,6 +29,7 @@ class GraphQLSimpleR2dbcRepositoryFactory : R2dbcRepositoryFactory {
     private val mappingContext: MappingContext<out RelationalPersistentEntity<*>, out RelationalPersistentProperty>
     private val converter: R2dbcConverter
     private val operations: R2dbcEntityOperations
+    private val statementMapper: StatementMapper
     private val additionalIsNewStrategy: AdditionalIsNewStrategy?
 
     constructor(
@@ -46,6 +45,7 @@ class GraphQLSimpleR2dbcRepositoryFactory : R2dbcRepositoryFactory {
         this.converter = dataAccessStrategy.converter
         this.mappingContext = converter.mappingContext
         this.operations = R2dbcEntityTemplate(databaseClient, dataAccessStrategy)
+        this.statementMapper= dataAccessStrategy.statementMapper
         this.additionalIsNewStrategy = additionalIsNewStrategy
     }
 
@@ -58,6 +58,7 @@ class GraphQLSimpleR2dbcRepositoryFactory : R2dbcRepositoryFactory {
         this.converter = dataAccessStrategy.converter
         this.mappingContext = converter.mappingContext
         this.operations = operations
+        this.statementMapper= dataAccessStrategy.statementMapper
         this.additionalIsNewStrategy = additionalIsNewStrategy
     }
 
@@ -69,11 +70,14 @@ class GraphQLSimpleR2dbcRepositoryFactory : R2dbcRepositoryFactory {
 
         if (GraphQLDataLoaderRepository::class.isAssignableFrom(information.repositoryInterface)) {
             return getTargetRepositoryViaReflection(
-                information, information, entityInformation,
+                information,
+                databaseClient,
+                statementMapper,
+                information,
+                entityInformation,
                 operations, converter
             )
         }
-
 
         return getTargetRepositoryViaReflection(
             information, entityInformation,
@@ -103,10 +107,6 @@ class GraphQLSimpleR2dbcRepositoryFactory : R2dbcRepositoryFactory {
 
         if (GraphQLRepository::class.isAssignableFrom(repositoryInterface)) {
             return SimpleGraphQLRepository::class.java
-        }
-
-        if (GraphQLDataLoaderRepository::class.isAssignableFrom(repositoryInterface)) {
-            return SimpleGraphQLDataLoaderRepository::class.java
         }
 
         return super.getRepositoryBaseClass(metadata)
