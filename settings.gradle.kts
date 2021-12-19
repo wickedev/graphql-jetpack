@@ -9,4 +9,4 @@
  */
 
 rootProject.name = "graphql-jetpack"
-include("graphql-jetpack-spring-data-r2dbc")
+include("spring-data-graphql-r2dbc")
