@@ -10,8 +10,6 @@ _※ Currently, only spring-data-r2dbc is supported._
 
 ### Node & GraphQLNodeRepository
 
----
-
 Spring Data GraphQL conforms to the [Relay GraphQL Server Specification](https://relay.dev/docs/guides/graphql-server-specification/). The `GraphQLNodeRepository.findNodeById` method delegates to the `GraphQLRepository` or `GraphQLDataLoaderRepository` implementations registered as Spring Beans. Entities not registered in `GraphQLRepository`, `GraphQLR2dbcRepository`, or `GraphQLCrudRepository` cannot be search.
 
 ```kotlin
@@ -26,8 +24,6 @@ interface GraphQLNodeRepository : Repository<Node, ID> {
 ```
 
 ### GraphQLDataLoaderRepository
-
----
 
 `GraphQLDataLoaderRepository` uses an internally auto-generated data loader to perform optimized query. For example, if `findById` is called multiple times in different Spring Data implementations, `SELECT * FROM tables WHERE id = $id` query will be called multiple times. However, `GraphQLDataLoaderRepository` queries `SELECT * FROM tables WHERE id IN ($ids)` SQL only once with ids that have been deduplicated through `DataLoader`.
 
@@ -44,8 +40,6 @@ interface GraphQLDataLoaderRepository<T : Node> : Repository<T, ID> {
 ```
 
 ### GraphQLDataLoaderConnectionsRepository
-
----
 
 Returns a Connection conforming to the [Relay Connection Spec](https://relay.dev/graphql/connections.htm).
 
@@ -68,8 +62,6 @@ interface GraphQLDataLoaderConnectionsRepository<T : Node> : Repository<T, ID> {
 
 ### GraphQLRepository, GraphQLR2dbcRepository, GraphQLCrudRepository
 
----
-
 The repository interfaces below inherit all necessary interfaces, so you can conveniently access all query methods.
 
 ```kotlin
@@ -91,8 +83,6 @@ interface GraphQLCrudRepository<T : Node> :
 ```
 
 ### [Query creation]((https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/#repositories.query-methods.query-creation)) (Plan to Support)
-
----
 
 **WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
 
@@ -144,8 +134,6 @@ interface PersonRepository : GraphQLRepository<Person> {
 
 ### Dyanmic Query Method (Plan to Support)
 
----
-
 **WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
 
 Query and return according to the input convention. Inspired by [TypeGraphQL Prisma] (https://prisma.typegraphql.com/).
@@ -176,8 +164,6 @@ interface GraphQLDynamicQueryRepository<T : Node> : Repository<Node, ID> {
 
 
 ## Kotlin GraphQL Upload (Plan to Support)
-
----
 
 **WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
 
