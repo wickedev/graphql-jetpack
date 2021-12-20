@@ -1,17 +1,14 @@
 # GraphQL Jetpack
 
+A collection of packages for easily writing Java GraphQL server implementations.
+
 ## Spring Data GraphQL
 
 ---
 
-Spring Data GraphQL make easy to use Spring Data with `graphql-java` implementations ([`Kotlin GraphQL`](https://opensource.expediagroup.com/graphql-kotlin/docs/), [`DGS`](https://netflix.github.io/dgs/)). If you use `spring-data-r2dbc` or `spring-data-jdbc` directly, you have to write a lot of custom DataLoader. Spring Data GraphQL solves the N+1 problem through an internally auto-generated dataloader.
-
-
-
+Spring Data GraphQL make easy to use [Spring Data](https://spring.io/projects/spring-data) with [graphql-java](https://github.com/graphql-java/graphql-java) implementations like [Kotlin GraphQL](https://opensource.expediagroup.com/graphql-kotlin/docs/), [DGS](https://netflix.github.io/dgs/). If you use [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc) or [Spring Data JDBC](https://spring.io/projects/spring-data-jdbc) directly, you have to write a lot of custom DataLoader. Spring Data GraphQL solves the N+1 problem through an internally auto-generated dataloader.
 
 _※ Currently, only spring-data-r2dbc is supported._
-
-
 
 ### Node & GraphQLNodeRepository
 
@@ -52,7 +49,7 @@ interface GraphQLDataLoaderRepository<T : Node> : Repository<T, ID> {
 
 ---
 
-Relay Connection Spec 에 따르는 Connection 객체를 반환합니다.
+Returns a Connection conforming to the [Relay Connection Spec](https://relay.dev/graphql/connections.htm).
 
 ```kotlin
 interface GraphQLDataLoaderConnectionsRepository<T : Node> : Repository<T, ID> {
@@ -75,7 +72,7 @@ interface GraphQLDataLoaderConnectionsRepository<T : Node> : Repository<T, ID> {
 
 ---
 
-아래 레포지토리 인터페이스들은 필요한 모든 인터페이스를 상속하여 편리하게 모든 쿼리 메서드에 접근 할 수 있습니다.
+The repository interfaces below inherit all necessary interfaces, so you can conveniently access all query methods.
 
 ```kotlin
 interface GraphQLRepository<T : Node> :
@@ -95,10 +92,11 @@ interface GraphQLCrudRepository<T : Node> :
     CrudRepository<T, ID>
 ```
 
-### **WARNING! 아래 기능은 아직 지원하지 않습니다.**
 ### [Query creation]((https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/#repositories.query-methods.query-creation)) (Plan to Support)
 
 ---
+
+**WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
 
 ```kotlin
 interface PersonRepository : GraphQLRepository<Person> {
@@ -146,12 +144,13 @@ interface PersonRepository : GraphQLRepository<Person> {
 }
 ```
 
-### **WARNING! 아래 기능은 아직 지원하지 않습니다.**
 ### Dyanmic Query Method (Plan to Support)
 
 ---
 
-DataFetchingEnvironment 조사하여 컨벤션에 따라 동적으로 input에 일치하는 쿼리를 질의하여 반환합니다. [TypeGraphQL Prisma](https://prisma.typegraphql.com/)에서 영감을 받았습니다.
+**WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
+
+Query and return according to the input convention. Inspired by [TypeGraphQL Prisma] (https://prisma.typegraphql.com/).
 
 ```graphql
 type Query {
@@ -177,12 +176,14 @@ interface GraphQLDynamicQueryRepository<T : Node> : Repository<Node, ID> {
 }
 ```
 
-## **WARNING! 아래 기능은 아직 지원하지 않습니다.**
+
 ## Kotlin GraphQL Upload (Plan to Support)
 
 ---
 
-Kotlin GraphQL의 [GraphQL Multipart Request Spec](https://github.com/jaydenseric/graphql-multipart-request-spec) 구현체 입니다.
+**WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
+
+[GraphQL Multipart Request Spec](https://github.com/jaydenseric/graphql-multipart-request-spec) implementation of [Kotlin GraphQL](https://opensource.expediagroup.com/graphql-kotlin/docs/).
 
 ```kotlin
 class Upload(filePart: FilePart) : FilePart by filePart
