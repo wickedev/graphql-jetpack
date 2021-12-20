@@ -1,10 +1,10 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.repository.mixin
 
 import graphql.schema.DataFetchingEnvironment
-import io.github.wickedev.extentions.dataLoader
-import io.github.wickedev.extentions.flux.await
-import io.github.wickedev.extentions.inverted
-import io.github.wickedev.extentions.mono.await
+import io.github.wickedev.graphql.extentions.dataLoader
+import io.github.wickedev.graphql.extentions.flux.await
+import io.github.wickedev.graphql.extentions.inverted
+import io.github.wickedev.graphql.extentions.mono.await
 import io.github.wickedev.graphql.interfaces.Node
 import io.github.wickedev.graphql.scalars.ID
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.base.PropertyRepository

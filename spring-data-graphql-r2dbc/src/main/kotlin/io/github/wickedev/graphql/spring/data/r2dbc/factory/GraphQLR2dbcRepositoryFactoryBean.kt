@@ -2,12 +2,9 @@
 
 package io.github.wickedev.graphql.spring.data.r2dbc.factory
 
-import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
 import org.springframework.beans.factory.BeanFactory
-import org.springframework.beans.factory.ObjectProvider
 import org.springframework.beans.factory.getBean
-import org.springframework.beans.factory.getBeanProvider
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations
 import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactoryBean

@@ -1,4 +1,4 @@
-package io.github.wickedev.extentions
+package io.github.wickedev.graphql.extentions
 
 import io.github.wickedev.graphql.interfaces.Node
 import io.github.wickedev.graphql.scalars.ID

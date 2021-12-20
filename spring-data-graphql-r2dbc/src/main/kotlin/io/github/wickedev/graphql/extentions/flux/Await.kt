@@ -1,4 +1,4 @@
-package io.github.wickedev.extentions.flux
+package io.github.wickedev.graphql.extentions.flux
 
 import kotlinx.coroutines.reactive.awaitSingle
 import reactor.core.publisher.Flux

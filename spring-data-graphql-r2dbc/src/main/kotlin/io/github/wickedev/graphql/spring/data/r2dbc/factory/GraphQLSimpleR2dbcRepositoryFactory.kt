@@ -2,7 +2,7 @@
 
 package io.github.wickedev.graphql.spring.data.r2dbc.factory
 
-import io.github.wickedev.extentions.isAssignableFrom
+import io.github.wickedev.graphql.extentions.isAssignableFrom
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLR2dbcRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderConnectionsRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderRepository
@@ -71,7 +71,7 @@ class GraphQLSimpleR2dbcRepositoryFactory : R2dbcRepositoryFactory {
             information
         )
 
-        if (GraphQLDataLoaderRepository::class.isAssignableFrom(information.repositoryInterface)) {
+        if (GraphQLR2dbcRepository::class.isAssignableFrom(information.repositoryInterface)) {
             return getTargetRepositoryViaReflection(
                 information,
                 databaseClient,

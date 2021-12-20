@@ -1,8 +1,8 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.repository
 
 import graphql.schema.DataFetchingEnvironment
-import io.github.wickedev.extentions.`as`
-import io.github.wickedev.extentions.name
+import io.github.wickedev.graphql.extentions.`as`
+import io.github.wickedev.graphql.extentions.name
 import io.github.wickedev.graphql.interfaces.Node
 import io.github.wickedev.graphql.scalars.ID
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLNodeRepository

@@ -1,19 +1,18 @@
-package io.github.wickedev.graphql.spring.data.r2dbc.sut
+package io.github.wickedev.graphql.spring.data.r2dbc
 
-import io.github.wickedev.graphql.spring.data.r2dbc.factory.GraphQLR2dbcRepositoryFactoryBean
+import io.github.wickedev.graphql.spring.data.r2dbc.configuration.EnableGraphQLR2dbcRepositories
 import io.r2dbc.spi.ConnectionFactories
 import io.r2dbc.spi.ConnectionFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.core.io.ClassPathResource
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
 import org.springframework.r2dbc.connection.init.CompositeDatabasePopulator
 import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer
 import org.springframework.r2dbc.connection.init.DatabasePopulator
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator
 
 @SpringBootApplication
-@EnableR2dbcRepositories(repositoryFactoryBeanClass = GraphQLR2dbcRepositoryFactoryBean::class)
+@EnableGraphQLR2dbcRepositories
 class TestingApp {
     @Bean
     fun connectionFactory(): ConnectionFactory =

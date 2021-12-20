@@ -1,11 +1,8 @@
 package io.github.wickedev.graphql.spring.data.r2dbc
 
 import graphql.schema.DataFetchingEnvironmentImpl.newDataFetchingEnvironment
-import io.github.wickedev.extentions.mono.await
+import io.github.wickedev.graphql.extentions.mono.await
 import io.github.wickedev.graphql.scalars.ID
-import io.github.wickedev.graphql.spring.data.r2dbc.sut.TestingApp
-import io.github.wickedev.graphql.spring.data.r2dbc.sut.User
-import io.github.wickedev.graphql.spring.data.r2dbc.sut.UserRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.utils.dispatchAll
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe

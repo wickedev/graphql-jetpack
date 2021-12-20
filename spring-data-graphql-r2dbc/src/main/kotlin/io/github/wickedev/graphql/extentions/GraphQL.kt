@@ -1,4 +1,4 @@
-package io.github.wickedev.extentions
+package io.github.wickedev.graphql.extentions
 
 import graphql.schema.DataFetchingEnvironment
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,4 @@
-package io.github.wickedev.extentions
+package io.github.wickedev.graphql.extentions
 
 import org.springframework.core.annotation.AnnotationUtils
 import org.springframework.data.domain.Sort

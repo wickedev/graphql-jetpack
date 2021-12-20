@@ -8,3 +8,14 @@ CREATE TABLE IF NOT EXISTS users
     -- fields
     name                VARCHAR(64) NOT NULL
 );
+
+-- post
+CREATE TABLE IF NOT EXISTS post
+(
+    -- id
+    id                  BIGSERIAL PRIMARY KEY,
+
+    -- fields
+    title               VARCHAR(512) NOT NULL,
+    content             TEXT NOT NULL
+);

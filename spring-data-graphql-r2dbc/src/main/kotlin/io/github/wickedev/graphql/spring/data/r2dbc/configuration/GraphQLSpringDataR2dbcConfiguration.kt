@@ -1,6 +1,6 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.configuration
 
-import io.github.wickedev.extentions.copyWithId
+import io.github.wickedev.graphql.extentions.copyWithId
 import io.github.wickedev.graphql.interfaces.Node
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.GraphQLMappingR2dbcConverter
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.IDToLongWritingConverter

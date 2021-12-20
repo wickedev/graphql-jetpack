@@ -1,4 +1,4 @@
-package io.github.wickedev.extentions.mono
+package io.github.wickedev.graphql.extentions.mono
 
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.reactive.awaitFirst
