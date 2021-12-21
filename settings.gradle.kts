@@ -9,7 +9,9 @@
  */
 
 rootProject.name = "graphql-jetpack"
-include("graphql-jetpack-core")
+include("graphql-core")
+include("graphql-kotlin-spring-upload")
+include("graphql-upload")
 include("kotlin-coroutine-reactive-extensions")
 include("spring-data-graphql-commons")
 include("spring-data-graphql-r2dbc")

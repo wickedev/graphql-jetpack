@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":graphql-jetpack-core"))
+    implementation(project(":graphql-core"))
     implementation(project(":spring-data-graphql-commons"))
     implementation(project(":spring-data-graphql-r2dbc"))
     testImplementation(project(":kotlin-coroutine-reactive-extensions"))

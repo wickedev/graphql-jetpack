@@ -5,8 +5,15 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":graphql-core"))
     implementation(kotlin("stdlib-jdk8"))
-    api("org.springframework.data:spring-data-commons")
     api("com.graphql-java:graphql-java:17.3")
+    api("org.springframework:spring-web")
+
+    /* testing */
+    testImplementation("io.kotest:kotest-runner-junit5:5.0.2")
+    testImplementation("io.kotest:kotest-assertions-core:5.0.2")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
