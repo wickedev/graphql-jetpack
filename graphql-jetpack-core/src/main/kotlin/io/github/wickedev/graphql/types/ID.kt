@@ -11,7 +11,7 @@ data class ID(val type: String, val value: String) {
         val Empty = ID("", "")
     }
 
-    val serialized: String = if (type.isNotEmpty()) "$type:$value".encodeBase64() else value.encodeBase64()
+    val encoded: String = if (type.isNotEmpty()) "$type:$value".encodeBase64() else value.encodeBase64()
 
     constructor(value: String) : this("", value)
 
@@ -19,5 +19,5 @@ data class ID(val type: String, val value: String) {
 
     fun toGlobalId(type: KClass<*>): ID = ID(type.simpleName ?: "", value)
 
-    override fun toString(): String = if (type.isEmpty()) value else "ID($type:$value:$serialized)"
+    override fun toString(): String = if (type.isEmpty()) value else "ID($type:$value:$encoded)"
 }
