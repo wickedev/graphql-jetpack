@@ -1,21 +1,22 @@
-package io.github.wickedev.graphql.request
+package io.github.wickedev.graphql.parser
 
 import com.expediagroup.graphql.server.types.GraphQLBatchRequest
 import com.expediagroup.graphql.server.types.GraphQLRequest
 import com.expediagroup.graphql.server.types.GraphQLServerRequest
 import com.jayway.jsonpath.DocumentContext
 import com.jayway.jsonpath.JsonPath.parse
-import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import io.github.wickedev.graphql.types.Upload
 import org.springframework.http.codec.multipart.FilePart
-import org.springframework.http.codec.multipart.FormFieldPart
-import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.http.codec.multipart.Part
+import org.springframework.util.MultiValueMap
 
-suspend fun parseRequestFromMultipartFormData(serverRequest: ServerRequest): GraphQLServerRequest? {
-    val multipartData = serverRequest.multipartData().await() ?: return null
-    val mapJson = (multipartData.getFirst("map") as? FormFieldPart)?.value() ?: return null
-    val operationsJson = (multipartData.getFirst("operations") as? FormFieldPart)?.value() ?: return null
+fun parseUploadRequest(
+    multipartData: MultiValueMap<String, Part>,
+    operationsJson: String,
+    mapJson: String,
+): GraphQLServerRequest {
     val isBatchRequest = operationsJson.startsWith("[")
+
     val operationContext: DocumentContext = parse(operationsJson)
     val map: Map<String, List<String>> = parse(mapJson).json()
 
@@ -26,9 +27,9 @@ suspend fun parseRequestFromMultipartFormData(serverRequest: ServerRequest): Gra
     }
 
     if (isBatchRequest) {
-        val query: List<String> = operationContext.read("$[*].query")
+        val queries: List<String> = operationContext.read("$[*].query")
         val variables: List<Map<String, Any?>> = operationContext.read("$[*].variables")
-        return GraphQLBatchRequest(query.zip(variables).map {
+        return GraphQLBatchRequest(queries.zip(variables).map {
             GraphQLRequest(query = it.first, variables = it.second)
         })
     }
@@ -38,4 +39,3 @@ suspend fun parseRequestFromMultipartFormData(serverRequest: ServerRequest): Gra
 
     return GraphQLRequest(query = query, variables = variables)
 }
-

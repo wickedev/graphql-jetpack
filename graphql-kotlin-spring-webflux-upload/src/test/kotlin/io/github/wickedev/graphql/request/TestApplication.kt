@@ -1,6 +1,5 @@
 package io.github.wickedev.graphql.request
 
-import com.expediagroup.graphql.server.spring.GraphQLAutoConfiguration
 import com.expediagroup.graphql.server.types.GraphQLBatchRequest
 import com.expediagroup.graphql.server.types.GraphQLRequest
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -11,12 +10,12 @@ import org.springframework.web.reactive.function.server.buildAndAwait
 import org.springframework.web.reactive.function.server.coRouter
 import org.springframework.web.reactive.function.server.json
 
-@SpringBootApplication(exclude = [GraphQLAutoConfiguration::class])
+@SpringBootApplication
 class TestApplication {
     @Bean
     fun graphQLRoutes() = coRouter {
         POST("graphql") { serverRequest ->
-            when (val graphQLRequest = parseRequestFromMultipartFormData(serverRequest)) {
+            when (val graphQLRequest = requestFromMultipartFormData(serverRequest)) {
                 is GraphQLRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
                 is GraphQLBatchRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
                 else -> badRequest().buildAndAwait()

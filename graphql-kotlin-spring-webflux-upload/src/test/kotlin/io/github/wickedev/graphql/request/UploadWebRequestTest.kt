@@ -14,13 +14,21 @@ import org.springframework.web.reactive.function.BodyInserters
 class UploadWebRequestTest(
     private val webTestClient: WebTestClient
 ) : DescribeSpec({
+    // test cases are in https://github.com/jaydenseric/graphql-multipart-request-spec
+
     describe("Upload") {
         it("single upload request") {
             val bodyBuilder = MultipartBodyBuilder()
 
             bodyBuilder.part(
                 "operations", """
-                    { "query": "mutation (${'$'}file: Upload!) { singleUpload(file: ${'$'}file) { id } }", "variables": { "file": null } }
+                    { "query": "
+                        mutation (${'$'}file: Upload!) {
+                            singleUpload(file: ${'$'}file) {
+                                id
+                            }
+                        }
+                    ", "variables": { "file": null } }
                 """.trimIndent()
             )
 
@@ -48,7 +56,13 @@ class UploadWebRequestTest(
 
             bodyBuilder.part(
                 "operations", """
-                    { "query": "mutation(${'$'}files: [Upload!]!) { multipleUpload(files: ${'$'}files) { id } }", "variables": { "files": [null, null] } }
+                    { "query": "
+                        mutation(${'$'}files: [Upload!]!) {
+                            multipleUpload(files: ${'$'}files) {
+                                id
+                            }
+                        }
+                    ", "variables": { "files": [null, null] } }
                 """.trimIndent()
             )
 
@@ -78,7 +92,19 @@ class UploadWebRequestTest(
 
             bodyBuilder.part(
                 "operations", """
-                    [{ "query": "mutation (${'$'}file: Upload!) { singleUpload(file: ${'$'}file) { id } }", "variables": { "file": null } }, { "query": "mutation(${'$'}files: [Upload!]!) { multipleUpload(files: ${'$'}files) { id } }", "variables": { "files": [null, null] } }]
+                    [{ "query": "
+                            mutation (${'$'}file: Upload!) {
+                                singleUpload(file: ${'$'}file) {
+                                    id
+                                }
+                            }
+                        ", "variables": { "file": null } }, { "query": "
+                            mutation(${'$'}files: [Upload!]!) {
+                                multipleUpload(files: ${'$'}files) {
+                                    id
+                                } 
+                            }
+                        ", "variables": { "files": [null, null] } }]
                 """.trimIndent()
             )
 
