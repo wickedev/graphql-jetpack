@@ -16,7 +16,7 @@ class TestApplication {
     @Bean
     fun graphQLRoutes() = coRouter {
         POST("graphql") { serverRequest ->
-            when (val graphQLRequest = parseServerRequest(serverRequest)) {
+            when (val graphQLRequest = parseRequestFromMultipartFormData(serverRequest)) {
                 is GraphQLRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
                 is GraphQLBatchRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
                 else -> badRequest().buildAndAwait()

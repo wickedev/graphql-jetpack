@@ -11,7 +11,7 @@ import org.springframework.http.codec.multipart.FilePart
 import org.springframework.http.codec.multipart.FormFieldPart
 import org.springframework.web.reactive.function.server.ServerRequest
 
-suspend fun parseServerRequest(serverRequest: ServerRequest): GraphQLServerRequest? {
+suspend fun parseRequestFromMultipartFormData(serverRequest: ServerRequest): GraphQLServerRequest? {
     val multipartData = serverRequest.multipartData().await() ?: return null
     val mapJson = (multipartData.getFirst("map") as? FormFieldPart)?.value() ?: return null
     val operationsJson = (multipartData.getFirst("operations") as? FormFieldPart)?.value() ?: return null
