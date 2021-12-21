@@ -1,19 +1,18 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.repository.mixin
 
 import graphql.schema.DataFetchingEnvironment
-import io.github.wickedev.graphql.extentions.dataLoader
-import io.github.wickedev.graphql.extentions.flux.await
-import io.github.wickedev.graphql.extentions.inverted
-import io.github.wickedev.graphql.extentions.mono.await
-import io.github.wickedev.graphql.interfaces.Node
-import io.github.wickedev.graphql.scalars.ID
+import io.github.wickedev.coroutine.reactive.extensions.flux.await
+import io.github.wickedev.coroutine.reactive.extensions.mono.await
+import io.github.wickedev.graphql.extentions.toLocalID
+import io.github.wickedev.graphql.interfases.Node
+import io.github.wickedev.graphql.repository.GraphQLDataLoaderConnectionsRepository
+import io.github.wickedev.graphql.spring.data.r2dbc.extentions.dataLoader
+import io.github.wickedev.graphql.spring.data.r2dbc.extentions.inverted
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.base.PropertyRepository
-import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderConnectionsRepository
-import io.github.wickedev.graphql.spring.data.r2dbc.value.*
+import io.github.wickedev.graphql.types.*
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import kotlinx.coroutines.reactor.mono
 import org.springframework.data.domain.Sort
-import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryMixin
 import org.springframework.data.relational.core.query.Criteria
 import org.springframework.data.relational.core.query.Query
 import org.springframework.data.repository.NoRepositoryBean
@@ -30,9 +29,11 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
     }
 
     override fun findAllBackwardConnectById(
-        last: Int?,
-        before: ID?,
-        env: DataFetchingEnvironment
+        last: Int?, before: String?, env: DataFetchingEnvironment
+    ): CompletableFuture<Connection<T>> = findAllBackwardConnectById(last, before?.toLocalID(), env)
+
+    override fun findAllBackwardConnectById(
+        last: Int?, before: ID?, env: DataFetchingEnvironment
     ): CompletableFuture<Connection<T>> {
         val key =
             "${information.repositoryInterface.canonicalName}.findAllBackwardConnectById(Int,ID,DataFetchingEnvironment)"
@@ -42,9 +43,11 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
     }
 
     override fun findAllForwardConnectById(
-        first: Int?,
-        after: ID?,
-        env: DataFetchingEnvironment
+        first: Int?, after: String?, env: DataFetchingEnvironment
+    ): CompletableFuture<Connection<T>> = findAllBackwardConnectById(first, after?.toLocalID(), env)
+
+    override fun findAllForwardConnectById(
+        first: Int?, after: ID?, env: DataFetchingEnvironment
     ): CompletableFuture<Connection<T>> {
         val key =
             "${information.repositoryInterface.canonicalName}.findAllForwardConnectById(Int,ID,DataFetchingEnvironment)"
@@ -74,8 +77,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val sort = Sort.by(direction, idProperty)
 
         return entityOperations.select(
-            emptyQuery().sort(sort).limit(1),
-            entity.javaType
+            emptyQuery().sort(sort).limit(1), entity.javaType
         ).toMono()
     }
 
@@ -84,8 +86,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val sort = Sort.by(direction.inverted, idProperty)
 
         return entityOperations.select(
-            emptyQuery().sort(sort).limit(1),
-            entity.javaType
+            emptyQuery().sort(sort).limit(1), entity.javaType
         ).toMono()
     }
 
@@ -94,9 +95,10 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val startOfAll = findFirst(Sort.Direction.DESC).awaitSingleOrNull()?.id?.value
         val endOfAll = findLast(Sort.Direction.DESC).awaitSingleOrNull()?.id?.value
 
-        val query = (if (before == null || before.value.isEmpty()) Query.empty() else whereIdLessThanQuery(before))
-            .limit(edgesSize)
-            .sort(Sort.by(getIdProperty().name).descending())
+        val query =
+            (if (before == null || before.value.isEmpty()) Query.empty() else whereIdLessThanQuery(before)).limit(
+                edgesSize
+            ).sort(Sort.by(getIdProperty().name).descending())
 
         val edges = entityOperations.select(query, entity.javaType).await()
 
@@ -104,8 +106,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val endOfEdge = edges.lastOrNull()?.id?.value ?: ""
 
         Connection(
-            edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) },
-            pageInfo = PageInfo(
+            edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
                 hasPreviousPage = endOfAll != endOfEdge,
                 hasNextPage = startOfAll != startOfEdge,
                 startCursor = endOfEdge,
@@ -119,9 +120,10 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val startOfAll = findFirst(Sort.Direction.ASC).awaitSingleOrNull()?.id?.value
         val endOfAll = findLast(Sort.Direction.ASC).awaitSingleOrNull()?.id?.value
 
-        val query = (if (after == null || after.value.isEmpty()) Query.empty() else whereIdGreaterThanQuery(after))
-            .limit(edgesSize)
-            .sort(Sort.by(getIdProperty().name).ascending())
+        val query =
+            (if (after == null || after.value.isEmpty()) Query.empty() else whereIdGreaterThanQuery(after)).limit(
+                edgesSize
+            ).sort(Sort.by(getIdProperty().name).ascending())
 
         val edges = entityOperations.select(query, entity.javaType).await()
 
@@ -129,8 +131,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val endOfEdge = edges.lastOrNull()?.id?.value ?: ""
 
         Connection(
-            edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) },
-            pageInfo = PageInfo(
+            edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
                 hasPreviousPage = startOfAll != startOfEdge,
                 hasNextPage = endOfAll != endOfEdge,
                 startCursor = startOfEdge,

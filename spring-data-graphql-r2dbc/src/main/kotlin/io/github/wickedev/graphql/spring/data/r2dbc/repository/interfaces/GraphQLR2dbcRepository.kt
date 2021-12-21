@@ -1,7 +1,8 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.repository.interfaces
 
-import io.github.wickedev.graphql.interfaces.Node
-import io.github.wickedev.graphql.scalars.ID
+import io.github.wickedev.graphql.interfases.Node
+import io.github.wickedev.graphql.repository.GraphQLRepository
+import io.github.wickedev.graphql.types.ID
 import org.springframework.data.r2dbc.repository.R2dbcRepository
 import org.springframework.data.repository.NoRepositoryBean
 

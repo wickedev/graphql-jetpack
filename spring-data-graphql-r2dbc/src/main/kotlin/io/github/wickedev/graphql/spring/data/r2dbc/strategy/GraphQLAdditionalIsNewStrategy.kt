@@ -1,6 +1,6 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.strategy
 
-import io.github.wickedev.graphql.scalars.ID
+import io.github.wickedev.graphql.types.ID
 
 class GraphQLAdditionalIsNewStrategy : AdditionalIsNewStrategy {
 

@@ -1,6 +1,6 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.converter
 
-import io.github.wickedev.graphql.scalars.ID
+import io.github.wickedev.graphql.types.ID
 import org.springframework.core.convert.converter.Converter
 import org.springframework.data.convert.ReadingConverter
 

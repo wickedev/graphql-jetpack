@@ -12,7 +12,6 @@ import org.springframework.data.relational.repository.query.RelationalExampleMap
 import org.springframework.data.repository.core.RepositoryInformation
 import org.springframework.data.util.Lazy
 import org.springframework.r2dbc.core.DatabaseClient
-import reactor.core.publisher.Flux
 
 abstract class PropertyBaseRepository<T, ID>(
     final override val databaseClient: DatabaseClient,

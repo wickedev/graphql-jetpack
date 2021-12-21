@@ -2,10 +2,8 @@
 
 package io.github.wickedev.graphql.spring.data.r2dbc.factory
 
-import io.github.wickedev.graphql.extentions.isAssignableFrom
+import io.github.wickedev.graphql.spring.data.r2dbc.extentions.isAssignableFrom
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLR2dbcRepository
-import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderConnectionsRepository
-import io.github.wickedev.graphql.spring.data.r2dbc.repository.dataloader.GraphQLDataLoaderRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.interfaces.GraphQLR2dbcRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
 import org.springframework.data.mapping.context.MappingContext

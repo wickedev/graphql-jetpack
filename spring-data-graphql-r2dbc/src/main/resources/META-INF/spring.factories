@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.wickedev.graphql.spring.data.r2dbc.configuration.GraphQLR2dbcRepositoriesAutoConfiguration
