@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package io.github.wickedev.graphql.security
+package io.github.wickedev.graphql
 
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import graphql.introspection.Introspection
@@ -16,5 +16,3 @@ const val AUTH_DIRECTIVE_NAME = "auth"
 annotation class Auth(
     val requires: Array<String> = []
 )
-
-

@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.security
+package io.github.wickedev.spring.security
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.collections.shouldContain

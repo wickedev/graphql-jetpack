@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.security
+package io.github.wickedev.spring.security
 
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyUtils

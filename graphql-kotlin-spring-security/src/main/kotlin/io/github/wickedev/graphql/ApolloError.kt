@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package io.github.wickedev.graphql.security
+package io.github.wickedev.graphql
 
 import graphql.ErrorClassification
 import graphql.GraphQLException

@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.security
+package io.github.wickedev.graphql
 
 import org.springframework.security.access.ConfigAttribute
 

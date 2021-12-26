@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.security
+package io.github.wickedev.spring.security
 
 class DslRoleHierarchy(
     spec: RoleHierarchyDsl.() -> Unit

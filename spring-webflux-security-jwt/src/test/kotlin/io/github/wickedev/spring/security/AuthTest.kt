@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.security
+package io.github.wickedev.spring.security
 
 import io.kotest.core.spec.style.DescribeSpec
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
@@ -13,19 +13,18 @@ class AuthTest(
 ) : DescribeSpec({
 
     describe("AuthTest") {
-        it("should login") {
+        it("should allow as public") {
             webTestClient.post()
-                .uri("/login")
-                .bodyValue(AuthRequest("email@email.com", "password"))
+                .uri("/public")
                 .exchange()
                 .expectStatus().isOk
                 .expectBody()
                 .consumeWith(System.out::println)
         }
 
-        it("should allow by user") {
+        it("should allow to user") {
             webTestClient
-                .mutateWith(mockUser().roles("USER"))
+                // .mutateWith(mockUser().roles("USER"))
                 .get()
                 .uri("/allow-user")
                 .exchange()
@@ -34,7 +33,7 @@ class AuthTest(
                 .consumeWith(System.out::println)
         }
 
-        it("should reject by user") {
+        it("should reject to user") {
             webTestClient
                 .mutateWith(mockUser().roles("USER"))
                 .get()

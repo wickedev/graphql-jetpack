@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql.security
+package io.github.wickedev.graphql
 
 import com.expediagroup.graphql.generator.directives.KotlinFieldDirectiveEnvironment
 import graphql.GraphqlErrorBuilder
@@ -9,7 +9,6 @@ import org.springframework.security.access.AccessDecisionVoter
 import org.springframework.security.access.ConfigAttribute
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.context.SecurityContext
 
 class AuthDataFetcher(
     private val originalDataFetcher: DataFetcher<*>,
@@ -19,20 +18,18 @@ class AuthDataFetcher(
     private val rolePrefix = "ROLE_"
 
     override fun get(environment: DataFetchingEnvironment): Any {
+        val authentication = environment.graphQlContext.authentication
 
-        val authentication =
-            environment.graphQlContext.getOrDefault<SecurityContext?>("securityContext", null)?.authentication
+        if (directiveEnv.hasAuthDirective && authentication == null) {
+            return newError(ApolloError.AuthenticationError(), environment)
+        }
 
-        val requires: Array<String> = if (directiveEnv.hasAuthDirective)
-            @Suppress("UNCHECKED_CAST")
-            directiveEnv.directive.getArgument("requires").argumentValue.value as? Array<String> ?: emptyArray()
-        else
-            emptyArray()
+        val requires = directiveEnv.requires
 
         val decision = vote(authentication, requires.map { AuthDirectiveConfigAttribute(it) })
 
-        if (directiveEnv.hasAuthDirective && decision != AccessDecisionVoter.ACCESS_GRANTED) {
-            return newError(ApolloError.AuthenticationError(), environment)
+        if (directiveEnv.hasAuthDirective && requires.isNotEmpty() && decision != AccessDecisionVoter.ACCESS_GRANTED) {
+            return newError(ApolloError.ForbiddenError(), environment)
         }
 
         return originalDataFetcher.get(environment)

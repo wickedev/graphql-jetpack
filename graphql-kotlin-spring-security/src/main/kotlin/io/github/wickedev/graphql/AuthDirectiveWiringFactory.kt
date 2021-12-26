@@ -1,8 +1,8 @@
-package io.github.wickedev.graphql.security
+package io.github.wickedev.graphql
 
 import com.expediagroup.graphql.generator.directives.KotlinDirectiveWiringFactory
 
-class CustomDirectiveWiringFactory(
+class AuthDirectiveWiringFactory(
     authSchemaDirectiveWiring: AuthSchemaDirectiveWiring
 ) : KotlinDirectiveWiringFactory(
     manualWiring = mapOf(
