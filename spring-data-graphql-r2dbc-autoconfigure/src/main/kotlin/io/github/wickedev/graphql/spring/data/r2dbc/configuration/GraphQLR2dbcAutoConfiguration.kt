@@ -1,15 +1,15 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.configuration
 
-import io.github.wickedev.graphql.interfases.Node
 import io.github.wickedev.graphql.repository.GraphQLDataLoaderByIdRepository
 import io.github.wickedev.graphql.repository.GraphQLNodeRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.GraphQLMappingR2dbcConverter
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.IDToLongWritingConverter
-import io.github.wickedev.graphql.spring.data.r2dbc.converter.LongToIDReadingConverter
-import io.github.wickedev.graphql.spring.data.r2dbc.extentions.copyWithId
+import io.github.wickedev.graphql.spring.data.r2dbc.mapping.GraphQLR2dbcMappingContext
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLNodeRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.DefaultIDTypeStrategy
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.GraphQLAdditionalIsNewStrategy
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.IDTypeStrategy
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
@@ -25,10 +25,8 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import org.springframework.data.r2dbc.dialect.DialectResolver
 import org.springframework.data.r2dbc.dialect.R2dbcDialect
 import org.springframework.data.r2dbc.mapping.R2dbcMappingContext
-import org.springframework.data.r2dbc.mapping.event.AfterConvertCallback
 import org.springframework.data.relational.core.mapping.NamingStrategy
 import org.springframework.r2dbc.core.DatabaseClient
-import reactor.core.publisher.Mono
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(DatabaseClient::class, R2dbcEntityTemplate::class)
@@ -47,17 +45,23 @@ class GraphQLR2dbcAutoConfiguration(private val databaseClient: DatabaseClient) 
     @ConditionalOnMissingBean
     fun r2dbcMappingContext(
         namingStrategy: ObjectProvider<NamingStrategy>,
-        r2dbcCustomConversions: R2dbcCustomConversions
+        r2dbcCustomConversions: R2dbcCustomConversions,
+        idTypeStrategy: IDTypeStrategy,
     ): R2dbcMappingContext {
-        val relationalMappingContext = R2dbcMappingContext(
-            namingStrategy.getIfAvailable { NamingStrategy.INSTANCE })
+        val relationalMappingContext = GraphQLR2dbcMappingContext(
+            namingStrategy.getIfAvailable { NamingStrategy.INSTANCE }, idTypeStrategy
+        )
         relationalMappingContext.setSimpleTypeHolder(r2dbcCustomConversions.simpleTypeHolder)
         return relationalMappingContext
     }
 
     @Bean
     @ConditionalOnMissingBean
-    fun additionalIsNewStrategy() = GraphQLAdditionalIsNewStrategy()
+    fun additionalIsNewStrategy(): AdditionalIsNewStrategy = GraphQLAdditionalIsNewStrategy()
+
+    @Bean
+    @ConditionalOnMissingBean
+    fun idTypeStrategy(): IDTypeStrategy = DefaultIDTypeStrategy()
 
     @Bean
     @ConditionalOnMissingBean
@@ -78,27 +82,17 @@ class GraphQLR2dbcAutoConfiguration(private val databaseClient: DatabaseClient) 
             CustomConversions.StoreConversions.of(dialect.simpleTypeHolder, converters),
             listOf(
                 IDToLongWritingConverter(),
-                LongToIDReadingConverter(),
+                // LongToIDReadingConverter(),
             )
         )
     }
 
     @Bean
     @ConditionalOnMissingBean
-    fun graphQLNodeRepository(repositories: ObjectProvider<GraphQLDataLoaderByIdRepository<*>>): GraphQLNodeRepository {
-        return SimpleGraphQLNodeRepository(repositories)
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    fun afterConvertCallback(): AfterConvertCallback<Node> {
-        return AfterConvertCallback<Node> { entity, table ->
-            val node = if (entity.id.type.isEmpty())
-                copyWithId(entity, entity.id.toGlobalId(table.reference))
-            else
-                entity
-
-            Mono.just(node)
-        }
+    fun graphQLNodeRepository(
+        repositories: ObjectProvider<GraphQLDataLoaderByIdRepository<*>>,
+        idTypeStrategy: IDTypeStrategy,
+    ): GraphQLNodeRepository {
+        return SimpleGraphQLNodeRepository(repositories, idTypeStrategy)
     }
 }

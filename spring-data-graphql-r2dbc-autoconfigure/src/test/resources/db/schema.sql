@@ -17,5 +17,8 @@ CREATE TABLE IF NOT EXISTS post
 
     -- fields
     title               VARCHAR(512) NOT NULL,
-    content             TEXT NOT NULL
+    content             TEXT NOT NULL,
+
+    -- relationship
+    user_id             BIGINT NOT NULL
 );

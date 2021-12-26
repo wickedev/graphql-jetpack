@@ -1,6 +1,8 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.converter
 
+import io.github.wickedev.graphql.spring.data.r2dbc.mapping.GraphQLTypeInformation
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
+import io.github.wickedev.graphql.types.ID
 import io.r2dbc.spi.Row
 import io.r2dbc.spi.RowMetadata
 import org.springframework.context.ApplicationContext
@@ -14,6 +16,7 @@ import org.springframework.data.r2dbc.mapping.event.AfterConvertCallback
 import org.springframework.data.relational.core.mapping.RelationalPersistentEntity
 import org.springframework.data.relational.core.mapping.RelationalPersistentProperty
 import org.springframework.data.relational.core.sql.SqlIdentifier
+import org.springframework.data.util.TypeInformation
 import org.springframework.util.ClassUtils
 import reactor.core.publisher.Mono
 import java.util.function.BiFunction
@@ -84,11 +87,25 @@ class GraphQLMappingR2dbcConverter(
         if (generatedIdValue == null) {
             return false
         }
-        propertyAccessor.setProperty(idProperty, conversionService.convert(generatedIdValue, idProperty.type))
+
+        propertyAccessor.setProperty(idProperty, readValue(generatedIdValue, idProperty.typeInformation))
+
         return true
     }
 
     private fun <T> maybeCallAfterConvert(`object`: T, table: SqlIdentifier?): Mono<T> {
         return entityCallbacks?.callback(AfterConvertCallback::class.java, `object`, table) ?: Mono.just(`object`)
+    }
+
+    override fun readValue(value: Any?, type: TypeInformation<*>): Any? {
+        if (type is GraphQLTypeInformation<*> && type.isGraphQLID()) {
+            return convertToId(type, value)
+        }
+
+        return super.readValue(value, type)
+    }
+
+    private fun <T> convertToId(type: GraphQLTypeInformation<T>, value: Any?): ID? {
+        return value?.let { ID(type.typeName(), value.toString()) }
     }
 }

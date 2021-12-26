@@ -1,5 +1,6 @@
 package io.github.wickedev.graphql.spring.data.r2dbc
 
+import io.github.wickedev.graphql.annotations.Relation
 import io.github.wickedev.graphql.interfases.Node
 import io.github.wickedev.graphql.repository.GraphQLDataLoaderByIdRepository
 import io.github.wickedev.graphql.types.ID
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Repository
 data class Post(
     @Id override val id: ID,
     val title: String,
-    val content: String
+    val content: String,
+    @Relation(User::class) val userId: ID,
 ) : Node
 
 @Repository
