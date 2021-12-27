@@ -6,11 +6,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":kotlin-coroutine-reactive-extensions"))
-
     implementation(kotlin("stdlib-jdk8"))
-    implementation("com.jayway.jsonpath:json-path:2.6.0")
 
+    api(project(":kotlin-coroutine-reactive-extensions"))
+    api("com.jayway.jsonpath:json-path:2.6.0")
     api("org.springframework:spring-webflux")
     api("com.expediagroup:graphql-kotlin-server:5.3.1")
 

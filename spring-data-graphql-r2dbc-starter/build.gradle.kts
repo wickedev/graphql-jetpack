@@ -10,6 +10,5 @@ repositories {
 }
 
 dependencies {
-    api(project(":spring-data-graphql-r2dbc"))
     api(project(":spring-data-graphql-r2dbc-autoconfigure"))
 }

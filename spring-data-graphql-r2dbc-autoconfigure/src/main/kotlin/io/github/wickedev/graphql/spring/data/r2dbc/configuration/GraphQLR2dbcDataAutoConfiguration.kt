@@ -10,8 +10,10 @@ import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLNode
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.*
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
+import org.springframework.boot.autoconfigure.AutoConfigureBefore
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.data.r2dbc.R2dbcDataAutoConfiguration
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -29,8 +31,9 @@ import org.springframework.r2dbc.core.DatabaseClient
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(DatabaseClient::class, R2dbcEntityTemplate::class)
+@AutoConfigureBefore(R2dbcDataAutoConfiguration::class)
 @AutoConfigureAfter(R2dbcAutoConfiguration::class)
-class GraphQLR2dbcAutoConfiguration(private val databaseClient: DatabaseClient) {
+class GraphQLR2dbcDataAutoConfiguration(private val databaseClient: DatabaseClient) {
 
     val dialect: R2dbcDialect = DialectResolver.getDialect(this.databaseClient.connectionFactory)
 

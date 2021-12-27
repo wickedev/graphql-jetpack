@@ -10,7 +10,6 @@
 
 rootProject.name = "graphql-jetpack"
 include("graphql-core")
-include("graphql-upload")
 include("graphql-kotlin-spring-webflux-upload")
 include("graphql-kotlin-spring-security")
 include("kotlin-coroutine-reactive-extensions")

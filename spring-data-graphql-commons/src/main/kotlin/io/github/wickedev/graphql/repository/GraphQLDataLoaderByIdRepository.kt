@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture
 @NoRepositoryBean
 interface GraphQLDataLoaderByIdRepository<T : Node> : GraphQLDataLoaderRepository<T> {
 
-    fun findById(id: ID, env: DataFetchingEnvironment): CompletableFuture<T?>
+    fun findById(id: ID, env: DataFetchingEnvironment): CompletableFuture<T>
 
     fun findAllById(ids: Iterable<ID>, env: DataFetchingEnvironment): CompletableFuture<List<T>>
 

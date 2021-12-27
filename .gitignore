@@ -4,5 +4,5 @@
 # Ignore Gradle build output directory
 build
 .idea
-maven-repo
 .DS_Store
+maven-repo

@@ -5,8 +5,9 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":graphql-core"))
     implementation(kotlin("stdlib-jdk8"))
+
+    api(project(":graphql-core"))
     api("org.springframework.data:spring-data-commons")
     api("com.graphql-java:graphql-java:17.3")
 }

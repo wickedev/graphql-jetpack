@@ -13,12 +13,13 @@ import java.util.concurrent.CompletableFuture
 interface GraphQLDataLoaderByIdRepositoryMixin<T : Node> : GraphQLDataLoaderByIdRepository<T>,
     R2dbcAllInQueryMixin<T, ID> {
 
-    override fun findById(id: ID, env: DataFetchingEnvironment): CompletableFuture<T?> {
+    override fun findById(id: ID, env: DataFetchingEnvironment): CompletableFuture<T> {
         val key = "${information.repositoryInterface.canonicalName}.findById(ID)"
 
-        return env.dataLoader<ID, T?>(key) { keys ->
+        return env.dataLoader<ID, T>(key) { keys ->
             val results = findAllByIdsIn(keys).collectList().await()
-            keys.map { k -> results.find { r -> r.id.value == k.value } }
+            @Suppress("UNCHECKED_CAST")
+            keys.map { k -> results.find { r -> r.id.value == k.value } } as List<T>
         }.load(id)
     }
 

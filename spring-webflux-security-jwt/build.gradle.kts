@@ -6,18 +6,19 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":graphql-core"))
-    implementation(project(":spring-data-graphql-commons"))
-    implementation(project(":kotlin-coroutine-reactive-extensions"))
-
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    api(project(":graphql-core"))
+    api(project(":spring-data-graphql-commons"))
+    api(project(":kotlin-coroutine-reactive-extensions"))
+
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     api("org.springframework.security:spring-security-core")
     api("org.springframework.security:spring-security-web")
     api("org.springframework.boot:spring-boot-starter-webflux")
 
-    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    api("io.jsonwebtoken:jjwt-api:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 

@@ -31,6 +31,8 @@ class SimpleGraphQLNodeRepository(
     }
 
     override fun findNodeById(id: ID, env: DataFetchingEnvironment): CompletableFuture<Node?> {
-        return tables[id.type]?.findById(id, env) ?: CompletableFuture.completedFuture(null)
+        @Suppress("UNCHECKED_CAST")
+        return (tables[id.type]?.findById(id, env)
+            ?: CompletableFuture.completedFuture(null)) as CompletableFuture<Node?>
     }
 }
