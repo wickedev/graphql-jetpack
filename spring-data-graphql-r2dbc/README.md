@@ -10,11 +10,11 @@ _※ Currently, only spring-data-r2dbc is supported._
 
 ```kotlin
 repositories {
-    maven("https://github.com/wickedev/graphql-jetpack/raw/main/maven-repo")
+    maven("https://github.com/wickedev/graphql-jetpack/raw/deploy/maven-repo")
 }
 
 dependencies {
-    implementation("io.github.wickedev:graphql.spring.r2dbc:0.1.0")
+    implementation("io.github.wickedev:graphql.spring.r2dbc:0.1.5")
 }
 ```
 
