@@ -104,7 +104,7 @@ type Query {
 }
 ```
 
-# Trouble Shooting
+## Trouble Shooting
 
 Did you use `@EnableGraphQLR2dbcRepositories` on Application class? If set correctly, the following logs are output.  
 
