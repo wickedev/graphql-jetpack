@@ -77,6 +77,7 @@ internal class ReactiveFluentQueryByExample<S, T>(
             )
         }.all().collectList()
         return items.flatMap { content: List<T>? ->
+            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
             ReactivePageableExecutionUtils.getPage(
                 content,
                 pageable,
@@ -112,6 +113,7 @@ internal class ReactiveFluentQueryByExample<S, T>(
         query = queryCustomizer.apply(query)
         val select: ReactiveSelectOperation.ReactiveSelect<S> =
             propertyRepository.entityOperations.select(predicate.probeType)
+        @Suppress("UNCHECKED_CAST")
         return if (resultType != predicate.probeType) {
             select.`as`(resultType).matching(query)
         } else select.matching(query) as ReactiveSelectOperation.TerminatingSelect<T>

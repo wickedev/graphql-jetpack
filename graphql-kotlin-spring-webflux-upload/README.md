@@ -1,4 +1,4 @@
-# Kotlin GraphQL Upload
+# GraphQL Kotlin Upload
 
 [GraphQL Multipart Request Spec](https://github.com/jaydenseric/graphql-multipart-request-spec) implementation of [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/).
 

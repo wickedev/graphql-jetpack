@@ -12,7 +12,7 @@ _※ Currently, only spring-data-r2dbc is supported._
 
 Spring Security integration library with Custom GraphQL Directive `@auth`
 
-## [Kotlin GraphQL Upload](graphql-kotlin-spring-webflux-upload/README.md)
+## [GraphQL Kotlin Upload](graphql-kotlin-spring-webflux-upload/README.md)
 
 [GraphQL Multipart Request Spec](https://github.com/jaydenseric/graphql-multipart-request-spec) implementation of [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/).
 
