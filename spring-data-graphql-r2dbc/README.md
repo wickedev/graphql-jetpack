@@ -14,13 +14,17 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.wickedev:graphql.spring.r2dbc:0.1.5")
+    implementation("io.github.wickedev:spring-data-graphql-r2dbc-starter:0.1.5")
 }
 ```
 
 ## Example
 
 ```kotlin
+@SpringBootApplication
+@EnableGraphQLR2dbcRepositories // <-- IMPORTANT!! Use this instead of @EnableR2dbcRepositories 
+class Application
+
 @Table("users")
 data class User(
     @Id override val id: ID,
@@ -100,7 +104,14 @@ type Query {
 }
 ```
 
+# Trouble Shooting
 
+Did you use `@EnableGraphQLR2dbcRepositories` on Application class? If set correctly, the following logs are output.  
+
+```shell
+Bootstrapping Spring Data GRAPHQL-R2DBC repositories in DEFAULT mode.
+Finished Spring Data repository scanning in 249 ms. Found 1 GRAPHQL-R2DBC repository interfaces.
+```
 
 ## Node & GraphQLNodeRepository
 
