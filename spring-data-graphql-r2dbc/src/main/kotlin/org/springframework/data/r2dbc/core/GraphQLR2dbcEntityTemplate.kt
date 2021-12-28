@@ -36,7 +36,7 @@ class GraphQLR2dbcEntityTemplate(
             val value = propertyAccessor.getProperty(property)
             val type = property.typeInformation
 
-            if (type is GraphQLTypeInformation<*> && value is ID && value.type.isEmpty()) {
+            if (value is ID && value.type.isEmpty() && type is GraphQLTypeInformation<*>) {
                 propertyAccessor.setProperty(property, convertToId(type, value.value))
                 updated = true
             }
