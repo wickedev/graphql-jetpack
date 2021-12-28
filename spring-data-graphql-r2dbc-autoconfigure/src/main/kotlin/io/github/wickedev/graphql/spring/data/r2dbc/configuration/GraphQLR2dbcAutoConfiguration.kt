@@ -4,6 +4,7 @@ import io.github.wickedev.graphql.repository.GraphQLDataLoaderByIdRepository
 import io.github.wickedev.graphql.repository.GraphQLNodeRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.GraphQLMappingR2dbcConverter
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.IDToLongWritingConverter
+import io.github.wickedev.graphql.spring.data.r2dbc.converter.LongToIDReadingConverter
 import io.github.wickedev.graphql.spring.data.r2dbc.mapping.GraphQLR2dbcMappingContext
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLNodeRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
@@ -21,6 +22,7 @@ import org.springframework.data.convert.CustomConversions
 import org.springframework.data.r2dbc.convert.MappingR2dbcConverter
 import org.springframework.data.r2dbc.convert.R2dbcConverter
 import org.springframework.data.r2dbc.convert.R2dbcCustomConversions
+import org.springframework.data.r2dbc.core.GraphQLR2dbcEntityTemplate
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import org.springframework.data.r2dbc.dialect.DialectResolver
 import org.springframework.data.r2dbc.dialect.R2dbcDialect
@@ -38,7 +40,7 @@ class GraphQLR2dbcAutoConfiguration(private val databaseClient: DatabaseClient) 
     @Bean
     @ConditionalOnMissingBean
     fun r2dbcEntityTemplate(r2dbcConverter: R2dbcConverter): R2dbcEntityTemplate? {
-        return R2dbcEntityTemplate(databaseClient, dialect, r2dbcConverter)
+        return GraphQLR2dbcEntityTemplate(databaseClient, dialect, r2dbcConverter)
     }
 
     @Bean
@@ -82,7 +84,7 @@ class GraphQLR2dbcAutoConfiguration(private val databaseClient: DatabaseClient) 
             CustomConversions.StoreConversions.of(dialect.simpleTypeHolder, converters),
             listOf(
                 IDToLongWritingConverter(),
-                // LongToIDReadingConverter(),
+                LongToIDReadingConverter(),
             )
         )
     }
