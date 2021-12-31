@@ -129,5 +129,5 @@ private fun loadType(
 }
 
 private fun String.toUpperCaseFirstLetter(): String {
-    return if (isEmpty()) this else (this[0].toUpperCase() + this.substring(1))
+    return if (isEmpty()) this else (this[0].uppercaseChar() + this.substring(1))
 }

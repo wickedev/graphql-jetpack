@@ -73,6 +73,7 @@ class GraphQLMappingR2dbcConverter(
         return true
     }
 
+    @Suppress("DEPRECATION")
     private fun extractGeneratedIdentifier(row: Row, metadata: RowMetadata, idColumnName: String): Any? {
         if (metadata.columnNames.contains(idColumnName)) {
             return row[idColumnName]
