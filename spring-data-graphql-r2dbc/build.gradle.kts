@@ -27,4 +27,15 @@ dependencies {
     /* graphql */
     implementation("com.graphql-java:graphql-java:17.3")
     implementation("com.graphql-java:java-dataloader:3.1.1")
+
+    /* etc */
+    implementation("net.bytebuddy:byte-buddy")
+
+    /* testing */
+    testImplementation("io.kotest:kotest-runner-junit5:5.0.2")
+    testImplementation("io.kotest:kotest-assertions-core:5.0.2")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

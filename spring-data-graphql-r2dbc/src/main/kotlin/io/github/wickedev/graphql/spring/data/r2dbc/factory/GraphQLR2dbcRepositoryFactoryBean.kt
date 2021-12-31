@@ -6,6 +6,9 @@ import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStra
 import io.github.wickedev.graphql.spring.data.r2dbc.strategy.GraphQLAdditionalIsNewStrategy
 import org.springframework.beans.factory.BeanFactory
 import org.springframework.beans.factory.getBeanProvider
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
+import org.springframework.data.mapping.callback.ReactiveEntityCallbacks
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations
 import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactoryBean
@@ -15,7 +18,7 @@ import org.springframework.r2dbc.core.DatabaseClient
 
 class GraphQLR2dbcRepositoryFactoryBean<T : Repository<S, ID>, S, ID : java.io.Serializable>(
     repositoryInterface: Class<out T?>,
-) : R2dbcRepositoryFactoryBean<T, S, ID>(repositoryInterface) {
+) : R2dbcRepositoryFactoryBean<T, S, ID>(repositoryInterface), ApplicationContextAware {
 
     private lateinit var additionalIsNewStrategy: AdditionalIsNewStrategy
 

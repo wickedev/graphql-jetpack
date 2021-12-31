@@ -17,7 +17,13 @@ import java.util.concurrent.CompletableFuture
 
 @Repository
 interface QueryCreationPostRepository : GraphQLR2dbcRepository<Post> {
-    fun findAllByUserId(id: ID, env:DataFetchingEnvironment): CompletableFuture<List<Post>>
+    fun findByUserId(id: ID, env: DataFetchingEnvironment): CompletableFuture<Post>
+
+    fun findAllByUserId(id: ID, env: DataFetchingEnvironment): CompletableFuture<List<Post>>
+
+    fun existsByUserId(id: ID, env: DataFetchingEnvironment): CompletableFuture<Boolean>
+
+    fun countByUserId(id: ID, env: DataFetchingEnvironment): CompletableFuture<Long>
 }
 
 @ContextConfiguration(classes = [TestingApp::class])
@@ -32,6 +38,16 @@ class GraphQLQueryCreationRepositoryTest(
     }
 
     describe("query creation repository") {
+        it("findByUserId should be correct") {
+            val env = newDataFetchingEnvironment()
+                .dataLoaderRegistry(DataLoaderRegistry())
+                .build()
+
+            val post = postRepository.findByUserId(userId, env).dispatchThenAwait(env)
+
+            post.userId shouldBe saved.first().userId
+        }
+
         it("findAllByUserId should be correct") {
             val env = newDataFetchingEnvironment()
                 .dataLoaderRegistry(DataLoaderRegistry())
@@ -40,6 +56,26 @@ class GraphQLQueryCreationRepositoryTest(
             val posts = postRepository.findAllByUserId(userId, env).dispatchThenAwait(env)
 
             posts shouldBe saved
+        }
+
+        it("existsByUserId should be correct") {
+            val env = newDataFetchingEnvironment()
+                .dataLoaderRegistry(DataLoaderRegistry())
+                .build()
+
+            val exist = postRepository.existsByUserId(userId, env).dispatchThenAwait(env)
+
+            exist shouldBe true
+        }
+
+        it("countByUserId should be correct") {
+            val env = newDataFetchingEnvironment()
+                .dataLoaderRegistry(DataLoaderRegistry())
+                .build()
+
+            val count = postRepository.countByUserId(userId, env).dispatchThenAwait(env)
+
+            count shouldBe saved.size
         }
     }
 })

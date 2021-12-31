@@ -12,14 +12,18 @@ import org.springframework.data.r2dbc.core.R2dbcEntityOperations
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy
 import org.springframework.data.r2dbc.core.StatementMapper
+import org.springframework.data.r2dbc.repository.support.GraphQLR2dbcQueryLookupStrategy
 import org.springframework.data.r2dbc.repository.support.R2dbcRepositoryFactory
 import org.springframework.data.relational.core.mapping.RelationalPersistentEntity
 import org.springframework.data.relational.core.mapping.RelationalPersistentProperty
 import org.springframework.data.relational.repository.query.RelationalEntityInformation
 import org.springframework.data.repository.core.RepositoryInformation
 import org.springframework.data.repository.core.RepositoryMetadata
+import org.springframework.data.repository.core.support.QueryCreationListener
 import org.springframework.data.repository.query.QueryLookupStrategy
+import org.springframework.data.repository.query.QueryMethod
 import org.springframework.data.repository.query.QueryMethodEvaluationContextProvider
+import org.springframework.data.repository.query.ReactiveQueryMethodEvaluationContextProvider
 import org.springframework.lang.Nullable
 import org.springframework.r2dbc.core.DatabaseClient
 import java.util.*
@@ -117,6 +121,13 @@ class GraphQLSimpleR2dbcRepositoryFactory : R2dbcRepositoryFactory {
         @Nullable key: QueryLookupStrategy.Key?,
         evaluationContextProvider: QueryMethodEvaluationContextProvider
     ): Optional<QueryLookupStrategy> {
-        return super.getQueryLookupStrategy(key, evaluationContextProvider)
+        return Optional.of(
+            GraphQLR2dbcQueryLookupStrategy(
+                this.operations,
+                evaluationContextProvider as ReactiveQueryMethodEvaluationContextProvider,
+                this.converter,
+                this.dataAccessStrategy
+            )
+        )
     }
 }

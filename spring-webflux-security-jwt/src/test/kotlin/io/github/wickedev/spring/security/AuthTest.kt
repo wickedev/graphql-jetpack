@@ -12,7 +12,7 @@ class AuthTest(
     private val webTestClient: WebTestClient
 ) : DescribeSpec({
 
-    describe("AuthTest") {
+    xdescribe("AuthTest") {
         it("should allow as public") {
             webTestClient.post()
                 .uri("/public")

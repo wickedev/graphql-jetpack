@@ -7,10 +7,7 @@ import io.github.wickedev.graphql.spring.data.r2dbc.converter.IDToLongWritingCon
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.LongToIDReadingConverter
 import io.github.wickedev.graphql.spring.data.r2dbc.mapping.GraphQLR2dbcMappingContext
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLNodeRepository
-import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
-import io.github.wickedev.graphql.spring.data.r2dbc.strategy.DefaultIDTypeStrategy
-import io.github.wickedev.graphql.spring.data.r2dbc.strategy.GraphQLAdditionalIsNewStrategy
-import io.github.wickedev.graphql.spring.data.r2dbc.strategy.IDTypeStrategy
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.*
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass

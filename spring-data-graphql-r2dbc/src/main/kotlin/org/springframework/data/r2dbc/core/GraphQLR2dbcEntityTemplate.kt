@@ -1,8 +1,6 @@
 package org.springframework.data.r2dbc.core
 
-import io.github.wickedev.graphql.spring.data.r2dbc.mapping.GraphQLTypeInformation
-import io.github.wickedev.graphql.types.ID
-import org.springframework.data.mapping.PersistentPropertyAccessor
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.IDTypeFiller
 import org.springframework.data.r2dbc.convert.R2dbcConverter
 import org.springframework.data.r2dbc.dialect.R2dbcDialect
 import org.springframework.data.r2dbc.mapping.OutboundRow
@@ -17,35 +15,13 @@ class GraphQLR2dbcEntityTemplate(
 ) : R2dbcEntityTemplate(databaseClient, dialect, r2dbcConverter) {
 
     private val mappingContext = dataAccessStrategy.converter.mappingContext
+    private val idTypeFiller = IDTypeFiller(mappingContext)
 
     override fun <T : Any> maybeCallAfterSave(`object`: T, row: OutboundRow, table: SqlIdentifier): Mono<T> {
-        return super.maybeCallAfterSave(setIDTypeIfNecessary(`object`), row, table)
+        return super.maybeCallAfterSave(idTypeFiller.setIDTypeIfNecessary(`object`), row, table)
     }
 
     override fun <T : Any> maybeCallAfterConvert(`object`: T, table: SqlIdentifier): Mono<T> {
-        return super.maybeCallAfterConvert(setIDTypeIfNecessary(`object`), table)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun <T : Any> setIDTypeIfNecessary(`object`: T): T {
-        var updated = false
-        val entity = mappingContext.getRequiredPersistentEntity(`object`.javaClass)
-        val propertyAccessor: PersistentPropertyAccessor<*> = entity.getPropertyAccessor(`object`)
-
-        for (property in entity) {
-            val value = propertyAccessor.getProperty(property)
-            val type = property.typeInformation
-
-            if (value is ID && value.type.isEmpty() && type is GraphQLTypeInformation<*>) {
-                propertyAccessor.setProperty(property, convertToId(type, value.value))
-                updated = true
-            }
-        }
-
-        return if (updated) propertyAccessor.bean as T else `object`
-    }
-
-    private fun <T> convertToId(type: GraphQLTypeInformation<T>, value: Any?): ID? {
-        return value?.let { ID(type.typeName(), value.toString()) }
+        return super.maybeCallAfterConvert(idTypeFiller.setIDTypeIfNecessary(`object`), table)
     }
 }

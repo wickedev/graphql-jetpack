@@ -9,7 +9,7 @@ import java.time.Duration
 class JwtPropertiesTest(
     private val jwtProperties: JwtConfigurationProperties
 ) : DescribeSpec({
-    describe("JwtProperties") {
+    xdescribe("JwtProperties") {
         it("should") {
             jwtProperties.algorithm shouldBe "EC"
             jwtProperties.privateKeyPath shouldBe "classpath:keys/ec256-private.pem"
