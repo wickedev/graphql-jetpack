@@ -45,7 +45,7 @@ class SampleQuery : Query {
 ```
 
 ```graphql
-directive @auth(requires: [String!] = []) on OBJECT | FIELD_DEFINITION
+directive @auth(requires: [String!]!) on FIELD | FIELD_DEFINITION
 
 type Query {
 

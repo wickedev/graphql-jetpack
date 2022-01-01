@@ -14,11 +14,11 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.wickedev:spring-data-graphql-r2dbc-starter:0.1.5")
+    implementation("io.github.wickedev:spring-data-graphql-r2dbc-starter:0.2.0")
 }
 ```
 
-## Example
+## Example ([Github](https://github.com/wickedev/GraphQLPractice))
 
 ```kotlin
 @SpringBootApplication
@@ -33,11 +33,10 @@ data class User(
 ) : Node {
 
     fun posts(
-        @GraphQLIgnore @Autowired userRepository: UserRepository,
+        @GraphQLIgnore @Autowired postRepository: UserRepository,
         env: DataFetchingEnvironment,
     ): CompletableFuture<List<Post>> {
-        // NOT IMPLEMENT YET!
-        return userRepository.findAllByUserId(id, env)
+        return postRepository.findAllByAuthorId(id, env)
     }
 }
 
@@ -46,7 +45,6 @@ data class Post(
     @Id override val id: ID,
 
     val title: String,
-
     val content: String,
 
     @Relation(User::class) val authorId: ID,
@@ -70,16 +68,24 @@ interface PostRepository : GraphQLR2dbcRepository<Post>
 class SampleQuery(
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
+    private val nodeRepository: GraphQLNodeRepository,
 ) : Query {
 
-    suspend fun users(): List<User> {
-        return userRepository.findAll().await()
+    suspend fun node(id: ID, env: DataFetchingEnvironment): Node? {
+        return nodeRepository.findNodeById(id, env).await()
     }
 
-    suspend fun posts(): List<Post> {
-        return postRepository.findAll().await()
+    fun users(last: Int?, before: ID?, env: DataFetchingEnvironment): CompletableFuture<UserConnect> {
+        return userRepository.findAllBackwardConnectById(last, before, env)
+            .thenApply { UserConnect(it.edges.map { e -> UserEdge(e.node, e.cursor) }, it.pageInfo) }
+    }
+
+    fun posts(last: Int?, before: ID?, env: DataFetchingEnvironment): CompletableFuture<PostConnect> {
+        return postRepository.findAllBackwardConnectById(last, before, env)
+            .thenApply { PostConnect(it.edges.map { e -> PostEdge(e.node, e.cursor) }, it.pageInfo) }
     }
 }
+
 ```
 
 Will generate as follow GraphQL Schema 
@@ -98,9 +104,12 @@ type Post {
     author: User!
 }
 
+... PostConnection, UserConnection type is omitted.
+
 type Query {
-    users: [User!]!
-    posts: [Post!]!
+  node(id: ID!): Node
+  posts(before: ID, last: Int): PostConnect!
+  users(before: ID, last: Int): UserConnect!
 }
 ```
 
@@ -187,9 +196,7 @@ interface GraphQLCrudRepository<T : Node> :
     CrudRepository<T, ID>
 ```
 
-## [Query creation]((https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/#repositories.query-methods.query-creation)) (Plan to Support)
-
-**WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
+## [Query creation]((https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/#repositories.query-methods.query-creation))
 
 ```kotlin
 interface PersonRepository : GraphQLRepository<Person> {
