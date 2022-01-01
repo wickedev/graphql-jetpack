@@ -2,17 +2,17 @@
 
 A collection of packages for easily writing Java GraphQL server implementations. Current major targets are [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/), [Spring Webflux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html), and [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc).
 
-## [Spring Data GraphQL](spring-data-graphql-r2dbc/README.md)
+## [Spring Data GraphQL](spring-data-graphql-r2dbc)
 
 Spring Data GraphQL make easy to use [Spring Data](https://spring.io/projects/spring-data) with [graphql-java](https://github.com/graphql-java/graphql-java) implementations like [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/), [DGS](https://netflix.github.io/dgs/). If you use [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc) or [Spring Data JDBC](https://spring.io/projects/spring-data-jdbc) directly, you have to write a lot of custom DataLoader. Spring Data GraphQL solves the N+1 problem through an internally auto-generated DataLoader.
 
 _※ Currently, only spring-data-r2dbc is supported._
 
-## [GraphQL Kotlin Spring Security](graphql-kotlin-spring-security/README.md)
+## [GraphQL Kotlin Spring Security](graphql-kotlin-spring-security)
 
 Spring Security integration library with Custom GraphQL Directive `@auth`
 
-## [GraphQL Kotlin Upload](graphql-kotlin-spring-webflux-upload/README.md)
+## [GraphQL Kotlin Upload](graphql-kotlin-spring-webflux-upload)
 
 [GraphQL Multipart Request Spec](https://github.com/jaydenseric/graphql-multipart-request-spec) implementation of [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/).
 
