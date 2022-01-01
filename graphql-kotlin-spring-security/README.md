@@ -4,6 +4,20 @@ Spring Security integration library with Custom GraphQL Directive `@auth`
 
 [Inspired by With Custom Directives](https://www.apollographql.com/docs/apollo-server/security/authentication/#with-custom-directives)
 
+# Getting Started
+
+## Gradle
+
+```kotlin
+repositories {
+    maven("https://github.com/wickedev/graphql-jetpack/raw/deploy/maven-repo")
+}
+
+dependencies {
+    implementation("io.github.wickedev:graphql-kotlin-spring-security:0.2.0")
+}
+```
+
 ## Example
 
 ```kotlin
