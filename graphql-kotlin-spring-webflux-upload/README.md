@@ -22,7 +22,7 @@ dependencies {
 class Upload(filePart: FilePart) : FilePart by filePart
 
 @Compoment
-class SampleQuery : Query {
+class SampleMutation : Mutation {
     fun upload(files: List<Upload>): String = "${files.map { it.filename() }} Upload Successfully"
 
     fun upload(file: Upload): String = "${file.filename()} Upload Successfully"
