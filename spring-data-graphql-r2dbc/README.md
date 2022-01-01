@@ -248,7 +248,7 @@ interface PersonRepository : GraphQLRepository<Person> {
 
 **WARNING! THE FEATURES BELOW ARE NOT YET SUPPORTED.**
 
-Query and return according to the input convention. Inspired by [TypeGraphQL Prisma] (https://prisma.typegraphql.com/).
+Query and return according to the input convention. Inspired by [TypeGraphQL Prisma](https://prisma.typegraphql.com/).
 
 ```graphql
 type Query {
