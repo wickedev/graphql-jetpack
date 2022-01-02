@@ -10,7 +10,7 @@ class JwtPropertiesTest(
     private val jwtProperties: JwtConfigurationProperties
 ) : DescribeSpec({
     xdescribe("JwtProperties") {
-        it("should") {
+        xit("should") {
             jwtProperties.algorithm shouldBe "EC"
             jwtProperties.privateKeyPath shouldBe "classpath:keys/ec256-private.pem"
             jwtProperties.publicKeyPath shouldBe "classpath:keys/ec256-public.pem"

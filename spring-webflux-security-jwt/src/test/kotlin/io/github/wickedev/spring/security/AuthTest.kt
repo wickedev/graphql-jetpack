@@ -13,7 +13,7 @@ class AuthTest(
 ) : DescribeSpec({
 
     xdescribe("AuthTest") {
-        it("should allow as public") {
+        xit("should allow as public") {
             webTestClient.post()
                 .uri("/public")
                 .exchange()
@@ -22,7 +22,7 @@ class AuthTest(
                 .consumeWith(System.out::println)
         }
 
-        it("should allow to user") {
+        xit("should allow to user") {
             webTestClient
                 // .mutateWith(mockUser().roles("USER"))
                 .get()
@@ -33,7 +33,7 @@ class AuthTest(
                 .consumeWith(System.out::println)
         }
 
-        it("should reject to user") {
+        xit("should reject to user") {
             webTestClient
                 .mutateWith(mockUser().roles("USER"))
                 .get()
