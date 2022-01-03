@@ -28,11 +28,11 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         const val DEFAULT_EDGES_SIZE = 10
     }
 
-    override fun findAllBackwardConnectById(
+    override fun connectionBackwardById(
         last: Int?, before: String?, env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>> = findAllBackwardConnectById(last, before?.toLocalID(), env)
+    ): CompletableFuture<Connection<T>> = connectionBackwardById(last, before?.toLocalID(), env)
 
-    override fun findAllBackwardConnectById(
+    override fun connectionBackwardById(
         last: Int?, before: ID?, env: DataFetchingEnvironment
     ): CompletableFuture<Connection<T>> {
         val key =
@@ -42,11 +42,11 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         }.load(Backward(last, before))
     }
 
-    override fun findAllForwardConnectById(
+    override fun connectionForwardById(
         first: Int?, after: String?, env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>> = findAllBackwardConnectById(first, after?.toLocalID(), env)
+    ): CompletableFuture<Connection<T>> = connectionBackwardById(first, after?.toLocalID(), env)
 
-    override fun findAllForwardConnectById(
+    override fun connectionForwardById(
         first: Int?, after: ID?, env: DataFetchingEnvironment
     ): CompletableFuture<Connection<T>> {
         val key =

@@ -33,7 +33,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
             var before: ID? = null
 
             (0..9).forEach { page ->
-                val connection = userRepository.findAllBackwardConnectById(last, before, env).dispatchThenAwait(env)
+                val connection = userRepository.connectionBackwardById(last, before, env).dispatchThenAwait(env)
 
                 before = ID(connection.pageInfo.startCursor)
 
@@ -60,7 +60,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
             var after: ID? = null
 
             (0..9).forEach { page ->
-                val connection = userRepository.findAllForwardConnectById(first, after, env).dispatchThenAwait(env)
+                val connection = userRepository.connectionForwardById(first, after, env).dispatchThenAwait(env)
 
                 after = ID(connection.pageInfo.endCursor)
 
