@@ -71,7 +71,6 @@ abstract class AbstractGraphQRepositoryQuery(
         }
     }
 
-
     override fun resolveResultType(resultProcessor: ResultProcessor): Class<*> {
         val returnedType = resultProcessor.returnedType
         if (returnedType.returnedType.isAssignableFrom(returnedType.domainType)) {
@@ -79,7 +78,6 @@ abstract class AbstractGraphQRepositoryQuery(
         }
         return if (returnedType.isProjecting) returnedType.domainType else returnedType.returnedType
     }
-
 
     private fun getDynamicSort(accessor: RelationalParameterAccessor): Sort {
         return if (parameters.potentiallySortsDynamically()) accessor.sort else Sort.unsorted()

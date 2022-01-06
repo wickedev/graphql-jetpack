@@ -3,7 +3,6 @@ package io.github.wickedev.graphql.spring.data.r2dbc.repository.mixin
 import graphql.schema.DataFetchingEnvironment
 import io.github.wickedev.coroutine.reactive.extensions.flux.await
 import io.github.wickedev.coroutine.reactive.extensions.mono.await
-import io.github.wickedev.graphql.extentions.toLocalID
 import io.github.wickedev.graphql.interfases.Node
 import io.github.wickedev.graphql.repository.GraphQLDataLoaderConnectionsRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.extentions.dataLoader
@@ -28,13 +27,10 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         const val DEFAULT_EDGES_SIZE = 10
     }
 
-    override fun connectionBackwardById(
-        last: Int?, before: String?, env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>> = connectionBackwardById(last, before?.toLocalID(), env)
 
-    override fun connectionBackwardById(
-        last: Int?, before: ID?, env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>> {
+    override fun connection(backward: Backward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>> {
+        val (last: Int?, before: ID?) = backward
+
         val key =
             "${information.repositoryInterface.canonicalName}.findAllBackwardConnectById(Int,ID,DataFetchingEnvironment)"
         return env.dataLoader<Backward, Connection<T>>(key) { keys ->
@@ -42,13 +38,9 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         }.load(Backward(last, before))
     }
 
-    override fun connectionForwardById(
-        first: Int?, after: String?, env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>> = connectionBackwardById(first, after?.toLocalID(), env)
+    override fun connection(forward: Forward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>> {
+        val (first: Int?, after: ID?) = forward
 
-    override fun connectionForwardById(
-        first: Int?, after: ID?, env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>> {
         val key =
             "${information.repositoryInterface.canonicalName}.findAllForwardConnectById(Int,ID,DataFetchingEnvironment)"
         return env.dataLoader<Forward, Connection<T>>(key) { keys ->

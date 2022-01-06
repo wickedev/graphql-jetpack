@@ -1,6 +1,6 @@
 package io.github.wickedev.graphql.types
 
 data class Backward(
-    val last: Int?,
-    val before: ID?,
-)
+    val last: Int = 10,
+    val before: ID? = null,
+) : ConnectionParam

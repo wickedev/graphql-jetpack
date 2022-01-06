@@ -4,6 +4,8 @@ import graphql.schema.DataFetchingEnvironmentImpl.newDataFetchingEnvironment
 import io.github.wickedev.coroutine.reactive.extensions.flux.await
 import io.github.wickedev.graphql.spring.data.r2dbc.utils.dispatchThenAwait
 import io.github.wickedev.graphql.spring.data.r2dbc.utils.fixture
+import io.github.wickedev.graphql.types.Backward
+import io.github.wickedev.graphql.types.Forward
 import io.github.wickedev.graphql.types.ID
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -33,7 +35,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
             var before: ID? = null
 
             (0..9).forEach { page ->
-                val connection = userRepository.connectionBackwardById(last, before, env).dispatchThenAwait(env)
+                val connection = userRepository.connection(Backward(last, before), env).dispatchThenAwait(env)
 
                 before = ID(connection.pageInfo.startCursor)
 
@@ -60,7 +62,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
             var after: ID? = null
 
             (0..9).forEach { page ->
-                val connection = userRepository.connectionForwardById(first, after, env).dispatchThenAwait(env)
+                val connection = userRepository.connection(Forward(first, after), env).dispatchThenAwait(env)
 
                 after = ID(connection.pageInfo.endCursor)
 

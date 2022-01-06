@@ -1,6 +1,7 @@
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
     id("org.jetbrains.kotlin.plugin.spring") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.6.10"
     id("org.springframework.boot") version "2.6.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
 }
@@ -41,7 +42,7 @@ dependencies {
     /* testing */
     testImplementation(project(":spring-data-graphql-r2dbc-autoconfigure"))
     testImplementation("io.kotest:kotest-runner-junit5:5.0.2")
-    testImplementation("io.kotest:kotest-assertions-core:5.0.2")
+    testImplementation("io.kotest:kotest-assertions-core:5.0.3")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.0")
     testImplementation(project(":kotlin-coroutine-reactive-extensions"))
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8")
@@ -64,4 +65,8 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+noArg {
+    annotation("org.springframework.data.relational.core.mapping.Table")
 }

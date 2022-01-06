@@ -5,6 +5,7 @@ package io.github.wickedev.graphql.spring.data.r2dbc.query
 import graphql.schema.DataFetchingEnvironment
 import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import io.github.wickedev.graphql.spring.data.r2dbc.extentions.dataLoader
+import io.github.wickedev.graphql.spring.data.r2dbc.query.redefine.redefineMethod
 import org.reactivestreams.Publisher
 import org.springframework.data.mapping.context.MappingContext
 import org.springframework.data.projection.ProjectionFactory
@@ -37,7 +38,7 @@ class GraphQLCollectionPartTreeR2dbcQuery(
     dataAccessStrategy
 ) {
 
-    override fun execute(parameters: Array<Any?>): Any? {
+    override fun execute(parameters: Array<Any?>): Any {
         val dataLoaderKey = method.toString()
         val env: DataFetchingEnvironment =
             parameters.find { it is DataFetchingEnvironment } as? DataFetchingEnvironment

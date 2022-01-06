@@ -3,8 +3,11 @@
 package org.springframework.data.r2dbc.repository.support
 
 import io.github.wickedev.graphql.spring.data.r2dbc.query.GraphQLCollectionPartTreeR2dbcQuery
+import io.github.wickedev.graphql.spring.data.r2dbc.query.GraphQLConnectionPartTreeR2dbcQuery
 import io.github.wickedev.graphql.spring.data.r2dbc.query.GraphQLR2dbcQueryMethod
 import io.github.wickedev.graphql.spring.data.r2dbc.query.GraphQLSimplePartTreeR2dbcQuery
+import io.github.wickedev.graphql.spring.data.r2dbc.query.redefine.redefineConnectionMethod
+import io.github.wickedev.graphql.spring.data.r2dbc.query.redefine.redefineConnectionNextMethod
 import org.springframework.data.projection.ProjectionFactory
 import org.springframework.data.r2dbc.convert.R2dbcConverter
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations
@@ -49,6 +52,22 @@ internal class GraphQLR2dbcQueryLookupStrategy constructor(
                 queryMethod, entityOperations, converter, dataAccessStrategy,
                 parser,
                 evaluationContextProvider
+            )
+        } else if (queryMethod.isConnectionQuery()) {
+            GraphQLConnectionPartTreeR2dbcQuery(
+                queryMethod,
+                PartTreeR2dbcQuery(
+                    GraphQLR2dbcQueryMethod(
+                        redefineConnectionMethod(method, metadata), metadata, factory,
+                        converter.mappingContext
+                    ), entityOperations, converter, dataAccessStrategy
+                ),
+                PartTreeR2dbcQuery(
+                    GraphQLR2dbcQueryMethod(
+                        redefineConnectionNextMethod(method, metadata), metadata, factory,
+                        converter.mappingContext
+                    ), entityOperations, converter, dataAccessStrategy
+                )
             )
         } else if (queryMethod.isCollectionGraphQLDataLoaderQuery()) {
             GraphQLCollectionPartTreeR2dbcQuery(

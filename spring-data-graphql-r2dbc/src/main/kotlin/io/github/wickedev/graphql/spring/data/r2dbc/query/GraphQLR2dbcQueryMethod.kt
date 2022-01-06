@@ -1,6 +1,7 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.query
 
 import graphql.schema.DataFetchingEnvironment
+import io.github.wickedev.graphql.types.Connection
 import org.springframework.data.mapping.context.MappingContext
 import org.springframework.data.projection.ProjectionFactory
 import org.springframework.data.r2dbc.repository.query.R2dbcQueryMethod
@@ -31,17 +32,12 @@ class GraphQLR2dbcQueryMethod(
         return method.returnType === CompletableFuture::class.java
     }
 
-    private fun isSimpleReturnType(method: Method): Boolean {
-        val name = method.name
-        return name.startsWith("count") || name.startsWith("exists")
-    }
-
     fun isGraphQLDataLoaderQuery(): Boolean {
         return hasDataFetchingEnvironmentParameter() && returnTypeIsCompletableFuture() && !isModifyingQuery
     }
 
-    fun isSimpleGraphQLDataLoaderQuery(): Boolean {
-        return isGraphQLDataLoaderQuery() && isSimpleReturnType(method)
+    fun isConnectionQuery(): Boolean {
+        return method.name.startsWith("connection") && returnedObjectType == Connection::class.java
     }
 
     fun isCollectionGraphQLDataLoaderQuery(): Boolean {
