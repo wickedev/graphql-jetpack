@@ -41,8 +41,8 @@ data class User(
 
     fun posts(
         last: Int?, before: ID?,
+        env: DataFetchingEnvironment,
         @GraphQLIgnore @Autowired postRepository: PostRepository,
-        env: DataFetchingEnvironment
     ): CompletableFuture<PostConnect> {
         return postRepository.connectionByAuthorId(id, Backward(last, before), env)
             .thenApply { PostConnect(it.edges.map { e -> PostEdge(e.node, e.cursor) }, it.pageInfo) }
@@ -60,8 +60,8 @@ data class Post(
 ) : Node {
 
     fun author(
-        @GraphQLIgnore @Autowired userRepository: UserRepository,
         env: DataFetchingEnvironment,
+        @GraphQLIgnore @Autowired userRepository: UserRepository,
     ): CompletableFuture<User?> {
         return userRepository.findById(authorId, env)
     }
