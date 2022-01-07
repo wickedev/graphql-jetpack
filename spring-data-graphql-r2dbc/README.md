@@ -113,7 +113,9 @@ type Post {
     author: User!
 }
 
+"""
 ... PostConnection, UserConnection type is omitted.
+"""
 
 type Query {
   node(id: ID!): Node
