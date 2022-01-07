@@ -6,7 +6,6 @@ import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import io.github.wickedev.graphql.interfases.Node
 import io.github.wickedev.graphql.repository.GraphQLDataLoaderConnectionsRepository
 import io.github.wickedev.graphql.spring.data.r2dbc.extentions.dataLoader
-import io.github.wickedev.graphql.spring.data.r2dbc.extentions.inverted
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.base.PropertyRepository
 import io.github.wickedev.graphql.types.*
 import kotlinx.coroutines.reactor.awaitSingleOrNull
@@ -22,11 +21,6 @@ import java.util.concurrent.CompletableFuture
 @NoRepositoryBean
 interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoaderConnectionsRepository<T>,
     PropertyRepository<T, ID>, R2dbcRepositoryMixin<T, ID> {
-
-    companion object {
-        const val DEFAULT_EDGES_SIZE = 10
-    }
-
 
     override fun connection(backward: Backward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>> {
         val (last: Int?, before: ID?) = backward
@@ -73,61 +67,48 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         ).toMono()
     }
 
-    fun findLast(direction: Sort.Direction): Mono<T?> {
-        val idProperty = getIdProperty().name
-        val sort = Sort.by(direction.inverted, idProperty)
+    fun backwardPagination(last: Int, before: ID?): Mono<Connection<T>> = mono {
+        val start = findFirst(Sort.Direction.DESC).awaitSingleOrNull()
 
-        return entityOperations.select(
-            emptyQuery().sort(sort).limit(1), entity.javaType
-        ).toMono()
-    }
+        val query = (if (before == null || before.value.isEmpty())
+            Query.empty()
+        else whereIdLessThanQuery(before))
+            .limit(last + 1)
+            .sort(Sort.by(getIdProperty().name).descending())
 
-    fun backwardPagination(last: Int?, before: ID?): Mono<Connection<T>> = mono {
-        val edgesSize = last ?: DEFAULT_EDGES_SIZE
-        val startOfAll = findFirst(Sort.Direction.DESC).awaitSingleOrNull()?.id?.value
-        val endOfAll = findLast(Sort.Direction.DESC).awaitSingleOrNull()?.id?.value
+        val items = entityOperations.select(query, entity.javaType).await()
 
-        val query =
-            (if (before == null || before.value.isEmpty()) Query.empty() else whereIdLessThanQuery(before)).limit(
-                edgesSize
-            ).sort(Sort.by(getIdProperty().name).descending())
-
-        val edges = entityOperations.select(query, entity.javaType).await()
-
-        val startOfEdge = edges.firstOrNull()?.id?.value ?: ""
-        val endOfEdge = edges.lastOrNull()?.id?.value ?: ""
+        val edges = items.take(last)
 
         Connection(
             edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
-                hasPreviousPage = endOfAll != endOfEdge,
-                hasNextPage = startOfAll != startOfEdge,
-                startCursor = endOfEdge,
-                endCursor = startOfEdge
+                hasPreviousPage = items.size > last,
+                hasNextPage = edges.firstOrNull()?.id != start?.id,
+                startCursor = edges.lastOrNull()?.id?.value ?: "",
+                endCursor = edges.firstOrNull()?.id?.value ?: "",
             )
         )
     }
 
-    fun forwardPagination(first: Int?, after: ID?): Mono<Connection<T>> = mono {
-        val edgesSize = first ?: DEFAULT_EDGES_SIZE
-        val startOfAll = findFirst(Sort.Direction.ASC).awaitSingleOrNull()?.id?.value
-        val endOfAll = findLast(Sort.Direction.ASC).awaitSingleOrNull()?.id?.value
+    fun forwardPagination(first: Int, after: ID?): Mono<Connection<T>> = mono {
+        val start = findFirst(Sort.Direction.ASC).awaitSingleOrNull()
 
-        val query =
-            (if (after == null || after.value.isEmpty()) Query.empty() else whereIdGreaterThanQuery(after)).limit(
-                edgesSize
-            ).sort(Sort.by(getIdProperty().name).ascending())
+        val query = (if (after == null || after.value.isEmpty())
+            Query.empty()
+        else whereIdGreaterThanQuery(after))
+            .limit(first + 1)
+            .sort(Sort.by(getIdProperty().name).ascending())
 
-        val edges = entityOperations.select(query, entity.javaType).await()
+        val items = entityOperations.select(query, entity.javaType).await()
 
-        val startOfEdge = edges.firstOrNull()?.id?.value ?: ""
-        val endOfEdge = edges.lastOrNull()?.id?.value ?: ""
+        val edges = items.take(first)
 
         Connection(
             edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
-                hasPreviousPage = startOfAll != startOfEdge,
-                hasNextPage = endOfAll != endOfEdge,
-                startCursor = startOfEdge,
-                endCursor = endOfEdge
+                hasPreviousPage = edges.firstOrNull()?.id != start?.id,
+                hasNextPage = items.size > first,
+                startCursor = edges.firstOrNull()?.id?.value ?: "",
+                endCursor = edges.lastOrNull()?.id?.value ?: "",
             )
         )
     }
