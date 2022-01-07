@@ -58,7 +58,8 @@ class GraphQLConnectionPartTreeR2dbcQuery(
     override fun getQueryMethod(): QueryMethod = method
 
     private suspend fun connection(backward: Backward, conditions: Array<Any?>, segment: Array<String>): Connection<*> {
-        val (last: Int, before: ID?) = backward
+        val last = backward.last ?: DEFAULT_CONNECTION_SIZE
+        val before = backward.before
 
         val start = if (before == null) findAllBy(
             PageRequest.of(0, 1, Sort.by("id", *segment).descending()), conditions
@@ -85,7 +86,8 @@ class GraphQLConnectionPartTreeR2dbcQuery(
     }
 
     private suspend fun connection(forward: Forward, conditions: Array<Any?>, segment: Array<String>): Connection<*> {
-        val (first: Int, after: ID?) = forward
+        val first = forward.first ?: DEFAULT_CONNECTION_SIZE
+        val after = forward.after
 
         val start = if (after == null) findAllBy(
             PageRequest.of(0, 1, Sort.by("id", *segment).ascending()), conditions
@@ -105,7 +107,7 @@ class GraphQLConnectionPartTreeR2dbcQuery(
         return Connection(
             edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
                 hasPreviousPage = edges.firstOrNull()?.id != start?.id,
-                hasNextPage =  items.size > first,
+                hasNextPage = items.size > first,
                 startCursor = edges.firstOrNull()?.id?.value ?: "",
                 endCursor = edges.lastOrNull()?.id?.value ?: "",
             )

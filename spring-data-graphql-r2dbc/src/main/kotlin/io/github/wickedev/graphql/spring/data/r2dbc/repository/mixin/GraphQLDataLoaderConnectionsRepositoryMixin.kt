@@ -23,23 +23,21 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
     PropertyRepository<T, ID>, R2dbcRepositoryMixin<T, ID> {
 
     override fun connection(backward: Backward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>> {
-        val (last: Int?, before: ID?) = backward
-
         val key =
             "${information.repositoryInterface.canonicalName}.findAllBackwardConnectById(Int,ID,DataFetchingEnvironment)"
         return env.dataLoader<Backward, Connection<T>>(key) { keys ->
-            keys.map { backwardPagination(it.last, it.before).await() }
-        }.load(Backward(last, before))
+            keys.map { backwardPagination(it.last ?: DEFAULT_CONNECTION_SIZE, it.before).await() }
+        }.load(backward)
     }
 
     override fun connection(forward: Forward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>> {
-        val (first: Int?, after: ID?) = forward
+
 
         val key =
             "${information.repositoryInterface.canonicalName}.findAllForwardConnectById(Int,ID,DataFetchingEnvironment)"
         return env.dataLoader<Forward, Connection<T>>(key) { keys ->
-            keys.map { forwardPagination(it.first, it.after).await() }
-        }.load(Forward(first, after))
+            keys.map { forwardPagination(it.first ?: DEFAULT_CONNECTION_SIZE, it.after).await() }
+        }.load(forward)
     }
 
     fun whereIdGreaterThanCriteria(after: ID?): Criteria {
