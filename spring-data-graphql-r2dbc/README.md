@@ -1,6 +1,13 @@
 # Spring Data GraphQL
 
-Spring Data GraphQL make easy to use [Spring Data](https://spring.io/projects/spring-data) with [graphql-java](https://github.com/graphql-java/graphql-java) implementations like [Kotlin GraphQL](https://opensource.expediagroup.com/graphql-kotlin/docs/), [DGS](https://netflix.github.io/dgs/). If you use [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc) or [Spring Data JDBC](https://spring.io/projects/spring-data-jdbc) directly, you have to write a lot of custom DataLoader. Spring Data GraphQL solves the N+1 problem through an internally auto-generated DataLoader.
+Spring Data GraphQL make easy to use [Spring Data](https://spring.io/projects/spring-data)
+with [graphql-java](https://github.com/graphql-java/graphql-java) implementations
+like [Kotlin GraphQL](https://opensource.expediagroup.com/graphql-kotlin/docs/), [DGS](https://netflix.github.io/dgs/).
+If you use [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc)
+or [Spring Data JDBC](https://spring.io/projects/spring-data-jdbc) directly, you have to write a lot of custom
+DataLoader. Spring Data GraphQL solves the N+1 problem through an internally auto-generated DataLoader.
+
+In addition, it satisfies relay specifications such as Global Object Identification, Node, and Connection.
 
 _※ Currently, only spring-data-r2dbc is supported._
 
@@ -14,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.wickedev:spring-data-graphql-r2dbc-starter:0.2.0")
+    implementation("io.github.wickedev:spring-data-graphql-r2dbc-starter:0.3.1")
 }
 ```
 
@@ -33,10 +40,12 @@ data class User(
 ) : Node {
 
     fun posts(
-        @GraphQLIgnore @Autowired postRepository: UserRepository,
-        env: DataFetchingEnvironment,
-    ): CompletableFuture<List<Post>> {
-        return postRepository.findAllByAuthorId(id, env)
+        last: Int?, before: ID?,
+        @GraphQLIgnore @Autowired postRepository: PostRepository,
+        env: DataFetchingEnvironment
+    ): CompletableFuture<PostConnect> {
+        return postRepository.connectionByAuthorId(id, Backward(last, before), env)
+            .thenApply { PostConnect(it.edges.map { e -> PostEdge(e.node, e.cursor) }, it.pageInfo) }
     }
 }
 
@@ -76,25 +85,25 @@ class SampleQuery(
     }
 
     fun users(last: Int?, before: ID?, env: DataFetchingEnvironment): CompletableFuture<UserConnect> {
-        return userRepository.findAllBackwardConnectById(last, before, env)
+        return userRepository.connection(Backward(last, before), env)
             .thenApply { UserConnect(it.edges.map { e -> UserEdge(e.node, e.cursor) }, it.pageInfo) }
     }
 
     fun posts(last: Int?, before: ID?, env: DataFetchingEnvironment): CompletableFuture<PostConnect> {
-        return postRepository.findAllBackwardConnectById(last, before, env)
+        return postRepository.connection(Backward(last, before), env)
             .thenApply { PostConnect(it.edges.map { e -> PostEdge(e.node, e.cursor) }, it.pageInfo) }
     }
 }
 
 ```
 
-Will generate as follow GraphQL Schema 
+Will generate as follow GraphQL Schema
 
 ```graphql
 type User {
     id: ID!
     name: String!
-    posts: [Post!]!
+    posts(before: ID, last: Int): PostConnect!
 }
 
 type Post {
@@ -115,7 +124,7 @@ type Query {
 
 ## Trouble Shooting
 
-Did you use `@EnableGraphQLR2dbcRepositories` on Application class? If set correctly, the following logs are output.  
+Did you use `@EnableGraphQLR2dbcRepositories` on Application class? If set correctly, the following logs are output.
 
 ```shell
 Bootstrapping Spring Data GRAPHQL-R2DBC repositories in DEFAULT mode.
@@ -124,7 +133,11 @@ Finished Spring Data repository scanning in 249 ms. Found 1 GRAPHQL-R2DBC reposi
 
 ## Node & GraphQLNodeRepository
 
-Spring Data GraphQL conforms to the [Relay GraphQL Server Specification](https://relay.dev/docs/guides/graphql-server-specification/). The `GraphQLNodeRepository.findNodeById` method delegates to the `GraphQLRepository` or `GraphQLDataLoaderRepository` implementations registered as Spring Beans. Entities not registered in `GraphQLRepository`, `GraphQLR2dbcRepository`, or `GraphQLCrudRepository` cannot be search.
+Spring Data GraphQL conforms to
+the [Relay GraphQL Server Specification](https://relay.dev/docs/guides/graphql-server-specification/).
+The `GraphQLNodeRepository.findNodeById` method delegates to the `GraphQLRepository` or `GraphQLDataLoaderRepository`
+implementations registered as Spring Beans. Entities not registered in `GraphQLRepository`, `GraphQLR2dbcRepository`,
+or `GraphQLCrudRepository` cannot be search.
 
 ```kotlin
 interface Node {
@@ -139,8 +152,11 @@ interface GraphQLNodeRepository : Repository<Node, ID> {
 
 ## GraphQLDataLoaderRepository
 
-`GraphQLDataLoaderRepository` uses an internally auto-generated data loader to perform optimized query. For example, if `findById` is called multiple times in different Spring Data implementations, `SELECT * FROM tables WHERE id = $id` query will be called multiple times. However, `GraphQLDataLoaderRepository` queries `SELECT * FROM tables WHERE id IN ($ids)` SQL only once with ids that have been deduplicated through `DataLoader`.
-
+`GraphQLDataLoaderRepository` uses an internally auto-generated data loader to perform optimized query. For example,
+if `findById` is called multiple times in different Spring Data implementations, `SELECT * FROM tables WHERE id = $id`
+query will be called multiple times. However, `GraphQLDataLoaderRepository`
+queries `SELECT * FROM tables WHERE id IN ($ids)` SQL only once with ids that have been deduplicated
+through `DataLoader`.
 
 ```kotlin
 interface GraphQLDataLoaderRepository<T : Node> : Repository<T, ID> {
@@ -160,17 +176,9 @@ Returns a Connection conforming to the [Relay Connection Spec](https://relay.dev
 ```kotlin
 interface GraphQLDataLoaderConnectionsRepository<T : Node> : Repository<T, ID> {
 
-    fun findAllBackwardConnectById(
-        last: Int?,
-        before: ID?,
-        env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>>
+    fun connection(backward: Backward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
 
-    fun findAllForwardConnectById(
-        first: Int?,
-        after: ID?,
-        env: DataFetchingEnvironment
-    ): CompletableFuture<Connection<T>>
+    fun connection(forward: Forward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
 }
 ```
 
@@ -200,6 +208,13 @@ interface GraphQLCrudRepository<T : Node> :
 
 ```kotlin
 interface PersonRepository : GraphQLRepository<Person> {
+
+    // Enabling GraphQL relay connection query
+    fun connectionByLastname(
+        lastname: String,
+        backward: Backward,
+        env: DataFetchingEnvironment
+    ): CompletableFuture<Connection<Post>>
 
     fun findByEmailAddressAndLastname(
         emailAddress: EmailAddress,

@@ -6,6 +6,8 @@ A collection of packages for easily writing Java GraphQL server implementations.
 
 Spring Data GraphQL make easy to use [Spring Data](https://spring.io/projects/spring-data) with [graphql-java](https://github.com/graphql-java/graphql-java) implementations like [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/), [DGS](https://netflix.github.io/dgs/). If you use [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc) or [Spring Data JDBC](https://spring.io/projects/spring-data-jdbc) directly, you have to write a lot of custom DataLoader. Spring Data GraphQL solves the N+1 problem through an internally auto-generated DataLoader.
 
+In addition, it satisfies relay specifications such as Global Object Identification, Node, and Connection.
+
 _※ Currently, only spring-data-r2dbc is supported._
 
 ## [GraphQL Kotlin Spring Security](graphql-kotlin-spring-security)
