@@ -11,7 +11,7 @@ class GraphQLIDScalarTest : DescribeSpec({
 
     describe("GraphQLIDScalar") {
 
-        it("should parseValue correctly") {
+        it("should serialize correctly") {
             val serialized = GraphQLIDScalar.coercing.serialize(ID("user", "521"))
 
             serialized shouldBe "user:521".encodeBase64()

@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package io.github.wickedev.graphql.scalars
 
 import graphql.schema.*

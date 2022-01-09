@@ -1,39 +1,27 @@
 package io.github.wickedev.graphql
 
 
-import com.expediagroup.graphql.generator.federation.execution.FederatedTypeResolver
 import com.expediagroup.graphql.server.operations.Query
-import com.zhokhov.graphql.datetime.LocalDateTimeScalar
-import io.github.wickedev.coroutine.reactive.extensions.mono.await
-import io.github.wickedev.graphql.scalars.BigIntScalar
-import io.github.wickedev.graphql.scalars.CustomScalars
 import io.github.wickedev.graphql.types.ID
-import io.github.wickedev.spring.security.DslRoleHierarchy
-import kotlinx.coroutines.reactor.mono
+import io.github.wickedev.spring.security.*
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.context.ReactiveSecurityContextHolder
-import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
-import org.springframework.security.web.server.authentication.AuthenticationWebFilter
 import org.springframework.stereotype.Component
-import org.springframework.web.server.ServerWebExchange
-import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 data class User(
@@ -59,47 +47,34 @@ class UserService : ReactiveUserDetailsService {
 @Component
 class AuthQuery : Query {
 
-    @Auth(requires = ["ROLE_USER"])
-    fun protectedWithRole(): Int = 1
+    fun public(): Int = 1
 
     @Auth
     fun protected(): Int = 1
 
-    fun nonProtected(): Int = 1
+    @Auth("hasRole('USER')")
+    fun protectedWithRole(): Int = 1
+
+    @Auth("#param == 1")
+    fun protectedWithParam(param: Int): Int = param
+
+    @Auth("@checker.check(#param)")
+    fun protectedWithCustomChecker(param: Int): Int = param
+}
+
+@Suppress("unused")
+@Component
+class Checker {
+    fun check(param: Int): Boolean {
+        return param == 1
+    }
 }
 
 @SpringBootApplication
 @EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
+@EnableConfigurationProperties(JwtProperties::class)
 class TestApplication {
-
-
-    class MockAuthenticationWebFilter(authenticationManager: ReactiveAuthenticationManager) :
-        AuthenticationWebFilter(authenticationManager) {
-        override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> = mono {
-            val context: SecurityContext? = ReactiveSecurityContextHolder.getContext().await()
-
-            if (context?.authentication == null) {
-                super.filter(exchange, chain).await()
-            } else {
-                chain.filter(exchange).await()
-            }
-        }
-    }
-
-    @Bean
-    fun roleHierarchy(): RoleHierarchy = DslRoleHierarchy {
-        "ROLE_ADMIN" {
-            "ROLE_MANAGER" {
-                +"ROLE_USER"
-            }
-        }
-    }
-
-    @Bean
-    fun userService(): ReactiveUserDetailsService = UserService()
-
-    @Bean
-    fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder()
 
     @Bean
     fun authenticationManager(
@@ -111,41 +86,54 @@ class TestApplication {
         }
 
     @Bean
-    fun authSchemaDirectiveWiring(roleHierarchy: RoleHierarchy) = AuthSchemaDirectiveWiring(roleHierarchy)
+    fun userService(): ReactiveUserDetailsService = UserService()
 
     @Bean
-    fun directiveWiringFactory(authSchemaDirectiveWiring: AuthSchemaDirectiveWiring) =
-        AuthDirectiveWiringFactory(authSchemaDirectiveWiring)
+    fun roleHierarchy(): RoleHierarchy = DslRoleHierarchy {
+        "ROLE_ADMIN" {
+            "ROLE_MANAGER" {
+                +"ROLE_USER"
+            }
+        }
+    }
 
     @Bean
-    fun schemaGeneratorHooks(
-        resolvers: Optional<List<FederatedTypeResolver<*>>>,
-        customScalars: CustomScalars,
-        authSchemaDirectiveWiring: AuthSchemaDirectiveWiring,
-    ) = AuthSchemaGeneratorHooks(resolvers.orElse(emptyList()), customScalars, authSchemaDirectiveWiring)
+    fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder()
 
     @Bean
-    fun customScalars(): CustomScalars {
-        return CustomScalars.of(
-            LocalDateTime::class to LocalDateTimeScalar.create(null, true, DateTimeFormatter.ISO_OFFSET_DATE_TIME),
-            Long::class to BigIntScalar,
+    fun jwtAuthenticationService(
+        jwtProperties: JwtProperties,
+        jwtEncoder: JwtEncoder,
+        jwtDecoder: JwtDecoder,
+        passwordEncoder: PasswordEncoder,
+        userDetailsService: ReactiveUserDetailsService,
+    ): ReactiveJwtAuthenticationService {
+        return DefaultReactiveJwtAuthenticationService(
+            jwtProperties,
+            jwtEncoder,
+            jwtDecoder,
+            passwordEncoder,
+            userDetailsService
         )
     }
 
     @Bean
+    fun jwtEncoder(): JwtEncoder = DefaultJwtEncoder()
+
+    @Bean
+    fun jwtDecoder(): JwtDecoder = DefaultJwtDecoder()
+
+    @Bean
     fun configure(
         http: ServerHttpSecurity,
-        authenticationManager: ReactiveAuthenticationManager
+        jwtDecoder: JwtDecoder,
     ): SecurityWebFilterChain {
         http.csrf().disable()
         http.httpBasic().disable()
         http.formLogin().disable()
         http.logout().disable()
         http.authorizeExchange().pathMatchers("/graphql").permitAll()
-        http.addFilterAt(MockAuthenticationWebFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
+        http.addFilterAt(JwtAuthenticationWebFilter(jwtDecoder), SecurityWebFiltersOrder.AUTHENTICATION)
         return http.build()
     }
-
-    @Bean
-    fun graphQLContextFactory() = AuthGraphQLContextFactory()
 }

@@ -1,4 +1,4 @@
-package io.github.wickedev.graphql
+package io.github.wickedev.graphql.kotlin
 
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContext
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContextFactory
@@ -6,7 +6,7 @@ import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.web.reactive.function.server.ServerRequest
 
-class AuthGraphQLContextFactory : SpringGraphQLContextFactory<SpringGraphQLContext>() {
+class JetpackSpringGraphQLContextFactory : SpringGraphQLContextFactory<SpringGraphQLContext>() {
 
     @Suppress("OverridingDeprecatedMember")
     override suspend fun generateContext(request: ServerRequest): SpringGraphQLContext? = null

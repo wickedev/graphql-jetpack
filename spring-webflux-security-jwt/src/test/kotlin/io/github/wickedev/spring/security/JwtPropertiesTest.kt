@@ -7,10 +7,10 @@ import java.time.Duration
 
 @SpringBootTest
 class JwtPropertiesTest(
-    private val jwtProperties: JwtConfigurationProperties
+    private val jwtProperties: JwtProperties
 ) : DescribeSpec({
-    xdescribe("JwtProperties") {
-        xit("should") {
+    describe("JwtProperties") {
+        it("should be") {
             jwtProperties.algorithm shouldBe "EC"
             jwtProperties.privateKeyPath shouldBe "classpath:keys/ec256-private.pem"
             jwtProperties.publicKeyPath shouldBe "classpath:keys/ec256-public.pem"

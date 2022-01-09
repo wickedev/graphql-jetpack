@@ -12,6 +12,7 @@ dependencies {
     api(project(":spring-data-graphql-commons"))
     api(project(":kotlin-coroutine-reactive-extensions"))
 
+    api("joda-time:joda-time:2.10.13")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     api("org.springframework.security:spring-security-core")
@@ -29,6 +30,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("io.projectreactor:reactor-test")
 
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.bouncycastle:bcpkix-jdk15on:1.69")

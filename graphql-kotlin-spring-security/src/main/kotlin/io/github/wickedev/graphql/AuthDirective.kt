@@ -4,6 +4,7 @@ package io.github.wickedev.graphql
 
 import com.expediagroup.graphql.generator.annotations.GraphQLDirective
 import graphql.introspection.Introspection
+import org.springframework.security.access.prepost.PreAuthorize
 
 const val AUTH_DIRECTIVE_NAME = "auth"
 
@@ -14,5 +15,5 @@ const val AUTH_DIRECTIVE_NAME = "auth"
     ]
 )
 annotation class Auth(
-    val requires: Array<String> = []
+    val require: String = "isAuthenticated"
 )

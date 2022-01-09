@@ -2,6 +2,7 @@
 
 package io.github.wickedev.spring.security
 
+import org.springframework.security.core.GrantedAuthority
 import java.util.*
 
 interface JwtDecoder {
@@ -13,7 +14,7 @@ interface JWT {
 
     val type: Type
 
-    val roles: List<String>
+    val authorities: Collection<GrantedAuthority>
 
     val expiredAt: Date
 

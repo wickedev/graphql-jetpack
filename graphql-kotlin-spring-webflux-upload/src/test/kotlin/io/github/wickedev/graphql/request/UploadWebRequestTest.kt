@@ -41,7 +41,7 @@ class UploadWebRequestTest(
             bodyBuilder.part("0", ClassPathResource("a.txt"), MediaType.TEXT_PLAIN)
 
             webTestClient.post()
-                .uri("/graphql")
+                .uri("/graphql-upload")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
                 .exchange()
@@ -76,7 +76,7 @@ class UploadWebRequestTest(
             bodyBuilder.part("1", ClassPathResource("c.txt"), MediaType.TEXT_PLAIN)
 
             webTestClient.post()
-                .uri("/graphql")
+                .uri("/graphql-upload")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
                 .exchange()
@@ -118,7 +118,7 @@ class UploadWebRequestTest(
             bodyBuilder.part("2", ClassPathResource("c.txt"), MediaType.TEXT_PLAIN)
 
             webTestClient.post()
-                .uri("/graphql")
+                .uri("/graphql-upload")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(BodyInserters.fromMultipartData(bodyBuilder.build()))
                 .exchange()

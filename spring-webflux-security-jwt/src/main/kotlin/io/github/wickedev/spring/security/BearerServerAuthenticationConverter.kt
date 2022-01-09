@@ -11,9 +11,12 @@ import reactor.core.publisher.Mono
 
 class BearerServerAuthenticationConverter : ServerAuthenticationConverter {
     override fun convert(exchange: ServerWebExchange): Mono<Authentication?> = mono {
-        val token = resolveToken(exchange.request.headers)
-        token?.let { BearerTokenAuthenticationToken(token) }
-            ?: ReactiveSecurityContextHolder.getContext().await().authentication
+        ReactiveSecurityContextHolder.getContext().await()?.authentication
+            ?: createBearerTokenAuthenticationToken(exchange)
+    }
+
+    private fun createBearerTokenAuthenticationToken(exchange: ServerWebExchange): Authentication? {
+        return resolveToken(exchange.request.headers)?.let { BearerTokenAuthenticationToken(it) }
     }
 
     private fun resolveToken(headers: HttpHeaders): String? {

@@ -11,12 +11,12 @@ dependencies {
     api(project(":kotlin-coroutine-reactive-extensions"))
     api("com.jayway.jsonpath:json-path:2.6.0")
     api("org.springframework:spring-webflux")
-    api("com.expediagroup:graphql-kotlin-server:5.3.1")
+    api("com.expediagroup:graphql-kotlin-spring-server:5.3.1")
 
     /* testing */
-    testImplementation("io.kotest:kotest-runner-junit5:5.0.2")
-    testImplementation("io.kotest:kotest-assertions-core:5.0.2")
-    testImplementation("com.ninja-squad:springmockk:3.0.1")
+    testImplementation(project(":graphql-jetpack-starter"))
+    testImplementation("io.kotest:kotest-runner-junit5:5.0.3")
+    testImplementation("io.kotest:kotest-assertions-core:5.0.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.0")

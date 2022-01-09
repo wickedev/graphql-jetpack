@@ -11,12 +11,12 @@ import org.springframework.web.reactive.function.server.ServerRequest
 val KotlinFieldDirectiveEnvironment.hasAuthDirective: Boolean
     get() = directive.name == AUTH_DIRECTIVE_NAME
 
-val GraphQLDirective.requires: Array<String>
+val GraphQLDirective.requires: String?
     @Suppress("UNCHECKED_CAST")
-    get() = getArgument("requires").argumentValue.value as? Array<String> ?: emptyArray()
+    get() = getArgument("require").argumentValue.value as? String
 
-val KotlinFieldDirectiveEnvironment.requires: Array<String>
-    get() = if (hasAuthDirective) directive.requires else emptyArray()
+val KotlinFieldDirectiveEnvironment.requires: String?
+    get() = if (hasAuthDirective) directive.requires else null
 
 val GraphQLContext.authentication: Authentication?
     get() = getOrDefault("authentication", null)

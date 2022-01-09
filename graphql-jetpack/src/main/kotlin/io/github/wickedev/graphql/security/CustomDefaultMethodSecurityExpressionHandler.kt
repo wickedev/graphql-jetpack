@@ -1,0 +1,5 @@
+package io.github.wickedev.graphql.security
+
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler
+
+class CustomDefaultMethodSecurityExpressionHandler : DefaultMethodSecurityExpressionHandler()

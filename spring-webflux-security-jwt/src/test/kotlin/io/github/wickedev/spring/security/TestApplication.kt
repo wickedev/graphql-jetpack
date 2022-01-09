@@ -5,10 +5,14 @@ package io.github.wickedev.spring.security
 import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import io.github.wickedev.graphql.types.ID
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
@@ -18,9 +22,10 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.reactive.function.server.*
 import reactor.core.publisher.Mono
-import java.util.*
 
 data class User(
     val id: ID = ID.Empty,
@@ -47,8 +52,32 @@ class UserService : ReactiveUserDetailsService {
     }
 }
 
+@RestController
+class AnnotatedController {
+    @GetMapping("/allow")
+    fun public(): Mono<ServerResponse> {
+        return ServerResponse.ok().json().build()
+    }
+
+    @Secured("USER")
+    @GetMapping("/protect/secured")
+    fun secured(): Mono<ServerResponse> {
+        return ServerResponse.ok().json().build()
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/protect/pre-authorize")
+    fun preAuthorize(): Mono<ServerResponse> {
+        return ServerResponse.ok().json().build()
+    }
+}
+
+const val UNAUTHORIZED_STATUS_CODE = 401
+
 @SpringBootApplication
 @EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
+@EnableConfigurationProperties(JwtProperties::class)
 class TestApplication {
 
     @Bean
@@ -78,7 +107,7 @@ class TestApplication {
 
     @Bean
     fun jwtAuthenticationService(
-        jwtProperties: JwtConfigurationProperties,
+        jwtProperties: JwtProperties,
         jwtEncoder: JwtEncoder,
         jwtDecoder: JwtDecoder,
         passwordEncoder: PasswordEncoder,
@@ -94,24 +123,10 @@ class TestApplication {
     }
 
     @Bean
-    fun jwtDecoder(): JwtDecoder {
-        return object : JwtDecoder {
-            override fun decode(token: String?): JWT {
-                return object : JWT {
-                    override val subject: String
-                        get() = "sub"
-                    override val type: JWT.Type
-                        get() = JWT.Type.Access
-                    override val roles: List<String>
-                        get() = emptyList()
-                    override val expiredAt: Date
-                        get() = Date()
-                    override val isExpired: Boolean
-                        get() = true
-                }
-            }
-        }
-    }
+    fun jwtEncoder(): JwtEncoder = DefaultJwtEncoder()
+
+    @Bean
+    fun jwtDecoder(): JwtDecoder = DefaultJwtDecoder()
 
     @Bean
     fun configure(http: ServerHttpSecurity, jwtDecoder: JwtDecoder): SecurityWebFilterChain {
@@ -119,17 +134,41 @@ class TestApplication {
         http.httpBasic().disable()
         http.formLogin().disable()
         http.logout().disable()
-        http.authorizeExchange().pathMatchers("/graphql").permitAll()
+        http.authorizeExchange()
+            .pathMatchers("/protect/user").hasRole("USER")
+            .pathMatchers("/protect/admin").hasRole("ADMIN")
+            .anyExchange()
+            .permitAll()
         http.addFilterAt(JwtAuthenticationWebFilter(jwtDecoder), SecurityWebFiltersOrder.AUTHENTICATION)
         return http.build()
     }
 
     @Bean
     fun routes(jwtAuthenticationService: ReactiveJwtAuthenticationService) = coRouter {
+
+        GET("/protect").nest {
+            GET("user") {
+                ServerResponse.ok().buildAndAwait()
+            }
+            GET("admin") {
+                ServerResponse.ok().buildAndAwait()
+            }
+        }
+
+        POST("/login") {
+            val authRequest = it.awaitBodyOrNull<AuthRequest>()
+                ?: return@POST ServerResponse.badRequest().buildAndAwait()
+
+            val authResponse = jwtAuthenticationService.signIn(authRequest.email, authRequest.password).await()
+                ?: return@POST ServerResponse.status(UNAUTHORIZED_STATUS_CODE).buildAndAwait()
+
+            return@POST ServerResponse.ok().bodyValueAndAwait(authResponse)
+        }
+
         POST("/refresh") {
             val token = it.awaitBodyOrNull<String>()
 
-            val authResponse = jwtAuthenticationService.refresh(token, it.exchange().response.cookies).await()
+            val authResponse = jwtAuthenticationService.refresh(token).await()
                 ?: return@POST ServerResponse.badRequest().buildAndAwait()
 
             return@POST ServerResponse.ok().bodyValueAndAwait(authResponse)

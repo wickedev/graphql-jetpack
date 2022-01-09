@@ -7,23 +7,22 @@ plugins {
 
 dependencies {
     api(project(":graphql-core"))
-    api(project(":spring-data-graphql-commons"))
     api(project(":kotlin-coroutine-reactive-extensions"))
 
     api("com.graphql-java:graphql-java:17.3")
     api("com.expediagroup:graphql-kotlin-spring-server:5.3.1")
     api("org.springframework.security:spring-security-core")
-    api("org.springframework.security:spring-security-web")
     api("com.zhokhov.graphql:graphql-java-datetime:4.1.0")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     implementation(kotlin("stdlib-jdk8"))
 
     /* testing */
+    testImplementation(project(":graphql-jetpack-autoconfigure"))
     testImplementation(project(":spring-webflux-security-jwt"))
 
-    testImplementation("io.kotest:kotest-runner-junit5:5.0.2")
-    testImplementation("io.kotest:kotest-assertions-core:5.0.2")
+    testImplementation("io.kotest:kotest-runner-junit5:5.0.3")
+    testImplementation("io.kotest:kotest-assertions-core:5.0.3")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.0")
 
     testImplementation("com.expediagroup:graphql-kotlin-spring-server:5.3.1")

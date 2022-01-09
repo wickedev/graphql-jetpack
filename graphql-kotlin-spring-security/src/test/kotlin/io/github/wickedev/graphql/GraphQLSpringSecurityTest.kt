@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.test.web.reactive.server.SecurityMockServerConfigurers.mockUser
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.time.Duration
 
 
 @SpringBootTest
@@ -14,7 +15,7 @@ class GraphQLSpringSecurityTest(
     private val webTestClient: WebTestClient
 ) : DescribeSpec({
 
-    describe("GraphQLKotlin") {
+    describe("GraphQL Kotlin Spring Security") {
 
         it("should be protected") {
             webTestClient.post()
@@ -37,7 +38,8 @@ class GraphQLSpringSecurityTest(
         }
 
         it("should be protect to non role user") {
-            webTestClient.mutateWith(mockUser().roles())
+            webTestClient
+                .mutateWith(mockUser().roles())
                 .post()
                 .uri("/graphql")
                 .bodyValue(
@@ -79,7 +81,11 @@ class GraphQLSpringSecurityTest(
         }
 
         it("should be allow to user(ROLE_ADMIN)") {
-            webTestClient.mutateWith(mockUser().roles("ADMIN"))
+            webTestClient
+                .mutate()
+                .responseTimeout(Duration.ofDays(1))
+                .build()
+                .mutateWith(mockUser().roles("ADMIN"))
                 .post()
                 .uri("/graphql")
                 .bodyValue(
@@ -99,14 +105,14 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.data.protectedWithRole").isEqualTo(1)
         }
 
-        it("should be non protect") {
+        it("public query should be non protect") {
             webTestClient.post()
                 .uri("/graphql")
                 .bodyValue(
                     GraphQLRequest(
                         query = """
                             query {
-                                nonProtected
+                                public
                             }
                         """.trimIndent(),
                         variables = emptyMap()
@@ -116,7 +122,91 @@ class GraphQLSpringSecurityTest(
                 .expectStatus().isOk
                 .expectBody()
                 .consumeWith(System.out::println)
-                .jsonPath("$.data.nonProtected").isEqualTo(1)
+                .jsonPath("$.data.public").isEqualTo(1)
+        }
+
+        it("should allow protectedWithParam 1") {
+            webTestClient.mutateWith(mockUser())
+                .post()
+                .uri("/graphql")
+                .bodyValue(
+                    GraphQLRequest(
+                        query = """
+                            query {
+                                protectedWithParam(param: 1)
+                            }
+                        """.trimIndent(),
+                        variables = emptyMap()
+                    )
+                )
+                .exchange()
+                .expectStatus().isOk
+                .expectBody()
+                .consumeWith(System.out::println)
+                .jsonPath("$.data.protectedWithParam").isEqualTo(1)
+        }
+
+        it("should protectedWithParam 2") {
+            webTestClient.mutateWith(mockUser())
+                .post()
+                .uri("/graphql")
+                .bodyValue(
+                    GraphQLRequest(
+                        query = """
+                            query {
+                                protectedWithParam(param: 2)
+                            }
+                        """.trimIndent(),
+                        variables = emptyMap()
+                    )
+                )
+                .exchange()
+                .expectStatus().isOk
+                .expectBody()
+                .consumeWith(System.out::println)
+                .jsonPath("$.errors[0].message").isEqualTo("FORBIDDEN")
+        }
+
+        it("should allow protectedWithCustomChecker 1") {
+            webTestClient.mutateWith(mockUser())
+                .post()
+                .uri("/graphql")
+                .bodyValue(
+                    GraphQLRequest(
+                        query = """
+                            query {
+                                protectedWithCustomChecker(param: 1)
+                            }
+                        """.trimIndent(),
+                        variables = emptyMap()
+                    )
+                )
+                .exchange()
+                .expectStatus().isOk
+                .expectBody()
+                .consumeWith(System.out::println)
+                .jsonPath("$.data.protectedWithCustomChecker").isEqualTo(1)
+        }
+
+        it("should protectedWithCustomChecker 2") {
+            webTestClient.mutateWith(mockUser())
+                .post()
+                .uri("/graphql")
+                .bodyValue(
+                    GraphQLRequest(
+                        query = """
+                            query {
+                                protectedWithCustomChecker(param: 2)
+                            }
+                        """.trimIndent(),
+                        variables = emptyMap()
+                    )
+                )
+                .exchange()
+                .expectStatus().isOk
+                .expectBody()
+                .consumeWith(System.out::println)
+                .jsonPath("$.errors[0].message").isEqualTo("FORBIDDEN")
         }
     }
 })

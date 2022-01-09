@@ -1,25 +1,35 @@
 package io.github.wickedev.graphql.request
 
+import com.expediagroup.graphql.server.operations.Query
 import com.expediagroup.graphql.server.types.GraphQLBatchRequest
 import com.expediagroup.graphql.server.types.GraphQLRequest
+import io.github.wickedev.graphql.types.Upload
+import kotlinx.coroutines.reactor.mono
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.http.codec.multipart.FilePart
-import org.springframework.web.reactive.function.server.bodyValueAndAwait
-import org.springframework.web.reactive.function.server.buildAndAwait
-import org.springframework.web.reactive.function.server.coRouter
-import org.springframework.web.reactive.function.server.json
+import org.springframework.stereotype.Component
+import org.springframework.web.reactive.function.server.*
+import org.springframework.web.reactive.function.server.RequestPredicates.POST
+import org.springframework.web.reactive.function.server.ServerResponse.badRequest
+import org.springframework.web.reactive.function.server.ServerResponse.ok
+import reactor.core.publisher.Mono
 
-@SpringBootApplication
-class TestApplication {
-    @Bean
-    fun graphQLRoutes() = coRouter {
-        POST("graphql") { serverRequest ->
-            when (val graphQLRequest = requestFromMultipartFormData(serverRequest)) {
-                is GraphQLRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
-                is GraphQLBatchRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
-                else -> badRequest().buildAndAwait()
-            }
+@Component
+class UploadQuery : Query {
+    fun uploads(files: List<Upload>): String = "${files.map { it.filename() }} Upload Successfully"
+
+    fun upload(file: Upload): String = "${file.filename()} Upload Successfully"
+}
+
+@Component
+class GraphQLUploadHandler {
+    fun upload(serverRequest: ServerRequest): Mono<ServerResponse> = mono {
+        when (val graphQLRequest = requestFromMultipartFormData(serverRequest)) {
+            is GraphQLRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
+            is GraphQLBatchRequest -> ok().json().bodyValueAndAwait(process(graphQLRequest))
+            else -> badRequest().buildAndAwait()
         }
     }
 
@@ -37,8 +47,17 @@ class TestApplication {
             }
         }
     }
+
+    private fun print(file: Any?): String? {
+        return (file as? FilePart)?.filename()
+    }
 }
 
-private fun print(file: Any?): String? {
-    return (file as? FilePart)?.filename()
+@SpringBootApplication
+@EnableAutoConfiguration
+class TestApplication {
+    @Bean
+    fun route(handler: GraphQLUploadHandler): RouterFunction<ServerResponse> {
+        return RouterFunctions.route(POST("/graphql-upload"), handler::upload)
+    }
 }

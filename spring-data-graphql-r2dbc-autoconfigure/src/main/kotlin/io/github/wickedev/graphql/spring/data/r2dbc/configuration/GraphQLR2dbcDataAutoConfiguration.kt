@@ -7,12 +7,16 @@ import io.github.wickedev.graphql.spring.data.r2dbc.converter.IDToLongWritingCon
 import io.github.wickedev.graphql.spring.data.r2dbc.converter.LongToIDReadingConverter
 import io.github.wickedev.graphql.spring.data.r2dbc.mapping.GraphQLR2dbcMappingContext
 import io.github.wickedev.graphql.spring.data.r2dbc.repository.SimpleGraphQLNodeRepository
-import io.github.wickedev.graphql.spring.data.r2dbc.strategy.*
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.AdditionalIsNewStrategy
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.DefaultIDTypeStrategy
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.GraphQLAdditionalIsNewStrategy
+import io.github.wickedev.graphql.spring.data.r2dbc.strategy.IDTypeStrategy
 import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.AutoConfigureBefore
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate
 import org.springframework.boot.autoconfigure.data.r2dbc.R2dbcDataAutoConfiguration
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
 import org.springframework.context.annotation.Bean
@@ -31,6 +35,7 @@ import org.springframework.r2dbc.core.DatabaseClient
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(DatabaseClient::class, R2dbcEntityTemplate::class)
+@ConditionalOnSingleCandidate(DatabaseClient::class)
 @AutoConfigureBefore(R2dbcDataAutoConfiguration::class)
 @AutoConfigureAfter(R2dbcAutoConfiguration::class)
 class GraphQLR2dbcDataAutoConfiguration(private val databaseClient: DatabaseClient) {

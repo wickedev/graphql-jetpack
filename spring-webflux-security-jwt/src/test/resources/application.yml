@@ -3,5 +3,9 @@ security:
     algorithm: EC
     private-key-path: classpath:keys/ec256-private.pem
     public-key-path: classpath:keys/ec256-public.pem
-    access-token-expires-in: PT1H
-    refresh-token-expires-in: PT60D
+    access-token-expires-in: 1h
+    refresh-token-expires-in: 60d
+spring:
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false

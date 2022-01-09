@@ -4,6 +4,7 @@ data class AuthResponse(
     val accessToken: String,
     val tokenType: String = "Bearer",
     val expiresIn: Long,
-    val refreshToken: String? = null,
-    val scope: String? = null,
+    val scope: String,
+    val refreshToken: String,
+    val refreshExpiresIn: Long,
 )
