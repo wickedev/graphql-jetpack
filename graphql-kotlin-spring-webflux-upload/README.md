@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.wickedev:graphql-kotlin-spring-webflux-upload:0.2.0")
+    implementation("io.github.wickedev:graphql-jetpack-starter:0.3.2")
 }
 ```
 
@@ -23,7 +23,7 @@ class Upload(filePart: FilePart) : FilePart by filePart
 
 @Compoment
 class SampleMutation : Mutation {
-    fun upload(files: List<Upload>): String = "${files.map { it.filename() }} Upload Successfully"
+    fun uploads(files: List<Upload>): String = "${files.map { it.filename() }} Upload Successfully"
 
     fun upload(file: Upload): String = "${file.filename()} Upload Successfully"
 }

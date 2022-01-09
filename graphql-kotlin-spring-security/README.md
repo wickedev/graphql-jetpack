@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.wickedev:graphql-kotlin-spring-security:0.2.0")
+    implementation("io.github.wickedev:graphql-jetpack-starter:0.3.2")
 }
 ```
 
@@ -46,28 +46,45 @@ class SecurityConfiguration {
 }
 
 @Component
+class Checker {
+    fun check(param: Int): Boolean {
+        return param == 1
+    }
+}
+
+@Component
 class SampleQuery : Query {
 
     fun public(): Int = 1
-    
+
     @Auth
     fun protected(): Int = 1
 
-    @Auth(requires = ["ROLE_USER"])
+    @Auth("hasRole('USER')")
     fun protectedWithRole(): Int = 1
+
+    @Auth("#param == 1")
+    fun protectedWithParam(param: Int): Int = param
+
+    @Auth("@checker.check(#param)")
+    fun protectedWithCustomChecker(param: Int): Int = param
 }
 ```
 
 ```graphql
-directive @auth(requires: [String!]!) on FIELD | FIELD_DEFINITION
+directive @auth(require: String!) on FIELD | FIELD_DEFINITION
 
 type Query {
 
     public: Int!
     
-    protected: Int! @auth
+    protected: Int! @auth(require: "isAuthenticated")
     
-    protectedWithRole: Int! @auth(requires: ["ROLE_USER"])
+    protectedWithRole: Int! @auth(require: "hasRole('USER')")
+    
+    protectedWithParam: Int! @auth(require: "#param == 1")
+    
+    protectedWithCustomChecker: Int! @auth(require: "@checker.check(#param)")
 }
 
 ```
