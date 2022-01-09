@@ -9,10 +9,7 @@ import graphql.scalars.ExtendedScalars
 import io.github.wickedev.graphql.AuthDirectiveWiringFactory
 import io.github.wickedev.graphql.AuthSchemaDirectiveWiring
 import io.github.wickedev.graphql.parser.JetpackSpringGraphQLRequestParser
-import io.github.wickedev.graphql.scalars.CustomScalars
-import io.github.wickedev.graphql.scalars.GraphQLIDScalar
-import io.github.wickedev.graphql.scalars.GraphQLUploadScalar
-import io.github.wickedev.graphql.scalars.SetScalar
+import io.github.wickedev.graphql.scalars.*
 import io.github.wickedev.graphql.types.ID
 import io.github.wickedev.graphql.types.Upload
 import org.springframework.boot.autoconfigure.AutoConfigureBefore
@@ -20,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
+import org.springframework.security.core.userdetails.UserDetails
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.net.URL
@@ -69,7 +67,7 @@ class JetpackGraphQLSchemaConfiguration {
             BigInteger::class to ExtendedScalars.GraphQLBigInteger,
             Char::class to ExtendedScalars.GraphQLChar,
 
-            // DatetimeScalars
+            // Datetime Scalars
             Date::class to DateScalar.create(null),
             Duration::class to DurationScalar.create(null),
             YearMonth::class to YearMonthScalar.create(null),
@@ -80,8 +78,9 @@ class JetpackGraphQLSchemaConfiguration {
             OffsetDateTime::class to OffsetDateTimeScalar.create(null),
             ZonedDateTime::class to ExtendedScalars.DateTime,
 
-            // UtilScalars
+            // Util Scalars
             Upload::class to GraphQLUploadScalar,
+            UserDetails::class to SkipScalar,
             URL::class to ExtendedScalars.Url,
             Locale::class to ExtendedScalars.Locale,
             Object::class to ExtendedScalars.Object,
