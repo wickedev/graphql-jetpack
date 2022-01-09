@@ -29,6 +29,7 @@ class SpringSecurityFunctionDataFetcher(
     @ExperimentalStdlibApi
     override fun mapParameterToValue(param: KParameter, environment: DataFetchingEnvironment): Pair<KParameter, Any?>? {
         return when (true) {
+            param.type.classifier == Authentication::class -> param to environment.graphQlContext.authentication
             customScalars.exists(param.type), customScalars.exists(param.genericType) -> param to environment.arguments[param.name]
             else -> super.mapParameterToValue(param, environment)
         }

@@ -17,7 +17,7 @@ class GraphQLSpringSecurityTest(
 
     describe("GraphQL Kotlin Spring Security") {
 
-        it("should be protected") {
+        it("protected should be protect") {
             webTestClient.post()
                 .uri("/graphql")
                 .bodyValue(
@@ -37,7 +37,7 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.errors[0].message").isEqualTo("UNAUTHENTICATED")
         }
 
-        it("should be protect to non role user") {
+        it("protectedWithRole(non role user) should be protect") {
             webTestClient
                 .mutateWith(mockUser().roles())
                 .post()
@@ -59,7 +59,7 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.errors[0].message").isEqualTo("FORBIDDEN")
         }
 
-        it("should be allow to user(ROLE_USER)") {
+        it("protectedWithRole(user(ROLE_USER)) should be allow") {
             webTestClient.mutateWith(mockUser().roles("USER"))
                 .post()
                 .uri("/graphql")
@@ -80,7 +80,7 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.data.protectedWithRole").isEqualTo(1)
         }
 
-        it("should be allow to user(ROLE_ADMIN)") {
+        it("protectedWithRole(user(ROLE_ADMIN)) should be allow") {
             webTestClient
                 .mutate()
                 .responseTimeout(Duration.ofDays(1))
@@ -105,7 +105,7 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.data.protectedWithRole").isEqualTo(1)
         }
 
-        it("public query should be non protect") {
+        it("public query should be allow") {
             webTestClient.post()
                 .uri("/graphql")
                 .bodyValue(
@@ -125,7 +125,7 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.data.public").isEqualTo(1)
         }
 
-        it("should allow protectedWithParam 1") {
+        it("protectedWithParam(param is 1) should be allow") {
             webTestClient.mutateWith(mockUser())
                 .post()
                 .uri("/graphql")
@@ -146,7 +146,7 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.data.protectedWithParam").isEqualTo(1)
         }
 
-        it("should protectedWithParam 2") {
+        it("protectedWithParam(param is 2) should be protect") {
             webTestClient.mutateWith(mockUser())
                 .post()
                 .uri("/graphql")
@@ -167,8 +167,8 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.errors[0].message").isEqualTo("FORBIDDEN")
         }
 
-        it("should allow protectedWithCustomChecker 1") {
-            webTestClient.mutateWith(mockUser())
+        it("protectedWithCustomChecker(user name ryan and param is positive) should be allow") {
+            webTestClient.mutateWith(mockUser("ryan"))
                 .post()
                 .uri("/graphql")
                 .bodyValue(
@@ -188,7 +188,7 @@ class GraphQLSpringSecurityTest(
                 .jsonPath("$.data.protectedWithCustomChecker").isEqualTo(1)
         }
 
-        it("should protectedWithCustomChecker 2") {
+        it("protectedWithCustomChecker(param is 2) should be protect") {
             webTestClient.mutateWith(mockUser())
                 .post()
                 .uri("/graphql")
@@ -196,7 +196,7 @@ class GraphQLSpringSecurityTest(
                     GraphQLRequest(
                         query = """
                             query {
-                                protectedWithCustomChecker(param: 2)
+                                protectedWithCustomChecker(param: 0)
                             }
                         """.trimIndent(),
                         variables = emptyMap()

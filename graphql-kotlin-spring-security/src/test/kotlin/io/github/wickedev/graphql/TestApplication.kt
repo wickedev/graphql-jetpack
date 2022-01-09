@@ -1,6 +1,7 @@
 package io.github.wickedev.graphql
 
 
+import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.server.operations.Query
 import io.github.wickedev.graphql.types.ID
 import io.github.wickedev.spring.security.*
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
@@ -58,15 +60,15 @@ class AuthQuery : Query {
     @Auth("#param == 1")
     fun protectedWithParam(param: Int): Int = param
 
-    @Auth("@checker.check(#param)")
-    fun protectedWithCustomChecker(param: Int): Int = param
+    @Auth("@checker.paramIsPositiveAndNameIsRyan(#param, #authentication)")
+    fun protectedWithCustomChecker(param: Int, @GraphQLIgnore authentication: Authentication): Int = param
 }
 
 @Suppress("unused")
 @Component
 class Checker {
-    fun check(param: Int): Boolean {
-        return param == 1
+    fun paramIsPositiveAndNameIsRyan(param: Int, authentication: Authentication): Boolean {
+        return param > 0 && authentication.name == "ryan"
     }
 }
 
