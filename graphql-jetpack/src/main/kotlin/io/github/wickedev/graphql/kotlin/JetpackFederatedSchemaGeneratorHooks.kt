@@ -10,7 +10,7 @@ import io.github.wickedev.graphql.scalars.CustomScalars
 import org.reactivestreams.Publisher
 import kotlin.reflect.KType
 
-class JetpackFederatedSchemaGeneratorHooks(
+open class JetpackFederatedSchemaGeneratorHooks(
     resolvers: List<FederatedTypeResolver<*>>,
     private val customScalars: CustomScalars,
     private val authSchemaDirectiveWiring: AuthSchemaDirectiveWiring,

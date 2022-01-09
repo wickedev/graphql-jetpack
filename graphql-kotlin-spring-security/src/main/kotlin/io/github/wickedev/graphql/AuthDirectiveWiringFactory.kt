@@ -2,7 +2,7 @@ package io.github.wickedev.graphql
 
 import com.expediagroup.graphql.generator.directives.KotlinDirectiveWiringFactory
 
-class AuthDirectiveWiringFactory(
+open class AuthDirectiveWiringFactory(
     authSchemaDirectiveWiring: AuthSchemaDirectiveWiring
 ) : KotlinDirectiveWiringFactory(
     manualWiring = mapOf(

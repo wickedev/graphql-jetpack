@@ -6,13 +6,13 @@ import graphql.execution.DataFetcherResult
 import graphql.schema.DataFetcher
 import graphql.schema.DataFetchingEnvironment
 
-class AuthDataFetcher(
+open class AuthDataFetcher(
     private val originalDataFetcher: DataFetcher<*>,
     private val directiveEnv: KotlinFieldDirectiveEnvironment,
 ) : DataFetcher<Any> {
 
     override fun get(environment: DataFetchingEnvironment): Any? {
-        if (originalDataFetcher is SpringSecurityFunctionDataFetcher) {
+        if (originalDataFetcher is JetpackFunctionDataFetcher) {
             val authentication = environment.graphQlContext.authentication
                 ?: return newError(ApolloError.AuthenticationError(), environment)
 

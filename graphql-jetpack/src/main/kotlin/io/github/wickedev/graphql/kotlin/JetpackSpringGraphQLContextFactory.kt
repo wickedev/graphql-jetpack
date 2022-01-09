@@ -6,7 +6,7 @@ import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import org.springframework.security.core.context.ReactiveSecurityContextHolder
 import org.springframework.web.reactive.function.server.ServerRequest
 
-class JetpackSpringGraphQLContextFactory : SpringGraphQLContextFactory<SpringGraphQLContext>() {
+open class JetpackSpringGraphQLContextFactory : SpringGraphQLContextFactory<SpringGraphQLContext>() {
 
     @Suppress("OverridingDeprecatedMember")
     override suspend fun generateContext(request: ServerRequest): SpringGraphQLContext? = null

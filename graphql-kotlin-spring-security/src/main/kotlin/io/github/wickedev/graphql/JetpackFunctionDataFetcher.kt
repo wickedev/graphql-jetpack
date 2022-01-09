@@ -17,7 +17,7 @@ import kotlin.reflect.KParameter
 import kotlin.reflect.full.valueParameters
 import kotlin.reflect.jvm.jvmErasure
 
-class SpringSecurityFunctionDataFetcher(
+open class JetpackFunctionDataFetcher(
     private val target: Any?,
     private val fn: KFunction<*>,
     objectMapper: ObjectMapper,

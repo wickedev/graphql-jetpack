@@ -9,7 +9,7 @@ import io.github.wickedev.graphql.scalars.CustomScalars
 import org.reactivestreams.Publisher
 import kotlin.reflect.KType
 
-class JetpackSchemaGeneratorHooks(
+open class JetpackSchemaGeneratorHooks(
     private val customScalars: CustomScalars,
     private val authSchemaDirectiveWiring: AuthSchemaDirectiveWiring,
 ) : SchemaGeneratorHooks {
