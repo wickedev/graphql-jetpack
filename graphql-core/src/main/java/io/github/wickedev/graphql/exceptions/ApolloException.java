@@ -17,11 +17,11 @@ public class ApolloException extends GraphQLException implements GraphQLError, E
     private final List<SourceLocation> locations;
     private final Map<String, Object> extensions;
 
-    public ApolloException(String message, ResultPath path, SourceLocation sourceLocation) {
+    public ApolloException(String code, String message, ResultPath path, SourceLocation sourceLocation) {
         super(message);
         this.path = assertNotNull(path).toList();
         this.locations = Collections.singletonList(sourceLocation);
-        this.extensions = Collections.singletonMap(message, new ErrorExtension(this));
+        this.extensions = Collections.singletonMap(code, new ErrorExtension(this));
 
     }
 

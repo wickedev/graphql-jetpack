@@ -15,15 +15,16 @@ open class AuthDataFetcher(
         if (originalDataFetcher is JetpackFunctionDataFetcher) {
             val path = environment.executionStepInfo.path
             val sourceLocation = environment.field.sourceLocation
+            val expression = directiveEnv.requires ?: return originalDataFetcher.get(environment)
+            val message = "@auth(require: $expression)"
 
             val authentication = environment.graphQlContext.authentication
-                ?: return newError(ApolloError.AuthenticationError(path, sourceLocation))
+                ?: return newError(ApolloError.AuthenticationError(message, path, sourceLocation))
 
-            val expression = directiveEnv.requires ?: return originalDataFetcher.get(environment)
             val result = originalDataFetcher.check(authentication, expression, environment)
 
             if (!result) {
-                return newError(ApolloError.ForbiddenError(path, sourceLocation))
+                return newError(ApolloError.ForbiddenError(message, path, sourceLocation))
             }
         }
 

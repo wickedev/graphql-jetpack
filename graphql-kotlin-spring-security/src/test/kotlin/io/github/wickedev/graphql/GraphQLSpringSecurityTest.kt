@@ -34,7 +34,8 @@ class GraphQLSpringSecurityTest(
                 .expectStatus().isOk
                 .expectBody()
                 .consumeWith(System.out::println)
-                .jsonPath("$.errors[0].message").isEqualTo("UNAUTHENTICATED")
+                .jsonPath("$.errors[0].message").isEqualTo("@auth(require: isAuthenticated)")
+                .jsonPath("$.errors[0].extensions.UNAUTHENTICATED").hasJsonPath()
         }
 
         it("protectedWithRole(non role user) should be protect") {
@@ -56,7 +57,8 @@ class GraphQLSpringSecurityTest(
                 .expectStatus().isOk
                 .expectBody()
                 .consumeWith(System.out::println)
-                .jsonPath("$.errors[0].message").isEqualTo("FORBIDDEN")
+                .jsonPath("$.errors[0].message").isEqualTo("@auth(require: hasRole('USER'))")
+                .jsonPath("$.errors[0].extensions.FORBIDDEN").hasJsonPath()
         }
 
         it("protectedWithRole(user(ROLE_USER)) should be allow") {
@@ -164,7 +166,8 @@ class GraphQLSpringSecurityTest(
                 .expectStatus().isOk
                 .expectBody()
                 .consumeWith(System.out::println)
-                .jsonPath("$.errors[0].message").isEqualTo("FORBIDDEN")
+                .jsonPath("$.errors[0].message").isEqualTo("@auth(require: #param == 1)")
+                .jsonPath("$.errors[0].extensions.FORBIDDEN").hasJsonPath()
         }
 
         it("protectedWithCustomChecker(user name ryan and param is positive) should be allow") {
@@ -206,7 +209,8 @@ class GraphQLSpringSecurityTest(
                 .expectStatus().isOk
                 .expectBody()
                 .consumeWith(System.out::println)
-                .jsonPath("$.errors[0].message").isEqualTo("FORBIDDEN")
+                .jsonPath("$.errors[0].message").isEqualTo("@auth(require: @checker.paramIsPositiveAndNameIsRyan(#param, #authentication))")
+                .jsonPath("$.errors[0].extensions.FORBIDDEN").hasJsonPath()
         }
     }
 })
