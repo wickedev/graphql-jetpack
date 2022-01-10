@@ -2,7 +2,7 @@
 
 Spring Security integration library with Custom GraphQL Directive `@auth`
 
-[Inspired by With Custom Directives](https://www.apollographql.com/docs/apollo-server/security/authentication/#with-custom-directives)
+Inspired by [Authentication with Custom Directives](https://www.apollographql.com/docs/apollo-server/security/authentication/#with-custom-directives) and [Spring Method Security](https://www.baeldung.com/spring-security-method-security) 
 
 # Getting Started
 
