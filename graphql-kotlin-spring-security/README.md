@@ -47,8 +47,8 @@ class SecurityConfiguration {
 
 @Component
 class Checker {
-    fun check(param: Int): Boolean {
-        return param == 1
+    fun paramIsPositiveAndNameIsRyan(param: Int, authentication: Authentication): Boolean {
+        return param > 0 && authentication.name == "ryan"
     }
 }
 
@@ -66,8 +66,8 @@ class SampleQuery : Query {
     @Auth("#param == 1")
     fun protectedWithParam(param: Int): Int = param
 
-    @Auth("@checker.check(#param)")
-    fun protectedWithCustomChecker(param: Int): Int = param
+    @Auth("@checker.paramIsPositiveAndNameIsRyan(#param, #authentication)")
+    fun protectedWithCustomChecker(param: Int, @GraphQLIgnore authentication: Authentication): Int = param
 }
 ```
 
@@ -75,16 +75,16 @@ class SampleQuery : Query {
 directive @auth(require: String!) on FIELD | FIELD_DEFINITION
 
 type Query {
-
+    
     public: Int!
     
-    protected: Int! @auth(require: "isAuthenticated")
+    protected: Int! @auth(require : "isAuthenticated")
     
-    protectedWithRole: Int! @auth(require: "hasRole('USER')")
+    protectedWithRole: Int! @auth(require : "hasRole('USER')")
     
-    protectedWithParam: Int! @auth(require: "#param == 1")
+    protectedWithParam(param: Int!): Int! @auth(require : "#param == 1")
     
-    protectedWithCustomChecker: Int! @auth(require: "@checker.check(#param)")
+    protectedWithCustomChecker(param: Int!): Int! @auth(require : "@checker.paramIsPositiveAndNameIsRyan(#param, #authentication)")  
 }
 
 ```
