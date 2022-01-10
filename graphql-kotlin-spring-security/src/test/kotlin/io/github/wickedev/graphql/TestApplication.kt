@@ -8,7 +8,9 @@ import io.github.wickedev.spring.security.*
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
@@ -23,6 +25,10 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.json
 import reactor.core.publisher.Mono
 
 
@@ -69,6 +75,16 @@ class AuthQuery : Query {
 class Checker {
     fun paramIsPositiveAndNameIsRyan(param: Int, authentication: Authentication): Boolean {
         return param > 0 && authentication.name == "ryan"
+    }
+}
+
+
+@RestController
+class AnnotatedController {
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/protect/pre-authorize")
+    fun preAuthorize(): Mono<ServerResponse> {
+        return ServerResponse.ok().json().build()
     }
 }
 

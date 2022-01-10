@@ -1,4 +1,4 @@
-package io.github.wickedev.spring.security
+package io.github.wickedev.graphql
 
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
