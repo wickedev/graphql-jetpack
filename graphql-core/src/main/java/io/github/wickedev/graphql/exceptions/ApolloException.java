@@ -21,7 +21,7 @@ public class ApolloException extends GraphQLException implements GraphQLError, E
         super(message);
         this.path = assertNotNull(path).toList();
         this.locations = Collections.singletonList(sourceLocation);
-        this.extensions = Collections.singletonMap(message, new ErrorExtension(message, this));
+        this.extensions = Collections.singletonMap(message, new ErrorExtension(this));
 
     }
 
@@ -44,15 +44,6 @@ public class ApolloException extends GraphQLException implements GraphQLError, E
     @Override
     public Map<String, Object> getExtensions() {
         return extensions;
-    }
-
-    @Override
-    public String toString() {
-        return "ApolloException{" +
-                "path=" + path +
-                ", exception=" + this +
-                ", locations=" + locations +
-                '}';
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
