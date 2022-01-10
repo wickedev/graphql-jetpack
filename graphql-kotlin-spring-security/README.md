@@ -26,13 +26,16 @@ dependencies {
 class SecurityConfiguration {
     @Bean
     fun configure(http: ServerHttpSecurity): SecurityWebFilterChain {
-        http.csrf().disable()
-        http.httpBasic().disable()
-        http.formLogin().disable()
-        http.logout().disable()
-        http.authorizeExchange().pathMatchers("/graphql").permitAll()
-        http.addFilterAt(MyAuthenticationWebFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
-        return http.build()
+        return http {
+            csrf { disable() }
+            httpBasic { disable() }
+            formLogin { disable() }
+            logout { disable() }
+            authorizeExchange {
+                authorize("/graphql", permitAll)
+            }
+            addFilterAt(MyAuthenticationWebFilter(authenticationManager), SecurityWebFiltersOrder.AUTHENTICATION)
+        }
     }
 
     @Bean

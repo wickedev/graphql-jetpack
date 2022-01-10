@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
+import org.springframework.security.config.web.server.invoke
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
@@ -130,17 +131,18 @@ class TestApplication {
 
     @Bean
     fun configure(http: ServerHttpSecurity, jwtDecoder: JwtDecoder): SecurityWebFilterChain {
-        http.csrf().disable()
-        http.httpBasic().disable()
-        http.formLogin().disable()
-        http.logout().disable()
-        http.authorizeExchange()
-            .pathMatchers("/protect/user").hasRole("USER")
-            .pathMatchers("/protect/admin").hasRole("ADMIN")
-            .anyExchange()
-            .permitAll()
-        http.addFilterAt(JwtAuthenticationWebFilter(jwtDecoder), SecurityWebFiltersOrder.AUTHENTICATION)
-        return http.build()
+        return http {
+            csrf { disable() }
+            httpBasic { disable() }
+            formLogin { disable() }
+            logout { disable() }
+            authorizeExchange {
+                authorize("/protect/user", hasRole("USER"))
+                authorize("/protect/admin", hasRole("ADMIN"))
+                authorize("/**", permitAll)
+            }
+            addFilterAt(JwtAuthenticationWebFilter(jwtDecoder), SecurityWebFiltersOrder.AUTHENTICATION)
+        }
     }
 
     @Bean
