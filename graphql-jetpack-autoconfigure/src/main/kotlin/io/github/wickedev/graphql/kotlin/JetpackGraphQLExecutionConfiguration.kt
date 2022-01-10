@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.github.wickedev.graphql.scalars.CustomScalars
 import io.github.wickedev.graphql.security.CustomDefaultMethodSecurityExpressionHandler
 import org.aopalliance.intercept.MethodInvocation
-import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.AutoConfigureBefore
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.ApplicationContext
