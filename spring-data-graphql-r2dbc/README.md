@@ -34,7 +34,7 @@ class Application
 
 @Table("users")
 data class User(
-    @Id override val id: ID,
+    @Id override val id: io.github.wickedev.graphql.types.ID, // <-- not com.expediagroup.graphql.generator.scalars.ID
 
     val name: String
 ) : Node {
