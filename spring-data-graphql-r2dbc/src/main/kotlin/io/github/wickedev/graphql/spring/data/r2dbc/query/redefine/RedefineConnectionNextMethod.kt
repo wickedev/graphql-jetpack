@@ -15,7 +15,7 @@ fun redefineConnectionNextMethod(method: Method, metadata: RepositoryMetadata): 
     val interfaceName = redefineInterfaceName(method)
     val methodName = redefineMethodName(method)
     val parameters = redefineParameters(method)
-    val returnType = redefineReturnType(method, metadata)
+    val returnType = redefineReturnType(metadata)
 
     val unloadedType = makeType(interfaceName, methodName, parameters, returnType)
         ?: throw Error("unloaded type is null")
@@ -60,7 +60,7 @@ private fun redefineParameters(method: Method): List<TypeDescription.Generic> {
     )
 }
 
-private fun redefineReturnType(method: Method, metadata: RepositoryMetadata): TypeDefinition {
+private fun redefineReturnType(metadata: RepositoryMetadata): TypeDefinition {
     val returnObjectType = metadata.domainType
     return TypeDescription.Generic.Builder
         .parameterizedType(Flux::class.java, returnObjectType).build()

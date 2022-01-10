@@ -6,7 +6,6 @@ import net.bytebuddy.description.type.TypeDefinition
 import net.bytebuddy.description.type.TypeDescription
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.core.RepositoryMetadata
-import org.springframework.util.ClassUtils
 import reactor.core.publisher.Flux
 import java.lang.reflect.Method
 
@@ -14,7 +13,7 @@ fun redefineConnectionMethod(method: Method, metadata: RepositoryMetadata): Meth
     val interfaceName = redefineInterfaceName(method)
     val methodName = redefineMethodName(method)
     val parameters = redefineParameters(method)
-    val returnType = redefineReturnType(method, metadata)
+    val returnType = redefineReturnType(metadata)
 
     val unloadedType = makeType(interfaceName, methodName, parameters, returnType)
         ?: throw Error("unloaded type is null")
@@ -46,7 +45,7 @@ private fun redefineParameters(method: Method): List<TypeDescription.Generic> {
     )
 }
 
-private fun redefineReturnType(method: Method, metadata: RepositoryMetadata): TypeDefinition {
+private fun redefineReturnType(metadata: RepositoryMetadata): TypeDefinition {
     val returnObjectType = metadata.domainType
     return TypeDescription.Generic.Builder
         .parameterizedType(Flux::class.java, returnObjectType).build()
