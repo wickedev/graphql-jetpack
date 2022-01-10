@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.wickedev:graphql-jetpack-starter:0.3.3")
+    implementation("io.github.wickedev:graphql-jetpack-starter:0.3.6")
 }
 ```
 
