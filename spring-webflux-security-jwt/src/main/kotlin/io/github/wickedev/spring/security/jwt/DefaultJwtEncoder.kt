@@ -1,5 +1,8 @@
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
+import io.github.wickedev.spring.security.jwt.JWT
+import io.github.wickedev.spring.security.jwt.JwtEncoder
+import io.github.wickedev.spring.security.jwt.Token
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.Duration
 

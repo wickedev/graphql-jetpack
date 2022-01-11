@@ -1,4 +1,4 @@
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
 data class AuthResponse(
     val accessToken: String,

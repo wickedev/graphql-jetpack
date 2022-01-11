@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.Duration
@@ -10,10 +10,5 @@ interface JwtEncoder {
 
     fun renew(jwt: JWT, type: JWT.Type, expiresIn: Duration?): Token
 }
-
-data class Token(
-    val value: String,
-    val expiresIn: Long
-)
 
 

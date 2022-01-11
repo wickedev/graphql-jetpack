@@ -1,4 +1,4 @@
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding

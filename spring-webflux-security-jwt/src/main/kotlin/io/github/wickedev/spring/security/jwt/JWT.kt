@@ -1,13 +1,7 @@
-@file:Suppress("unused")
-
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
 import org.springframework.security.core.GrantedAuthority
 import java.util.*
-
-interface JwtDecoder {
-    fun decode(token: String?): JWT?
-}
 
 interface JWT {
     val subject: String

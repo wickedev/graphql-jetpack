@@ -1,5 +1,6 @@
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
+import io.github.wickedev.spring.security.BearerTokenAuthenticationToken
 import kotlinx.coroutines.reactor.mono
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.ReactiveAuthenticationManager

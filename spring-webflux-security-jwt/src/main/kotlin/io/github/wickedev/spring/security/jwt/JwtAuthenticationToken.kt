@@ -1,4 +1,4 @@
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority

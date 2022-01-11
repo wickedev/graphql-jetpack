@@ -1,6 +1,6 @@
 @file:Suppress("unused", "UNUSED_VARIABLE")
 
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
 import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import kotlinx.coroutines.reactor.mono

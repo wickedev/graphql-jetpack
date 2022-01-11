@@ -1,5 +1,6 @@
-package io.github.wickedev.spring.security
+package io.github.wickedev.spring.security.jwt
 
+import io.github.wickedev.spring.security.jwt.AuthResponse
 import reactor.core.publisher.Mono
 
 interface ReactiveJwtAuthenticationService {

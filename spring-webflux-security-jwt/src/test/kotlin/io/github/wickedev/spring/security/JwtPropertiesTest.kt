@@ -1,5 +1,6 @@
 package io.github.wickedev.spring.security
 
+import io.github.wickedev.spring.security.jwt.JwtProperties
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest

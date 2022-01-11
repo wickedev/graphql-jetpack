@@ -4,12 +4,12 @@ package io.github.wickedev.spring.security
 
 import io.github.wickedev.coroutine.reactive.extensions.mono.await
 import io.github.wickedev.graphql.types.ID
+import io.github.wickedev.spring.security.jwt.*
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy
-import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
