@@ -17,6 +17,7 @@ dependencies {
     api(project(":graphql-kotlin-spring-webflux-upload"))
     optional("com.graphql-java:graphql-java:17.3")
     optional("com.graphql-java:graphql-java-extended-scalars:17.0")
+    optional("com.expediagroup:graphql-kotlin-hooks-provider:5.3.1")
     optional("org.springframework.boot:spring-boot-autoconfigure")
 }
 

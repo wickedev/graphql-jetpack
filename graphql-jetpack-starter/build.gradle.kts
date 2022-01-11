@@ -13,4 +13,5 @@ dependencies {
     api(project(":graphql-jetpack-autoconfigure"))
     api("com.graphql-java:graphql-java:17.3")
     api("com.graphql-java:graphql-java-extended-scalars:17.0")
+    api("com.expediagroup:graphql-kotlin-hooks-provider:5.3.1")
 }
