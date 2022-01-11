@@ -39,12 +39,8 @@ class SecurityConfiguration {
     }
 
     @Bean
-    fun roleHierarchy(): RoleHierarchy = DslRoleHierarchy {
-        "ROLE_ADMIN" {
-            "ROLE_MANAGER" {
-                +"ROLE_USER"
-            }
-        }
+    fun roleHierarchy(): RoleHierarchy = RoleHierarchyImpl().apply { // Optional
+        setHierarchy("ROLE_ADMIN > ROLE_MANAGER > ROLE_USER")
     }
 }
 
