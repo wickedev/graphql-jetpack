@@ -4,26 +4,26 @@ package io.github.wickedev.graphql
 import com.expediagroup.graphql.generator.annotations.GraphQLIgnore
 import com.expediagroup.graphql.server.operations.Query
 import io.github.wickedev.graphql.types.ID
-import io.github.wickedev.spring.security.*
-import io.github.wickedev.spring.security.jwt.*
+import io.github.wickedev.spring.reactive.security.DslRoleHierarchy
+import io.github.wickedev.spring.reactive.security.EnableJwtWebFluxSecurity
+import io.github.wickedev.spring.reactive.security.SimpleIdentifiableUserDetails
+import io.github.wickedev.spring.reactive.security.decoder.JwtDecoder
+import io.github.wickedev.spring.reactive.security.jwt.JwtAuthenticationWebFilter
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.authentication.ReactiveAuthenticationManager
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -37,7 +37,16 @@ data class User(
     val email: String,
     val hashSalt: String,
     val roles: List<String>,
-) : org.springframework.security.core.userdetails.User(email, hashSalt, roles.map { SimpleGrantedAuthority(it) })
+) : SimpleIdentifiableUserDetails<ID> {
+
+    override fun getIdentifier(): ID = id
+
+    override fun getUsername(): String = email
+
+    override fun getPassword(): String = hashSalt
+
+    override fun getAuthorities(): Collection<GrantedAuthority> = roles.map { SimpleGrantedAuthority(it) }
+}
 
 class UserService : ReactiveUserDetailsService {
     override fun findByUsername(email: String): Mono<UserDetails> {
@@ -90,18 +99,9 @@ class AnnotatedController {
 
 @SpringBootApplication
 @EnableWebFluxSecurity
+@EnableJwtWebFluxSecurity
 @EnableReactiveMethodSecurity
-@EnableConfigurationProperties(JwtProperties::class)
 class TestApplication {
-
-    @Bean
-    fun authenticationManager(
-        userDetailsService: ReactiveUserDetailsService,
-        passwordEncoder: PasswordEncoder
-    ): ReactiveAuthenticationManager =
-        UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService).apply {
-            setPasswordEncoder(passwordEncoder)
-        }
 
     @Bean
     fun userService(): ReactiveUserDetailsService = UserService()
@@ -116,36 +116,11 @@ class TestApplication {
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder = Argon2PasswordEncoder()
-
-    @Bean
-    fun jwtAuthenticationService(
-        jwtProperties: JwtProperties,
-        jwtEncoder: JwtEncoder,
-        jwtDecoder: JwtDecoder,
-        passwordEncoder: PasswordEncoder,
-        userDetailsService: ReactiveUserDetailsService,
-    ): ReactiveJwtAuthenticationService {
-        return DefaultReactiveJwtAuthenticationService(
-            jwtProperties,
-            jwtEncoder,
-            jwtDecoder,
-            passwordEncoder,
-            userDetailsService
-        )
-    }
-
-    @Bean
-    fun jwtEncoder(): JwtEncoder = DefaultJwtEncoder()
-
-    @Bean
-    fun jwtDecoder(): JwtDecoder = DefaultJwtDecoder()
-
-    @Bean
     fun configure(
         http: ServerHttpSecurity,
         jwtDecoder: JwtDecoder,
     ): SecurityWebFilterChain {
+        http.securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
         http.csrf().disable()
         http.httpBasic().disable()
         http.formLogin().disable()

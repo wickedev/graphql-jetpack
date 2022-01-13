@@ -12,6 +12,8 @@ import io.github.wickedev.graphql.parser.JetpackSpringGraphQLRequestParser
 import io.github.wickedev.graphql.scalars.*
 import io.github.wickedev.graphql.types.ID
 import io.github.wickedev.graphql.types.Upload
+import io.github.wickedev.spring.reactive.security.IdentifiableUserDetails
+import io.github.wickedev.spring.reactive.security.SimpleIdentifiableUserDetails
 import org.springframework.boot.autoconfigure.AutoConfigureBefore
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
@@ -81,6 +83,8 @@ class JetpackGraphQLSchemaConfiguration {
             // Util Scalars
             Upload::class to GraphQLUploadScalar,
             UserDetails::class to SkipScalar,
+            IdentifiableUserDetails::class to SkipScalar,
+            SimpleIdentifiableUserDetails::class to SkipScalar,
             URL::class to ExtendedScalars.Url,
             Locale::class to ExtendedScalars.Locale,
             Object::class to ExtendedScalars.Object,

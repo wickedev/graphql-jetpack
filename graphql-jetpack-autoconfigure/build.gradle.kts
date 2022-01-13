@@ -6,11 +6,6 @@ plugins {
     id("ru.vyarus.pom") version "2.2.1"
 }
 
-repositories {
-    mavenCentral()
-}
-
-
 dependencies {
     api(project(":graphql-jetpack"))
     api(project(":graphql-kotlin-spring-security"))
@@ -19,6 +14,7 @@ dependencies {
     optional("com.graphql-java:graphql-java-extended-scalars:17.0")
     optional("com.expediagroup:graphql-kotlin-hooks-provider:5.3.1")
     optional("org.springframework.boot:spring-boot-autoconfigure")
+    optional("io.github.wickedev:spring-security-jwt-webflux:0.1.4")
 }
 
 tasks.withType<Test> {

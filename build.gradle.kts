@@ -9,6 +9,7 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven("https://github.com/wickedev/spring-security-jwt-webflux/raw/deploy/maven-repo")
     }
 
     val sourcesJar by tasks.registering(Jar::class) {
@@ -42,11 +43,3 @@ subprojects {
 
 fun Project.publishing(configure: Action<PublishingExtension>): Unit =
     (this as ExtensionAware).extensions.configure("publishing", configure)
-
-fun String.kebabToCamelCase(): String {
-    val snakeRegex = "-[a-zA-Z]".toRegex()
-    return snakeRegex.replace(this) {
-        return@replace it.value.replace("-", "")
-            .toUpperCase(java.util.Locale.getDefault())
-    }
-}

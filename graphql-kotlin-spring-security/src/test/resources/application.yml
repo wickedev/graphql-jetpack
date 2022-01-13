@@ -4,7 +4,8 @@ graphql:
 security:
   jwt:
     algorithm: EC
-    private-key-path: classpath:keys/ec256-private.pem
-    public-key-path: classpath:keys/ec256-public.pem
+    issuer: https://graphql-jetpack.github.io
+    private-key: classpath:keys/ec256-private.pem
+    public-key: classpath:keys/ec256-public.pem
     access-token-expires-in: 1h
     refresh-token-expires-in: 60d

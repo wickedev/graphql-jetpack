@@ -50,6 +50,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
         exclude(module = "mockito-core")
     }
+    testImplementation("io.mockk:mockk:1.12.2")
 
     /* testing testcontainers */
     testImplementation("org.testcontainers:postgresql:1.16.2")

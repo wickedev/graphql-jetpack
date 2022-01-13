@@ -1,3 +1,0 @@
-# Spring Security JWT
-
-WIP

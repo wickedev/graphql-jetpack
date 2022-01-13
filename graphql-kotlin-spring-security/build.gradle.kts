@@ -14,12 +14,11 @@ dependencies {
     api("org.springframework.security:spring-security-core")
     api("com.zhokhov.graphql:graphql-java-datetime:4.1.0")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
     implementation(kotlin("stdlib-jdk8"))
 
     /* testing */
     testImplementation(project(":graphql-jetpack-autoconfigure"))
-    testImplementation(project(":spring-webflux-security-jwt"))
+    testImplementation("io.github.wickedev:spring-security-jwt-webflux-starter:0.1.4")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.0.3")
     testImplementation("io.kotest:kotest-assertions-core:5.0.3")
