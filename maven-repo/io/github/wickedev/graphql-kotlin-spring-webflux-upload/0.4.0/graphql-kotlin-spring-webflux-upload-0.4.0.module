@@ -1,0 +1,125 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "graphql-kotlin-spring-webflux-upload",
+    "version": "0.4.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "kotlin-coroutine-reactive-extensions",
+          "version": {
+            "requires": "0.4.0"
+          }
+        },
+        {
+          "group": "com.jayway.jsonpath",
+          "module": "json-path",
+          "version": {
+            "requires": "2.6.0"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-webflux"
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-spring-server",
+          "version": {
+            "requires": "5.3.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-kotlin-spring-webflux-upload-0.4.0-plain.jar",
+          "url": "graphql-kotlin-spring-webflux-upload-0.4.0-plain.jar",
+          "size": 24252,
+          "sha512": "e4203679eedc5fefc3a0abb87897298ad2f109c098b3766ec2a443c3b420487ad79c8fa82164c0e0f0f70a539ca81327d45f1c22a05d830c7d0240a42774c0e6",
+          "sha256": "d1818cb092a649b555e93b2b0c0801152e83f0ab24356209c7ff5cd688ddea19",
+          "sha1": "e43c54224bffd64ca9a8d54986178a1a2aad5e3f",
+          "md5": "af2b010e9134ccb17ac4d69c27acadb1"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "kotlin-coroutine-reactive-extensions",
+          "version": {
+            "requires": "0.4.0"
+          }
+        },
+        {
+          "group": "com.jayway.jsonpath",
+          "module": "json-path",
+          "version": {
+            "requires": "2.6.0"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-webflux"
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-spring-server",
+          "version": {
+            "requires": "5.3.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-kotlin-spring-webflux-upload-0.4.0-plain.jar",
+          "url": "graphql-kotlin-spring-webflux-upload-0.4.0-plain.jar",
+          "size": 24252,
+          "sha512": "e4203679eedc5fefc3a0abb87897298ad2f109c098b3766ec2a443c3b420487ad79c8fa82164c0e0f0f70a539ca81327d45f1c22a05d830c7d0240a42774c0e6",
+          "sha256": "d1818cb092a649b555e93b2b0c0801152e83f0ab24356209c7ff5cd688ddea19",
+          "sha1": "e43c54224bffd64ca9a8d54986178a1a2aad5e3f",
+          "md5": "af2b010e9134ccb17ac4d69c27acadb1"
+        }
+      ]
+    }
+  ]
+}
