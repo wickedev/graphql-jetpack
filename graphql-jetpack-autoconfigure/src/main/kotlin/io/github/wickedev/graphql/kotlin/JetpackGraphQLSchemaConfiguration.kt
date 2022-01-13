@@ -5,9 +5,11 @@ import com.expediagroup.graphql.server.spring.execution.SpringGraphQLContextFact
 import com.expediagroup.graphql.server.spring.execution.SpringGraphQLRequestParser
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.zhokhov.graphql.datetime.*
+import graphql.relay.Relay
 import graphql.scalars.ExtendedScalars
 import io.github.wickedev.graphql.AuthDirectiveWiringFactory
 import io.github.wickedev.graphql.AuthSchemaDirectiveWiring
+import io.github.wickedev.graphql.interfases.Node
 import io.github.wickedev.graphql.parser.JetpackSpringGraphQLRequestParser
 import io.github.wickedev.graphql.scalars.*
 import io.github.wickedev.graphql.types.ID
