@@ -1,0 +1,152 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "graphql-jetpack-starter",
+    "version": "0.4.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-jetpack-autoconfigure",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java-extended-scalars",
+          "version": {
+            "requires": "17.0"
+          }
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-hooks-provider",
+          "version": {
+            "requires": "5.3.1"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "spring-security-jwt-webflux",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-jetpack-starter-0.4.1-plain.jar",
+          "url": "graphql-jetpack-starter-0.4.1-plain.jar",
+          "size": 261,
+          "sha512": "c2f06a27a70832ea4f9656c4a007b0a59f08582ccdacc5ec83045c5928e2897f659c32cda93edf5a81c5faef98f62bf848cd79bced07b8cfb60264456ae5677a",
+          "sha256": "e5b6d09302caec8beb79792896d107389248c812566964ec5e3b7b16ae5da91f",
+          "sha1": "00494889fa4cec4105dff825516cae48bfeaf458",
+          "md5": "631f33c14a436f3ac6b8a4fe85299dc7"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-jetpack-autoconfigure",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java-extended-scalars",
+          "version": {
+            "requires": "17.0"
+          }
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-hooks-provider",
+          "version": {
+            "requires": "5.3.1"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "spring-security-jwt-webflux",
+          "version": {
+            "requires": "0.1.5"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-jetpack-starter-0.4.1-plain.jar",
+          "url": "graphql-jetpack-starter-0.4.1-plain.jar",
+          "size": 261,
+          "sha512": "c2f06a27a70832ea4f9656c4a007b0a59f08582ccdacc5ec83045c5928e2897f659c32cda93edf5a81c5faef98f62bf848cd79bced07b8cfb60264456ae5677a",
+          "sha256": "e5b6d09302caec8beb79792896d107389248c812566964ec5e3b7b16ae5da91f",
+          "sha1": "00494889fa4cec4105dff825516cae48bfeaf458",
+          "md5": "631f33c14a436f3ac6b8a4fe85299dc7"
+        }
+      ]
+    }
+  ]
+}

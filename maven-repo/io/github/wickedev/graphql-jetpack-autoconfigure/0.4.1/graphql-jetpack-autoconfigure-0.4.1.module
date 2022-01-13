@@ -1,0 +1,156 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "graphql-jetpack-autoconfigure",
+    "version": "0.4.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-jetpack",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-kotlin-spring-security",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-kotlin-spring-webflux-upload",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-jetpack-autoconfigure-0.4.1-plain.jar",
+          "url": "graphql-jetpack-autoconfigure-0.4.1-plain.jar",
+          "size": 10848,
+          "sha512": "734337e2a7bd7531e7a1aae12c053d0fe2fd2cf45053838c247524a3e81dfd5d497e043f4d11fdb045faf5d93913dc0327cc1ff9c8fb29d40233bc8e98b9cf11",
+          "sha256": "2d21f9d19cbdd5c52c63bfd894948d89c086e8e9300a76b8f493cebe7d44b41c",
+          "sha1": "0b37c3409a37d389f60e05c0fde7125ce87b836a",
+          "md5": "3c0daaab670a424e07fdcd9945dea81e"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-jetpack",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-kotlin-spring-security",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-kotlin-spring-webflux-upload",
+          "version": {
+            "requires": "0.4.1"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java-extended-scalars",
+          "version": {
+            "requires": "17.0"
+          }
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-hooks-provider",
+          "version": {
+            "requires": "5.3.1"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-autoconfigure"
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "spring-security-jwt-webflux",
+          "version": {
+            "requires": "0.1.5"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-jetpack-autoconfigure-0.4.1-plain.jar",
+          "url": "graphql-jetpack-autoconfigure-0.4.1-plain.jar",
+          "size": 10848,
+          "sha512": "734337e2a7bd7531e7a1aae12c053d0fe2fd2cf45053838c247524a3e81dfd5d497e043f4d11fdb045faf5d93913dc0327cc1ff9c8fb29d40233bc8e98b9cf11",
+          "sha256": "2d21f9d19cbdd5c52c63bfd894948d89c086e8e9300a76b8f493cebe7d44b41c",
+          "sha1": "0b37c3409a37d389f60e05c0fde7125ce87b836a",
+          "md5": "3c0daaab670a424e07fdcd9945dea81e"
+        }
+      ]
+    }
+  ]
+}
