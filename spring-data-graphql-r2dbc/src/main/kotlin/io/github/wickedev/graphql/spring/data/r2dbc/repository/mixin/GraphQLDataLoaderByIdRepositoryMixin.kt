@@ -10,7 +10,7 @@ import org.springframework.data.repository.NoRepositoryBean
 import java.util.concurrent.CompletableFuture
 
 @NoRepositoryBean
-interface GraphQLDataLoaderByIdRepositoryMixin<T : Node> : GraphQLDataLoaderByIdRepository<T>,
+interface GraphQLDataLoaderByIdRepositoryMixin<T : Node?> : GraphQLDataLoaderByIdRepository<T>,
     R2dbcAllInQueryMixin<T, ID> {
 
     override fun findById(id: ID, env: DataFetchingEnvironment): CompletableFuture<T> {
@@ -19,7 +19,7 @@ interface GraphQLDataLoaderByIdRepositoryMixin<T : Node> : GraphQLDataLoaderById
         return env.dataLoader<ID, T>(key) { keys ->
             val results = findAllByIdsIn(keys).collectList().await()
             @Suppress("UNCHECKED_CAST")
-            keys.map { k -> results.find { r -> r.id.value == k.value } } as List<T>
+            keys.map { k -> results.find { r -> r?.id?.value == k.value } } as List<T>
         }.load(id)
     }
 

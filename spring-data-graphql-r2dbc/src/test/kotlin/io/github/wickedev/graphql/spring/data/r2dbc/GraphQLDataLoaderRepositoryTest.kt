@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.future.await
 import org.dataloader.DataLoaderRegistry
 import org.springframework.test.context.ContextConfiguration
+import java.util.concurrent.CompletableFuture
 
 
 @ContextConfiguration(classes = [TestingApp::class])
@@ -28,7 +29,7 @@ class GraphQLDataLoaderRepositoryTest(
                 .dataLoaderRegistry(DataLoaderRegistry())
                 .build()
 
-            val existsFuture = userRepository.findById(saved.id, env)
+            val existsFuture: CompletableFuture<User> = userRepository.findById(saved.id, env)
             val nonExistsId = "290518"
             val nonExistsFuture = userRepository.findById(ID(nonExistsId), env)
 

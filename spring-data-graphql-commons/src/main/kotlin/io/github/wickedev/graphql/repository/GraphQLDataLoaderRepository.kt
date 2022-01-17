@@ -6,4 +6,4 @@ import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.Repository
 
 @NoRepositoryBean
-interface GraphQLDataLoaderRepository<T: Node>: Repository<T, ID>
+interface GraphQLDataLoaderRepository<T: Node?>: Repository<T, ID>

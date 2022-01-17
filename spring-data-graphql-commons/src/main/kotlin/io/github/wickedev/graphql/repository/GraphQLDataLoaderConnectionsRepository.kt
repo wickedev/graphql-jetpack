@@ -11,7 +11,6 @@ import java.util.concurrent.CompletableFuture
 @NoRepositoryBean
 interface GraphQLDataLoaderConnectionsRepository<T: Node> : GraphQLDataLoaderRepository<T> {
 
-
     fun connection(backward: Backward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
 
     fun connection(forward: Forward, env: DataFetchingEnvironment): CompletableFuture<Connection<T>>
