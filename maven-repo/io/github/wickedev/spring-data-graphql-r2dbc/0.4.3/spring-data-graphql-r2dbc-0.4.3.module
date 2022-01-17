@@ -1,0 +1,220 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "spring-data-graphql-r2dbc",
+    "version": "0.4.3",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.4.3"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "spring-data-graphql-commons",
+          "version": {
+            "requires": "0.4.3"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "kotlin-coroutine-reactive-extensions",
+          "version": {
+            "requires": "0.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-reactor"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-jdk8"
+        },
+        {
+          "group": "io.projectreactor.kotlin",
+          "module": "reactor-kotlin-extensions",
+          "version": {
+            "requires": "1.1.5"
+          }
+        },
+        {
+          "group": "org.springframework.data",
+          "module": "spring-data-r2dbc"
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "java-dataloader",
+          "version": {
+            "requires": "3.1.1"
+          }
+        },
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy"
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-data-graphql-r2dbc-0.4.3-plain.jar",
+          "url": "spring-data-graphql-r2dbc-0.4.3-plain.jar",
+          "size": 218380,
+          "sha512": "79a26a66579458d2d5343609683e0cbceda876b3c7945cb29d5a2480823f9f5ce892111a2dea67dbe7ae79cbc97b53512bd682e93af8a3d09cd84e3070d7c1f4",
+          "sha256": "49d67cad4cda494b27710298cabef4703295e3a592e65a2ac88a1336d1d37202",
+          "sha1": "168d0ea7313c05102b6959a44ce7a57f91158cf0",
+          "md5": "283336e96aedefe5cb90a14ebf8ee023"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.4.3"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "spring-data-graphql-commons",
+          "version": {
+            "requires": "0.4.3"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "kotlin-coroutine-reactive-extensions",
+          "version": {
+            "requires": "0.4.3"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-core"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-reactor"
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-jdk8"
+        },
+        {
+          "group": "io.projectreactor.kotlin",
+          "module": "reactor-kotlin-extensions",
+          "version": {
+            "requires": "1.1.5"
+          }
+        },
+        {
+          "group": "org.springframework.data",
+          "module": "spring-data-r2dbc"
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "java-dataloader",
+          "version": {
+            "requires": "3.1.1"
+          }
+        },
+        {
+          "group": "net.bytebuddy",
+          "module": "byte-buddy"
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-data-graphql-r2dbc-0.4.3-plain.jar",
+          "url": "spring-data-graphql-r2dbc-0.4.3-plain.jar",
+          "size": 218380,
+          "sha512": "79a26a66579458d2d5343609683e0cbceda876b3c7945cb29d5a2480823f9f5ce892111a2dea67dbe7ae79cbc97b53512bd682e93af8a3d09cd84e3070d7c1f4",
+          "sha256": "49d67cad4cda494b27710298cabef4703295e3a592e65a2ac88a1336d1d37202",
+          "sha1": "168d0ea7313c05102b6959a44ce7a57f91158cf0",
+          "md5": "283336e96aedefe5cb90a14ebf8ee023"
+        }
+      ]
+    }
+  ]
+}
