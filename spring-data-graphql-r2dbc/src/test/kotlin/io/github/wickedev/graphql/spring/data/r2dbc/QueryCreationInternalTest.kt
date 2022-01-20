@@ -68,7 +68,7 @@ class QueryCreationInternalTest(
                 before = edges.last().id
 
                 val connection = Connection(
-                    edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
+                    edges = edges.map { Edge(it, it.id) }, pageInfo = PageInfo(
                         hasPreviousPage = items.size > last,
                         hasNextPage = edges.firstOrNull()?.id != start?.id,
                         startCursor = edges.lastOrNull()?.id?.value ?: "",
@@ -114,7 +114,7 @@ class QueryCreationInternalTest(
                 after = edges.last().id
 
                 val connection = Connection(
-                    edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
+                    edges = edges.map { Edge(it, it.id) }, pageInfo = PageInfo(
                         hasPreviousPage = edges.firstOrNull()?.id != start?.id,
                         hasNextPage = items.size > first,
                         startCursor = edges.firstOrNull()?.id?.value ?: "",
