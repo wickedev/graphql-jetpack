@@ -79,7 +79,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val edges = items.take(last)
 
         Connection(
-            edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
+            edges = edges.map { Edge(it, it.id) }, pageInfo = PageInfo(
                 hasPreviousPage = items.size > last,
                 hasNextPage = edges.firstOrNull()?.id != start?.id,
                 startCursor = edges.lastOrNull()?.id?.value ?: "",
@@ -102,7 +102,7 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
         val edges = items.take(first)
 
         Connection(
-            edges = edges.map { Edge(it, ConnectionCursor(it.id.value)) }, pageInfo = PageInfo(
+            edges = edges.map { Edge(it, it.id) }, pageInfo = PageInfo(
                 hasPreviousPage = edges.firstOrNull()?.id != start?.id,
                 hasNextPage = items.size > first,
                 startCursor = edges.firstOrNull()?.id?.value ?: "",
