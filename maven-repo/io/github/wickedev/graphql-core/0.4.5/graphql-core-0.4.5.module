@@ -1,0 +1,117 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "graphql-core",
+    "version": "0.4.5",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.fasterxml.jackson.module",
+          "module": "jackson-module-kotlin",
+          "version": {
+            "requires": "2.13.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-core-0.4.5.jar",
+          "url": "graphql-core-0.4.5.jar",
+          "size": 81211,
+          "sha512": "6dd60717a87217a840a747257da782c55c0cb67f7d28283214465e084d5c17419de706b8ba872a861572f741566911bb108b0f64f98e9866d194b53c6abdf242",
+          "sha256": "1e92f560ed31045dd352658af6e5a42357544d94bf6a2331f336f50bb2522bef",
+          "sha1": "07214c8122c9cf04f5d8710e857bf7b27752e6e7",
+          "md5": "86db0d11b5e6b658891f2fe070a5d1b7"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.fasterxml.jackson.module",
+          "module": "jackson-module-kotlin",
+          "version": {
+            "requires": "2.13.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-core-0.4.5.jar",
+          "url": "graphql-core-0.4.5.jar",
+          "size": 81211,
+          "sha512": "6dd60717a87217a840a747257da782c55c0cb67f7d28283214465e084d5c17419de706b8ba872a861572f741566911bb108b0f64f98e9866d194b53c6abdf242",
+          "sha256": "1e92f560ed31045dd352658af6e5a42357544d94bf6a2331f336f50bb2522bef",
+          "sha1": "07214c8122c9cf04f5d8710e857bf7b27752e6e7",
+          "md5": "86db0d11b5e6b658891f2fe070a5d1b7"
+        }
+      ]
+    }
+  ]
+}
