@@ -12,8 +12,8 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.wickedev:graphql-jetpack-starter:0.3.6")
-    implementation("io.github.wickedev:spring-data-graphql-r2dbc-starter:0.3.6")
+    implementation("io.github.wickedev:graphql-jetpack-starter:0.4.6")
+    implementation("io.github.wickedev:spring-data-graphql-r2dbc-starter:0.4.6")
 }
 ```
 
