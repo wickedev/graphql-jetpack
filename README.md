@@ -1,6 +1,6 @@
-# GraphQL Jetpack
+![GraphQL Jetpack](assets/logo.svg)
 
-A collection of packages for easily writing Java GraphQL server implementations. Current major targets are [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/), [Spring Webflux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html), and [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc).
+A collection of packages for easily writing Kotlin GraphQL server implementations. Current major targets are [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin/docs/), [Spring Webflux](https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html), and [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc).
 
 # Getting Started
 
