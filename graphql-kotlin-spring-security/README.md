@@ -45,9 +45,9 @@ class SecurityConfiguration {
 }
 
 @Component
-class Checker {
-    fun paramIsPositiveAndNameIsRyan(param: Int, authentication: Authentication): Boolean {
-        return param > 0 && authentication.name == "ryan"
+class Ownership {
+    fun check(userId: ID, authentication: Authentication): Boolean {
+        return userId == authentication.id  
     }
 }
 
@@ -65,8 +65,8 @@ class SampleQuery : Query {
     @Auth("#param == 1")
     fun protectedWithParam(param: Int): Int = param
 
-    @Auth("@checker.paramIsPositiveAndNameIsRyan(#param, #authentication)")
-    fun protectedWithCustomChecker(param: Int, @GraphQLIgnore authentication: Authentication): Int = param
+    @Auth("@ownership.check(#userId, #authentication)")
+    fun userSensitiveData(userId: ID, @GraphQLIgnore authentication: Authentication): List<SensitiveData> = listOf()
 }
 ```
 
@@ -83,7 +83,7 @@ type Query {
     
     protectedWithParam(param: Int!): Int! @auth(require : "#param == 1")
     
-    protectedWithCustomChecker(param: Int!): Int! @auth(require : "@checker.paramIsPositiveAndNameIsRyan(#param, #authentication)")  
+    userSensitiveData(userId: ID!): [SensitiveData!]! @auth(require : "@ownership.check(#param, #authentication)")  
 }
 
 ```
