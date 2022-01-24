@@ -66,7 +66,7 @@ class SampleQuery : Query {
     fun protectedWithParam(param: Int): Int = param
 
     @Auth("@resource.ownershipFor(#userId, #authentication)")
-    fun userSensitiveData(userId: ID, @GraphQLIgnore authentication: Authentication): List<SensitiveData> = listOf()
+    fun userSensitiveData(userId: ID, @GraphQLIgnore authentication: Authentication): SensitiveData = SensitiveData(userId)
 }
 ```
 
@@ -83,7 +83,7 @@ type Query {
     
     protectedWithParam(param: Int!): Int! @auth(require : "#param == 1")
     
-    userSensitiveData(userId: ID!): [SensitiveData!]! @auth(require : "@resource.ownershipFor(#userId, #authentication)")  
+    userSensitiveData(userId: ID!): SensitiveData! @auth(require : "@resource.ownershipFor(#userId, #authentication)")  
 }
 
 ```
