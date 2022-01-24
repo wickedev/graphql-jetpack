@@ -83,7 +83,7 @@ type Query {
     
     protectedWithParam(param: Int!): Int! @auth(require : "#param == 1")
     
-    userSensitiveData(userId: ID!): [SensitiveData!]! @auth(require : "@ownership.check(#param, #authentication)")  
+    userSensitiveData(userId: ID!): [SensitiveData!]! @auth(require : "@ownership.check(#userId, #authentication)")  
 }
 
 ```
