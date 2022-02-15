@@ -82,8 +82,8 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
             edges = edges.map { Edge(it, it.id) }, pageInfo = PageInfo(
                 hasPreviousPage = items.size > last,
                 hasNextPage = edges.firstOrNull()?.id != start?.id,
-                startCursor = edges.lastOrNull()?.id?.value ?: "",
-                endCursor = edges.firstOrNull()?.id?.value ?: "",
+                startCursor = edges.lastOrNull()?.id?.encoded ?: "",
+                endCursor = edges.firstOrNull()?.id?.encoded ?: "",
             )
         )
     }
@@ -105,8 +105,8 @@ interface GraphQLDataLoaderConnectionsRepositoryMixin<T : Node> : GraphQLDataLoa
             edges = edges.map { Edge(it, it.id) }, pageInfo = PageInfo(
                 hasPreviousPage = edges.firstOrNull()?.id != start?.id,
                 hasNextPage = items.size > first,
-                startCursor = edges.firstOrNull()?.id?.value ?: "",
-                endCursor = edges.lastOrNull()?.id?.value ?: "",
+                startCursor = edges.firstOrNull()?.id?.encoded ?: "",
+                endCursor = edges.lastOrNull()?.id?.encoded ?: "",
             )
         )
     }

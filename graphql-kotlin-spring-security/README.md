@@ -81,7 +81,7 @@ type Query {
     
     protectedWithRole: Int! @auth(require : "hasRole('USER')")
     
-    protectedWithParam(param: Int!): Int! @auth(require : "#param == 1")
+    hiddenPost(postId: Int!): Post! @auth(require : "#param == 1")
     
     userSensitiveData(userId: ID!): SensitiveData! @auth(require : "@resource.ownershipFor(#userId, #authentication)")  
 }
