@@ -1,0 +1,111 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "spring-data-graphql-commons",
+    "version": "0.4.7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.4.7"
+          }
+        },
+        {
+          "group": "org.springframework.data",
+          "module": "spring-data-commons"
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-data-graphql-commons-0.4.7-plain.jar",
+          "url": "spring-data-graphql-commons-0.4.7-plain.jar",
+          "size": 4988,
+          "sha512": "7ae3b3b9e4c8aa3a952ddaa9637b2578c7a5240129d3327bbe58201232e0129f89a63e7989fa56298bb8f4f6073e679c8803cf568f4ed55c3704cd3c8117639e",
+          "sha256": "2e7e32fb7c8f8f12c98604e5756c934705e2204e0581137c76b696fb4b7d8111",
+          "sha1": "969e0f8538be88af415b406b0ca69bbcb9035c06",
+          "md5": "f248bbe13350beef34a820d20523b3bb"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.4.7"
+          }
+        },
+        {
+          "group": "org.springframework.data",
+          "module": "spring-data-commons"
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-data-graphql-commons-0.4.7-plain.jar",
+          "url": "spring-data-graphql-commons-0.4.7-plain.jar",
+          "size": 4988,
+          "sha512": "7ae3b3b9e4c8aa3a952ddaa9637b2578c7a5240129d3327bbe58201232e0129f89a63e7989fa56298bb8f4f6073e679c8803cf568f4ed55c3704cd3c8117639e",
+          "sha256": "2e7e32fb7c8f8f12c98604e5756c934705e2204e0581137c76b696fb4b7d8111",
+          "sha1": "969e0f8538be88af415b406b0ca69bbcb9035c06",
+          "md5": "f248bbe13350beef34a820d20523b3bb"
+        }
+      ]
+    }
+  ]
+}
