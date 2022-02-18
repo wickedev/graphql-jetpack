@@ -45,10 +45,10 @@ interface GraphQLDataLoaderBackwardConnectionsRepositoryMixin<T : Node> :
     private fun backwardPagination(
         last: Int,
         before: ID?,
-        orderBy: List<Order>,
+        orderBy: List<Order>?,
         criteria: Criteria?
     ): Mono<Connection<T>> = mono {
-        val idOrderInParam = orderBy.find { it.property == getIdProperty().name }?.toSpringDataType()
+        val idOrderInParam = orderBy?.find { it.property == getIdProperty().name }?.toSpringDataType()
         val defaultIdOrder = Sort.Order.asc(getIdProperty().name)
         val idOrder: Sort.Order = idOrderInParam ?: defaultIdOrder
 
