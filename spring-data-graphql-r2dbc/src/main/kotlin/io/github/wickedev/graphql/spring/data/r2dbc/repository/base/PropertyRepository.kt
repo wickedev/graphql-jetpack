@@ -1,5 +1,6 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.repository.base
 
+import org.springframework.data.domain.Sort
 import org.springframework.data.r2dbc.convert.R2dbcConverter
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations
 import org.springframework.data.r2dbc.core.StatementMapper
@@ -11,6 +12,7 @@ import org.springframework.data.relational.repository.query.RelationalExampleMap
 import org.springframework.data.repository.core.RepositoryInformation
 import org.springframework.data.util.Lazy
 import org.springframework.r2dbc.core.DatabaseClient
+import reactor.core.publisher.Mono
 
 interface PropertyRepository<T, ID> {
     val databaseClient: DatabaseClient
@@ -29,7 +31,15 @@ interface PropertyRepository<T, ID> {
 
     fun emptyQuery(): Query
 
+    fun query(criteria: Criteria?): Query
+
     fun getIdQuery(id: ID): Query
 
     fun getIdsInQuery(ids: Collection<ID>): Query
+
+    fun whereIdGreaterThanQuery(after: ID?, criteria: Criteria?): Query
+
+    fun whereIdLessThanQuery(before: ID?, criteria: Criteria?): Query
+
+    fun findFirst(sort: Sort): Mono<T?>
 }

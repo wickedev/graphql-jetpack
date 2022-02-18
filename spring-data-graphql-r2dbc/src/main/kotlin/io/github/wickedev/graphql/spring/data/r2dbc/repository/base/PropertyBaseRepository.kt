@@ -1,6 +1,8 @@
 package io.github.wickedev.graphql.spring.data.r2dbc.repository.base
 
 
+import io.github.wickedev.graphql.types.ID
+import org.springframework.data.domain.Sort
 import org.springframework.data.r2dbc.convert.R2dbcConverter
 import org.springframework.data.r2dbc.core.R2dbcEntityOperations
 import org.springframework.data.r2dbc.core.StatementMapper
@@ -12,6 +14,8 @@ import org.springframework.data.relational.repository.query.RelationalExampleMap
 import org.springframework.data.repository.core.RepositoryInformation
 import org.springframework.data.util.Lazy
 import org.springframework.r2dbc.core.DatabaseClient
+import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 
 abstract class PropertyBaseRepository<T, ID>(
     final override val databaseClient: DatabaseClient,
@@ -44,11 +48,52 @@ abstract class PropertyBaseRepository<T, ID>(
         return Query.empty()
     }
 
+    override fun query(criteria: Criteria?): Query {
+        return if (criteria == null) Query.empty() else Query.query(criteria)
+    }
+
     override fun getIdQuery(id: ID): Query {
         return Query.query(whereId().`is`(id as Any))
     }
 
     override fun getIdsInQuery(ids: Collection<ID>): Query {
         return Query.query(whereId().`in`(ids))
+    }
+
+    private fun whereIdGreaterThanCriteria(after: ID?): Criteria? {
+        return after?.let { whereId().greaterThan(it as Any) }
+    }
+
+    override fun whereIdGreaterThanQuery(after: ID?, criteria: Criteria?): Query {
+        val combinedCriteria = Criteria.from(
+            listOfNotNull(
+                whereIdGreaterThanCriteria(after),
+                criteria,
+            )
+        )
+
+        return Query.query(combinedCriteria)
+    }
+
+    private fun whereIdLessThanCriteria(before: ID?): Criteria? {
+        return before?.let { whereId().lessThan(it as Any)}
+    }
+
+    override fun whereIdLessThanQuery(before: ID?, criteria: Criteria?): Query {
+        val combinedCriteria = Criteria.from(
+            listOfNotNull(
+                whereIdLessThanCriteria(before),
+                criteria,
+            )
+        )
+
+        return Query.query(combinedCriteria)
+    }
+
+
+    override fun findFirst(sort: Sort): Mono<T?> {
+        return entityOperations.select(
+            emptyQuery().sort(sort).limit(1), entity.javaType
+        ).toMono()
     }
 }

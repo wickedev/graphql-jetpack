@@ -9,5 +9,6 @@ dependencies {
 
     api(project(":graphql-core"))
     api("org.springframework.data:spring-data-commons")
+    api("org.springframework.data:spring-data-relational")
     api("com.graphql-java:graphql-java:17.3")
 }
