@@ -1,0 +1,145 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "graphql-postgresql-scalars",
+    "version": "0.5.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.5.0"
+          }
+        },
+        {
+          "group": "io.r2dbc",
+          "module": "r2dbc-postgresql",
+          "version": {
+            "requires": "0.8.10.RELEASE"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java-extended-scalars",
+          "version": {
+            "requires": "17.0"
+          }
+        },
+        {
+          "group": "com.fasterxml.jackson.module",
+          "module": "jackson-module-kotlin",
+          "version": {
+            "requires": "2.13.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-postgresql-scalars-0.5.0.jar",
+          "url": "graphql-postgresql-scalars-0.5.0.jar",
+          "size": 10826,
+          "sha512": "25eb8f2e177e9b4efb0ec4c81280b8a8bde81410a5757c15883af5dc4ba297c23729fa6aee4b86158b75cff04bab09dc5c45864980050112cb23379eb9fe201e",
+          "sha256": "e3c6c14253351a95d4758fcc2aced69794915a0f03c135cba0e308e70544980b",
+          "sha1": "3fd731ed7d2b559bc3969836c71d7e8703a490ae",
+          "md5": "0c7f45c7b8159a8c8704fed303ae208b"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.5.0"
+          }
+        },
+        {
+          "group": "io.r2dbc",
+          "module": "r2dbc-postgresql",
+          "version": {
+            "requires": "0.8.10.RELEASE"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java-extended-scalars",
+          "version": {
+            "requires": "17.0"
+          }
+        },
+        {
+          "group": "com.fasterxml.jackson.module",
+          "module": "jackson-module-kotlin",
+          "version": {
+            "requires": "2.13.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-postgresql-scalars-0.5.0.jar",
+          "url": "graphql-postgresql-scalars-0.5.0.jar",
+          "size": 10826,
+          "sha512": "25eb8f2e177e9b4efb0ec4c81280b8a8bde81410a5757c15883af5dc4ba297c23729fa6aee4b86158b75cff04bab09dc5c45864980050112cb23379eb9fe201e",
+          "sha256": "e3c6c14253351a95d4758fcc2aced69794915a0f03c135cba0e308e70544980b",
+          "sha1": "3fd731ed7d2b559bc3969836c71d7e8703a490ae",
+          "md5": "0c7f45c7b8159a8c8704fed303ae208b"
+        }
+      ]
+    }
+  ]
+}
