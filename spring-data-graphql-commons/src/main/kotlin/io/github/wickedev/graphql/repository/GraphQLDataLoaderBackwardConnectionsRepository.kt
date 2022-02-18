@@ -4,7 +4,6 @@ import graphql.schema.DataFetchingEnvironment
 import io.github.wickedev.graphql.interfases.Node
 import io.github.wickedev.graphql.types.Backward
 import io.github.wickedev.graphql.types.Connection
-import io.github.wickedev.graphql.types.Sort
 import org.springframework.data.relational.core.query.Criteria
 import org.springframework.data.repository.NoRepositoryBean
 import java.util.concurrent.CompletableFuture

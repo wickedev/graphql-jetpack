@@ -62,7 +62,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
 
             (0..9).forEach { page ->
                 val connection = userRepository.connection(
-                    Forward(first, after, Sort(listOf(Order("id", Direction.DESC)))),
+                    Forward(first, after, listOf(Order("id", Direction.DESC))),
                     env
                 ).dispatchThenAwait(env)
 
@@ -119,7 +119,7 @@ class GraphQLDataLoaderConnectionsRepositoryTest(
             (0..9).forEach { page ->
                 val connection =
                     userRepository.connection(
-                        Backward(last, before, Sort(listOf(Order("id", Direction.DESC)))),
+                        Backward(last, before, listOf(Order("id", Direction.DESC))),
                         env
                     )
                         .dispatchThenAwait(env)

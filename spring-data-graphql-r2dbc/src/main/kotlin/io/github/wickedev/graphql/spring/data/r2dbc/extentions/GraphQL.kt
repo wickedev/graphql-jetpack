@@ -31,8 +31,8 @@ fun Order.toSpringDataType(): Sort.Order {
     }
 }
 
-fun io.github.wickedev.graphql.types.Sort?.toSpringDataType(order: Sort.Order? = null): Sort {
-    return Sort.by(listOfNotNull(order) + (this?.orders?.map {
+fun List<Order>.toSpringDataType(order: Sort.Order? = null): Sort {
+    return Sort.by(listOfNotNull(order) + this.map {
         it.toSpringDataType()
-    } ?: emptyList()))
+    })
 }
