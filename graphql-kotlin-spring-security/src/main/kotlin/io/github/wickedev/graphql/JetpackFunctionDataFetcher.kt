@@ -12,6 +12,7 @@ import org.springframework.security.access.expression.ExpressionUtils
 import org.springframework.security.access.expression.SecurityExpressionHandler
 import org.springframework.security.core.Authentication
 import org.springframework.security.util.MethodInvocationUtils
+import reactor.core.publisher.Mono
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 import kotlin.reflect.full.valueParameters
@@ -25,6 +26,13 @@ open class JetpackFunctionDataFetcher(
     private val securityExpressionHandler: SecurityExpressionHandler<MethodInvocation>,
     private val customScalars: CustomScalars,
 ) : SpringDataFetcher(target, fn, objectMapper, applicationContext) {
+
+    override fun get(environment: DataFetchingEnvironment): Any? {
+        return when (val result = super.get(environment)) {
+            is Mono<*> -> result.toFuture()
+            else -> result
+        }
+    }
 
     @ExperimentalStdlibApi
     override fun mapParameterToValue(param: KParameter, environment: DataFetchingEnvironment): Pair<KParameter, Any?>? {
