@@ -1,0 +1,103 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "kotlin-coroutine-reactive-extensions",
+    "version": "0.5.5",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-reactive",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "io.projectreactor",
+          "module": "reactor-core",
+          "version": {
+            "requires": "3.4.13"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-coroutine-reactive-extensions-0.5.5.jar",
+          "url": "kotlin-coroutine-reactive-extensions-0.5.5.jar",
+          "size": 8778,
+          "sha512": "6473e6809afc7ec8e933b32cf535ae46f1e11846920a2178019f87a508296a2ff8e66ed1c2e8eb469475ce9a44479c1fca1d67aa1e79f5c94d26174f9c05094e",
+          "sha256": "41cb73f7e701dcd27fc7ec59bf9a3fe6975e6a1bb47bfd6be104490305b385c8",
+          "sha1": "0c359c5954e1a8280dc81f479348255a0b580c5e",
+          "md5": "39114457c371cfe56294cadaf4eb67f5"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-reactive",
+          "version": {
+            "requires": "1.6.0"
+          }
+        },
+        {
+          "group": "io.projectreactor",
+          "module": "reactor-core",
+          "version": {
+            "requires": "3.4.13"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-coroutine-reactive-extensions-0.5.5.jar",
+          "url": "kotlin-coroutine-reactive-extensions-0.5.5.jar",
+          "size": 8778,
+          "sha512": "6473e6809afc7ec8e933b32cf535ae46f1e11846920a2178019f87a508296a2ff8e66ed1c2e8eb469475ce9a44479c1fca1d67aa1e79f5c94d26174f9c05094e",
+          "sha256": "41cb73f7e701dcd27fc7ec59bf9a3fe6975e6a1bb47bfd6be104490305b385c8",
+          "sha1": "0c359c5954e1a8280dc81f479348255a0b580c5e",
+          "md5": "39114457c371cfe56294cadaf4eb67f5"
+        }
+      ]
+    }
+  ]
+}

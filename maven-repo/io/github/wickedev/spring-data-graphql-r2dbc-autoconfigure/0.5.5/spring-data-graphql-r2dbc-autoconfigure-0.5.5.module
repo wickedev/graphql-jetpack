@@ -1,0 +1,104 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "spring-data-graphql-r2dbc-autoconfigure",
+    "version": "0.5.5",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "spring-data-graphql-r2dbc",
+          "version": {
+            "requires": "0.5.5"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-data-graphql-r2dbc-autoconfigure-0.5.5-plain.jar",
+          "url": "spring-data-graphql-r2dbc-autoconfigure-0.5.5-plain.jar",
+          "size": 14677,
+          "sha512": "2fe8b40529b558a5e100f06bd7c9c3a1f38b18875d310aeaf57d3c3038db6ed60e715a4f09375f56f3e0d82269d3894de41b734b0f63f759e1feeb876165894d",
+          "sha256": "086a3cbf1114a5736c4972a269494a4f6e95dd9d48c5a483492101a0d7cc43ae",
+          "sha1": "f8af9bb3735e96e0d2631c4fb2875de74a7245b8",
+          "md5": "493452c1de531e01eeeed9ee176db90d"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "spring-data-graphql-r2dbc",
+          "version": {
+            "requires": "0.5.5"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "org.springframework.data",
+          "module": "spring-data-r2dbc"
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-autoconfigure"
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-data-graphql-r2dbc-autoconfigure-0.5.5-plain.jar",
+          "url": "spring-data-graphql-r2dbc-autoconfigure-0.5.5-plain.jar",
+          "size": 14677,
+          "sha512": "2fe8b40529b558a5e100f06bd7c9c3a1f38b18875d310aeaf57d3c3038db6ed60e715a4f09375f56f3e0d82269d3894de41b734b0f63f759e1feeb876165894d",
+          "sha256": "086a3cbf1114a5736c4972a269494a4f6e95dd9d48c5a483492101a0d7cc43ae",
+          "sha1": "f8af9bb3735e96e0d2631c4fb2875de74a7245b8",
+          "md5": "493452c1de531e01eeeed9ee176db90d"
+        }
+      ]
+    }
+  ]
+}
