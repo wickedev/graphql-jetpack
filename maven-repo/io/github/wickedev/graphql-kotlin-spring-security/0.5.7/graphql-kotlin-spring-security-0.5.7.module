@@ -1,0 +1,161 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "graphql-kotlin-spring-security",
+    "version": "0.5.7",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.5.7"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "kotlin-coroutine-reactive-extensions",
+          "version": {
+            "requires": "0.5.7"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-spring-server",
+          "version": {
+            "requires": "5.3.1"
+          }
+        },
+        {
+          "group": "org.springframework.security",
+          "module": "spring-security-core"
+        },
+        {
+          "group": "com.zhokhov.graphql",
+          "module": "graphql-java-datetime",
+          "version": {
+            "requires": "4.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-reactor"
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-kotlin-spring-security-0.5.7-plain.jar",
+          "url": "graphql-kotlin-spring-security-0.5.7-plain.jar",
+          "size": 12775,
+          "sha512": "cef16ae7905fd2cdd239e73cd82070a3cddf5caee3751ef727920886de4acb697c283afb7ef7a51a18a1639f0750e9ae3a4893e7ff3dc706d06c90c87691c163",
+          "sha256": "92850dddcb305b3d4bf991e09d843fcdc0460f4f3510f18c36232980e00acc08",
+          "sha1": "238b871fb4f2410c2f7333c4946920774824c4f4",
+          "md5": "37a16b5e99e357256be43545bdcb356f"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-core",
+          "version": {
+            "requires": "0.5.7"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "kotlin-coroutine-reactive-extensions",
+          "version": {
+            "requires": "0.5.7"
+          }
+        },
+        {
+          "group": "com.graphql-java",
+          "module": "graphql-java",
+          "version": {
+            "requires": "17.3"
+          }
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-spring-server",
+          "version": {
+            "requires": "5.3.1"
+          }
+        },
+        {
+          "group": "org.springframework.security",
+          "module": "spring-security-core"
+        },
+        {
+          "group": "com.zhokhov.graphql",
+          "module": "graphql-java-datetime",
+          "version": {
+            "requires": "4.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-reactor"
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-kotlin-spring-security-0.5.7-plain.jar",
+          "url": "graphql-kotlin-spring-security-0.5.7-plain.jar",
+          "size": 12775,
+          "sha512": "cef16ae7905fd2cdd239e73cd82070a3cddf5caee3751ef727920886de4acb697c283afb7ef7a51a18a1639f0750e9ae3a4893e7ff3dc706d06c90c87691c163",
+          "sha256": "92850dddcb305b3d4bf991e09d843fcdc0460f4f3510f18c36232980e00acc08",
+          "sha1": "238b871fb4f2410c2f7333c4946920774824c4f4",
+          "md5": "37a16b5e99e357256be43545bdcb356f"
+        }
+      ]
+    }
+  ]
+}
