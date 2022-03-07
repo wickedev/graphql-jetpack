@@ -11,8 +11,14 @@ class IDTypeFiller(private val mappingContext: MappingContext<out RelationalPers
 
     @Suppress("UNCHECKED_CAST")
     fun <T : Any> setIDTypeIfNecessary(`object`: T): T {
+        val javaClass = `object`.javaClass
+
+        if (javaClass.isPrimitive) {
+            return `object`
+        }
+
         var updated = false
-        val entity = mappingContext.getRequiredPersistentEntity(`object`.javaClass)
+        val entity = mappingContext.getRequiredPersistentEntity(javaClass)
         val propertyAccessor: PersistentPropertyAccessor<*> = entity.getPropertyAccessor(`object`)
 
         for (property in entity) {
