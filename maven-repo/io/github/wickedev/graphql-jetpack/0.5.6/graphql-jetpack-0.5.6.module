@@ -1,0 +1,111 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "graphql-jetpack",
+    "version": "0.5.6",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-kotlin-spring-security",
+          "version": {
+            "requires": "0.5.6"
+          }
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-spring-server",
+          "version": {
+            "requires": "5.3.1"
+          }
+        },
+        {
+          "group": "org.springframework.security",
+          "module": "spring-security-core"
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-jetpack-0.5.6-plain.jar",
+          "url": "graphql-jetpack-0.5.6-plain.jar",
+          "size": 15404,
+          "sha512": "922e3f081d527f6f6a40c4db49cefb31cf6f89bab0216e54538fa191621a3d987b4c3769e3f25dca3b87cc3fc5aef8ef29e30abbc451cf238b496886b88267b5",
+          "sha256": "179463fb153323c1dd9f9f4a623df982d463750635725db9754fc02a7bc69c7e",
+          "sha1": "146802ef819bc97fbacf1981b16d5402d42de982",
+          "md5": "2a50925b7351a34283f13e9bf3e833c8"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 15,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.10"
+          }
+        },
+        {
+          "group": "io.github.wickedev",
+          "module": "graphql-kotlin-spring-security",
+          "version": {
+            "requires": "0.5.6"
+          }
+        },
+        {
+          "group": "com.expediagroup",
+          "module": "graphql-kotlin-spring-server",
+          "version": {
+            "requires": "5.3.1"
+          }
+        },
+        {
+          "group": "org.springframework.security",
+          "module": "spring-security-core"
+        }
+      ],
+      "files": [
+        {
+          "name": "graphql-jetpack-0.5.6-plain.jar",
+          "url": "graphql-jetpack-0.5.6-plain.jar",
+          "size": 15404,
+          "sha512": "922e3f081d527f6f6a40c4db49cefb31cf6f89bab0216e54538fa191621a3d987b4c3769e3f25dca3b87cc3fc5aef8ef29e30abbc451cf238b496886b88267b5",
+          "sha256": "179463fb153323c1dd9f9f4a623df982d463750635725db9754fc02a7bc69c7e",
+          "sha1": "146802ef819bc97fbacf1981b16d5402d42de982",
+          "md5": "2a50925b7351a34283f13e9bf3e833c8"
+        }
+      ]
+    }
+  ]
+}
