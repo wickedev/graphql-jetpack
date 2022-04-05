@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[811],{3259:function(e){e.exports=JSON.parse('{"allTagsPath":"/graphql-jetpack/blog/tags","name":"hello","count":2,"permalink":"/graphql-jetpack/blog/tags/hello"}')}}]);
