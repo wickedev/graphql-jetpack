@@ -45,6 +45,13 @@ const config = {
           alt: 'GraphQL Jetpack Logo',
           src: 'img/logo.svg',
         },
+        items: [
+          {
+            href: 'https://github.com/wickedev/graphql-jetpack',
+            label: 'GitHub',
+            position: 'right',
+          },
+        ],
       },
       footer: {
         style: 'dark',
