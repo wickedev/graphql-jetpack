@@ -94,7 +94,12 @@ const config = {
         ],
         copyright: `Copyright © ${new Date().getFullYear()} wickedev. Built with Docusaurus.`,
       },
+      colorMode: {
+        defaultMode: 'dark',
+      },
       prism: {
+        defaultLanguage: 'kotlin',
+        additionalLanguages: ['kotlin', 'groovy'],
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
