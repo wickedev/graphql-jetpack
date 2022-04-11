@@ -8,13 +8,13 @@ import TabItem from '@theme/TabItem';
 
 # 시작하기
 
-GraphQL Jetpack은 [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin) 과 [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc) 를 사용하여 GraphQL Relay 스펙을 가진 서버를 쉽게 작성할 수 있게 도와줍니다.
+GraphQL Jetpack은 [GraphQL Kotlin](https://opensource.expediagroup.com/graphql-kotlin) 과 [Spring Data R2DBC](https://spring.io/projects/spring-data-r2dbc) 를 사용하여 GraphQL 릴레이 스펙을 가진 서버를 쉽게 작성할 수 있게 도와줍니다.
 
 ## 모듈
 
 ### Spring Data GraphQL
 
-릴레이를 위한 노드 쿼리 및 커넥션 페이지를 위한 레포지토리를 지원하며, 순차 증가하는 ID를 유니크한 ID로 자동 변환합니다. 
+릴레이를 위한 노드 쿼리 및 커넥션 페이지를 위한 레포지토리를 지원하며, 순차 증가하는 ID를 유니크한 ID로 자동 변환합니다. 별도 데이터로더를 작성할 필요 없이 레포지토리 내부적으로 데이터로더를 처리합니다. 
 
 ### GraphQL Kotlin Spring Security
 
