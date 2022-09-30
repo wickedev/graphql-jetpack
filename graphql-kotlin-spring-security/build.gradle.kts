@@ -18,7 +18,7 @@ dependencies {
 
     /* testing */
     testImplementation(project(":graphql-jetpack-autoconfigure"))
-    testImplementation("io.github.wickedev:spring-security-jwt-webflux-starter:0.1.4")
+    testImplementation("io.github.wickedev:spring-security-jwt-webflux-starter:0.3.0")
 
     testImplementation("io.kotest:kotest-runner-junit5:5.0.3")
     testImplementation("io.kotest:kotest-assertions-core:5.0.3")
