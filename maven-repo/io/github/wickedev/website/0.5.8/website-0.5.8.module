@@ -1,0 +1,60 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.wickedev",
+    "module": "website",
+    "version": "0.5.8",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.3.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "website-0.5.8.jar",
+          "url": "website-0.5.8.jar",
+          "size": 261,
+          "sha512": "ec24c329236c6cfbec635bd2920ba77a345c08ec119398353f6bf0444d51f33a532d57949946351f90226aa2f1d13f1f85931e71d73fbd17d60da19f8acc5633",
+          "sha256": "8fe3e152730a1bb8e347c04941d6f5bb245065b766bb42b53250cb3e5d9d009e",
+          "sha1": "8ecfc05952e28261db0b2f587c9bce60f33a802a",
+          "md5": "ec4e2e035380b1e4eadcbb9d20621b7c"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "website-0.5.8.jar",
+          "url": "website-0.5.8.jar",
+          "size": 261,
+          "sha512": "ec24c329236c6cfbec635bd2920ba77a345c08ec119398353f6bf0444d51f33a532d57949946351f90226aa2f1d13f1f85931e71d73fbd17d60da19f8acc5633",
+          "sha256": "8fe3e152730a1bb8e347c04941d6f5bb245065b766bb42b53250cb3e5d9d009e",
+          "sha1": "8ecfc05952e28261db0b2f587c9bce60f33a802a",
+          "md5": "ec4e2e035380b1e4eadcbb9d20621b7c"
+        }
+      ]
+    }
+  ]
+}
